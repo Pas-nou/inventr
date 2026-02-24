@@ -1,26 +1,54 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMaintenanceEventDto } from './dto/create-maintenance-event.dto';
 import { UpdateMaintenanceEventDto } from './dto/update-maintenance-event.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { MaintenanceEvent } from './entities/maintenance-event.entity';
 
 @Injectable()
 export class MaintenanceEventsService {
-  create(createMaintenanceEventDto: CreateMaintenanceEventDto) {
-    return 'This action adds a new maintenanceEvent';
+  constructor(
+    @InjectRepository(MaintenanceEvent)
+    private maintenanceEventsRepository: Repository<MaintenanceEvent>,
+  ) {}
+
+  async create(
+    createMaintenanceEventDto: CreateMaintenanceEventDto,
+    assetId: string,
+  ) {
+    return await this.maintenanceEventsRepository.save({
+      ...createMaintenanceEventDto,
+      asset: { id: assetId },
+    });
   }
 
-  findAll() {
-    return `This action returns all maintenanceEvents`;
+  async findAll(assetId: string) {
+    return await this.maintenanceEventsRepository.find({
+      where: { asset: { id: assetId } },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} maintenanceEvent`;
+  async findOne(id: string, assetId: string) {
+    return await this.maintenanceEventsRepository.findOne({
+      where: { id, asset: { id: assetId } },
+    });
   }
 
-  update(id: number, updateMaintenanceEventDto: UpdateMaintenanceEventDto) {
-    return `This action updates a #${id} maintenanceEvent`;
+  async update(
+    id: string,
+    updateMaintenanceEventDto: UpdateMaintenanceEventDto,
+    assetId: string,
+  ) {
+    return await this.maintenanceEventsRepository.update(
+      { id, asset: { id: assetId } },
+      updateMaintenanceEventDto,
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} maintenanceEvent`;
+  async remove(id: string, assetId: string) {
+    return await this.maintenanceEventsRepository.delete({
+      id,
+      asset: { id: assetId },
+    });
   }
 }

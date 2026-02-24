@@ -1,26 +1,48 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDocumentDto } from './dto/create-document.dto';
 import { UpdateDocumentDto } from './dto/update-document.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Document } from './entities/document.entity';
 
 @Injectable()
 export class DocumentsService {
-  create(createDocumentDto: CreateDocumentDto) {
-    return 'This action adds a new document';
+  constructor(
+    @InjectRepository(Document)
+    private readonly documentRepository: Repository<Document>,
+  ) {}
+
+  async create(createDocumentDto: CreateDocumentDto, assetId: string) {
+    return await this.documentRepository.save({
+      ...createDocumentDto,
+      asset: { id: assetId },
+    });
   }
 
-  findAll() {
-    return `This action returns all documents`;
+  async findAll(assetId: string) {
+    return await this.documentRepository.find({
+      where: { asset: { id: assetId } },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} document`;
+  async findOne(id: string, assetId: string) {
+    return await this.documentRepository.findOne({
+      where: { id, asset: { id: assetId } },
+    });
   }
 
-  update(id: number, updateDocumentDto: UpdateDocumentDto) {
-    return `This action updates a #${id} document`;
+  async update(
+    id: string,
+    updateDocumentDto: UpdateDocumentDto,
+    assetId: string,
+  ) {
+    return await this.documentRepository.update(
+      { id, asset: { id: assetId } },
+      updateDocumentDto,
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} document`;
+  async remove(id: string, assetId: string) {
+    return await this.documentRepository.delete({ id, asset: { id: assetId } });
   }
 }
