@@ -7,11 +7,15 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { DocumentsService } from './documents.service';
 import { CreateDocumentDto } from './dto/create-document.dto';
 import { UpdateDocumentDto } from './dto/update-document.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { MulterFile } from 'src/common/interfaces/multer-file.interface';
 
 @UseGuards(JwtAuthGuard)
 @Controller('documents')
@@ -19,9 +23,14 @@ export class DocumentsController {
   constructor(private readonly documentsService: DocumentsService) {}
 
   @Post()
-  create(@Body() createDocumentDto: CreateDocumentDto) {
+  @UseInterceptors(FileInterceptor('file'))
+  create(
+    @Body() createDocumentDto: CreateDocumentDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
     return this.documentsService.create(
       createDocumentDto,
+      file as unknown as MulterFile,
       createDocumentDto.assetId,
     );
   }

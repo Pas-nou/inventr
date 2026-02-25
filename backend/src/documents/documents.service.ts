@@ -4,17 +4,35 @@ import { UpdateDocumentDto } from './dto/update-document.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Document } from './entities/document.entity';
+import { StorageService } from 'src/storage/storage.service';
+import { v4 as uuidv4 } from 'uuid';
+import { MulterFile } from 'src/common/interfaces/multer-file.interface';
 
 @Injectable()
 export class DocumentsService {
   constructor(
     @InjectRepository(Document)
     private readonly documentRepository: Repository<Document>,
+    private readonly storageService: StorageService,
   ) {}
 
-  async create(createDocumentDto: CreateDocumentDto, assetId: string) {
+  async create(
+    createDocumentDto: CreateDocumentDto,
+    file: MulterFile,
+    assetId: string,
+  ) {
+    const filePath = `${uuidv4()}-${file.originalname}`;
+    const storageKey = await this.storageService.uploadFile(
+      file,
+      'documents',
+      filePath,
+    );
     return await this.documentRepository.save({
-      ...createDocumentDto,
+      original_filename: file.originalname,
+      mime_type: file.mimetype,
+      size_bytes: file.size,
+      storage_key: storageKey,
+      type: createDocumentDto.type,
       asset: { id: assetId },
     });
   }

@@ -1,5 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { MulterFile } from 'src/common/interfaces/multer-file.interface';
 
 @Injectable()
 export class StorageService {
@@ -13,7 +14,7 @@ export class StorageService {
   }
 
   async uploadFile(
-    file: Express.Multer.File,
+    file: MulterFile,
     bucket: string,
     path: string,
   ): Promise<string> {
