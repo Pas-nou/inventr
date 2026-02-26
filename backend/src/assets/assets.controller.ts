@@ -9,6 +9,7 @@ import {
   Request,
   UseGuards,
   Query,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { AssetsService } from './assets.service';
 import { CreateAssetDto } from './dto/create-asset.dto';
@@ -44,13 +45,16 @@ export class AssetsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @Request() req: RequestWithUser) {
+  findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Request() req: RequestWithUser,
+  ) {
     return this.assetsService.findOne(id, req.user.userId);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateAssetDto: UpdateAssetDto,
     @Request() req: RequestWithUser,
   ) {
@@ -58,7 +62,10 @@ export class AssetsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string, @Request() req: RequestWithUser) {
+  remove(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Request() req: RequestWithUser,
+  ) {
     return this.assetsService.remove(id, req.user.userId);
   }
 }

@@ -10,6 +10,8 @@ import {
   UseInterceptors,
   UploadedFile,
   BadRequestException,
+  Query,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { DocumentsService } from './documents.service';
 import { CreateDocumentDto } from './dto/create-document.dto';
@@ -60,26 +62,36 @@ export class DocumentsController {
   }
 
   @Get('asset/:assetId')
-  findAll(@Param('assetId') assetId: string) {
-    return this.documentsService.findAll(assetId);
+  findAll(
+    @Param('assetId', ParseUUIDPipe) assetId: string,
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
+    return this.documentsService.findAll(assetId, page, limit);
   }
 
   @Get('asset/:assetId/:id')
-  findOne(@Param('id') id: string, @Param('assetId') assetId: string) {
+  findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('assetId', ParseUUIDPipe) assetId: string,
+  ) {
     return this.documentsService.findOne(id, assetId);
   }
 
   @Patch('asset/:assetId/:id')
   update(
-    @Param('id') id: string,
-    @Param('assetId') assetId: string,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('assetId', ParseUUIDPipe) assetId: string,
     @Body() updateDocumentDto: UpdateDocumentDto,
   ) {
     return this.documentsService.update(id, updateDocumentDto, assetId);
   }
 
   @Delete('asset/:assetId/:id')
-  remove(@Param('id') id: string, @Param('assetId') assetId: string) {
+  remove(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('assetId', ParseUUIDPipe) assetId: string,
+  ) {
     return this.documentsService.remove(id, assetId);
   }
 }

@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   ManyToOne,
+  Index,
 } from 'typeorm';
 import { MaintenanceEventType } from '../enums/maintenance-event-type.enum';
 import { Asset } from '../../assets/entities/asset.entity';
@@ -35,6 +36,7 @@ export class MaintenanceEvent {
   @CreateDateColumn()
   created_at: Date;
 
+  @Index()
   @ManyToOne(() => Asset, (asset) => asset.maintenanceEvents, {
     onDelete: 'CASCADE',
   })

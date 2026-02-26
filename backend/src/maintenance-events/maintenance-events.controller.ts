@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { MaintenanceEventsService } from './maintenance-events.service';
 import { CreateMaintenanceEventDto } from './dto/create-maintenance-event.dto';
@@ -29,19 +31,26 @@ export class MaintenanceEventsController {
   }
 
   @Get('asset/:assetId')
-  findAll(@Param('assetId') assetId: string) {
-    return this.maintenanceEventsService.findAll(assetId);
+  findAll(
+    @Param('assetId', ParseUUIDPipe) assetId: string,
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
+    return this.maintenanceEventsService.findAll(assetId, page, limit);
   }
 
   @Get('asset/:assetId/:id')
-  findOne(@Param('id') id: string, @Param('assetId') assetId: string) {
+  findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('assetId', ParseUUIDPipe) assetId: string,
+  ) {
     return this.maintenanceEventsService.findOne(id, assetId);
   }
 
   @Patch('asset/:assetId/:id')
   update(
-    @Param('id') id: string,
-    @Param('assetId') assetId: string,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('assetId', ParseUUIDPipe) assetId: string,
     @Body() updateMaintenanceEventDto: UpdateMaintenanceEventDto,
   ) {
     return this.maintenanceEventsService.update(
@@ -52,7 +61,10 @@ export class MaintenanceEventsController {
   }
 
   @Delete('asset/:assetId/:id')
-  remove(@Param('id') id: string, @Param('assetId') assetId: string) {
+  remove(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('assetId', ParseUUIDPipe) assetId: string,
+  ) {
     return this.maintenanceEventsService.remove(id, assetId);
   }
 }

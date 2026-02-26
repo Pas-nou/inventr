@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
   OneToMany,
+  Index,
 } from 'typeorm';
 import { AssetCondition } from '../enums/asset-condition.enum';
 import { AssetCategory } from '../enums/asset-category.enum';
@@ -52,6 +53,7 @@ export class Asset {
   @UpdateDateColumn()
   updated_at: Date;
 
+  @Index()
   @ManyToOne(() => User, (user) => user.assets, { onDelete: 'CASCADE' })
   user: User;
 

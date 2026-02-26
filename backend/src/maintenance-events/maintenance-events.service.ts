@@ -22,10 +22,23 @@ export class MaintenanceEventsService {
     });
   }
 
-  async findAll(assetId: string) {
-    return await this.maintenanceEventsRepository.find({
+  async findAll(assetId: string, page: number = 1, limit: number = 10) {
+    const [data, total] = await this.maintenanceEventsRepository.findAndCount({
       where: { asset: { id: assetId } },
+      skip: (page - 1) * limit,
+      take: limit,
+      order: { created_at: 'DESC' },
     });
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 
   async findOne(id: string, assetId: string) {

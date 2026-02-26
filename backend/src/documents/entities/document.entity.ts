@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   ManyToOne,
+  Index,
 } from 'typeorm';
 import { DocumentType } from '../enums/document-type.enum';
 import { Asset } from '../../assets/entities/asset.entity';
@@ -38,6 +39,7 @@ export class Document {
   @Column({ default: 'supabase' })
   storage_provider: string;
 
+  @Index()
   @ManyToOne(() => Asset, (asset) => asset.documents, { onDelete: 'CASCADE' })
   asset: Asset;
 }
