@@ -11,10 +11,14 @@ import { AuthModule } from './auth/auth.module';
 import { StorageModule } from './storage/storage.module';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { envValidationSchema } from './config/env.validation';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      validationSchema: envValidationSchema,
+      isGlobal: true,
+    }),
     ThrottlerModule.forRoot({
       throttlers: [
         {
