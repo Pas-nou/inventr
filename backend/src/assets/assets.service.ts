@@ -19,10 +19,23 @@ export class AssetsService {
     });
   }
 
-  async findAll(userId: string) {
-    return await this.assetsRepository.find({
+  async findAll(userId: string, page: number = 1, limit: number = 10) {
+    const [data, total] = await this.assetsRepository.findAndCount({
       where: { user: { id: userId } },
+      skip: (page - 1) * limit,
+      take: limit,
+      order: { created_at: 'DESC' },
     });
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 
   async findOne(id: string, userId: string) {
