@@ -11,7 +11,9 @@ describe('MaintenanceEventsController', () => {
       providers: [MaintenanceEventsService],
     }).compile();
 
-    controller = module.get<MaintenanceEventsController>(MaintenanceEventsController);
+    controller = module.get<MaintenanceEventsController>(
+      MaintenanceEventsController,
+    );
   });
 
   it('should be defined', () => {

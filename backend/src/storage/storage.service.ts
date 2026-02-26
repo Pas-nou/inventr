@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { MulterFile } from 'src/common/interfaces/multer-file.interface';
+import type { MulterFile } from 'src/common/interfaces/multer-file.interface';
 
 @Injectable()
 export class StorageService {
@@ -27,7 +27,7 @@ export class StorageService {
     if (error) {
       throw new InternalServerErrorException('File upload failed');
     }
-    return (data as { path: string }).path;
+    return data.path;
   }
 
   async deleteFile(bucket: string, path: string): Promise<void> {
