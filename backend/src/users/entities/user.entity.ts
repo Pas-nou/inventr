@@ -3,7 +3,7 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  OneToMany
+  OneToMany,
 } from 'typeorm';
 import { UserRole } from '../enums/user-role.enum';
 import { Asset } from '../../assets/entities/asset.entity';
@@ -18,6 +18,12 @@ export class User {
 
   @Column()
   password_hash: string;
+
+  @Column()
+  first_name: string;
+
+  @Column()
+  last_name: string;
 
   @Column({
     type: 'enum',

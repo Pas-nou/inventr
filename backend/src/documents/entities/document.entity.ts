@@ -35,6 +35,9 @@ export class Document {
   @CreateDateColumn()
   created_at: Date;
 
+  @Column({ default: 'supabase' })
+  storage_provider: string;
+
   @ManyToOne(() => Asset, (asset) => asset.documents, { onDelete: 'CASCADE' })
   asset: Asset;
 }
