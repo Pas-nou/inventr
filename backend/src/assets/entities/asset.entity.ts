@@ -36,6 +36,7 @@ export class Asset {
   purchase_price_cents: number;
 
   @Column({
+    type: 'enum',
     nullable: true,
     enum: AssetCondition,
   })
