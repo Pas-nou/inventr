@@ -48,6 +48,7 @@ export class MaintenanceEventsService {
     page: number = 1,
     limit: number = 10,
   ) {
+    limit = Math.min(limit, 100);
     await this.verifyAssetOwnership(assetId, userId);
     const [data, total] = await this.maintenanceEventsRepository.findAndCount({
       where: { asset: { id: assetId } },

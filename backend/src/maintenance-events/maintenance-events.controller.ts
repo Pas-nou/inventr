@@ -9,6 +9,7 @@ import {
   Query,
   ParseUUIDPipe,
   Request,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { MaintenanceEventsService } from './maintenance-events.service';
 import { CreateMaintenanceEventDto } from './dto/create-maintenance-event.dto';
@@ -46,8 +47,8 @@ export class MaintenanceEventsController {
   findAll(
     @Param('assetId', ParseUUIDPipe) assetId: string,
     @Request() req: RequestWithUser,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('page', new ParseIntPipe({ optional: true })) page: number = 1,
+    @Query('limit', new ParseIntPipe({ optional: true })) limit: number = 10,
   ) {
     return this.maintenanceEventsService.findAll(
       assetId,
