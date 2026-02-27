@@ -1,8 +1,17 @@
-<main class="min-h-screen bg-[#0E1117] flex items-center justify-center px-4">
+<main class="min-h-screen bg-background flex items-center justify-center px-4">
   <section class="w-full max-w-sm">
     <!-- Logo -->
     <header class="mb-8">
-      <h1 class="text-3xl font-bold text-white">Invent<span class="text-[#2DD4BF]">r</span></h1>
+      <h1 class="text-3xl font-bold text-text-primary font-display">
+        Invent<span class="text-primary">r</span>
+      </h1>
+      <p>
+        {{
+          isLogin
+            ? 'Gérer votre patrimoine en toute simplicité.'
+            : 'Créer votre compte gratuitement.'
+        }}
+      </p>
     </header>
   </section>
 </main>
