@@ -13,6 +13,7 @@ import {
   Query,
   ParseUUIDPipe,
   Request,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { DocumentsService } from './documents.service';
 import { CreateDocumentDto } from './dto/create-document.dto';
@@ -77,8 +78,8 @@ export class DocumentsController {
   findAll(
     @Param('assetId', ParseUUIDPipe) assetId: string,
     @Request() req: RequestWithUser,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('page', new ParseIntPipe({ optional: true })) page: number = 1,
+    @Query('limit', new ParseIntPipe({ optional: true })) limit: number = 10,
   ) {
     return this.documentsService.findAll(assetId, req.user.userId, page, limit);
   }
