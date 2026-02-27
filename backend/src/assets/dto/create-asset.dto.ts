@@ -4,7 +4,8 @@ import {
   IsNotEmpty,
   IsOptional,
   IsEnum,
-  IsNumber,
+  IsInt,
+  Min,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { AssetCategory } from '../enums/asset-category.enum';
@@ -22,7 +23,8 @@ export class CreateAssetDto {
   @Type(() => Date)
   purchase_date: Date;
 
-  @IsNumber()
+  @IsInt()
+  @Min(0)
   purchase_price_cents: number;
 
   @IsEnum(AssetCondition)

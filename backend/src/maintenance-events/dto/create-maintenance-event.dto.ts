@@ -3,8 +3,9 @@ import {
   IsUUID,
   IsDate,
   IsOptional,
-  IsNumber,
   IsString,
+  IsInt,
+  Min,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { MaintenanceEventType } from '../enums/maintenance-event-type.enum';
@@ -16,7 +17,8 @@ export class CreateMaintenanceEventDto {
   @Type(() => Date)
   date: Date;
 
-  @IsNumber()
+  @IsInt()
+  @Min(0)
   @IsOptional()
   cost_cents?: number;
 
