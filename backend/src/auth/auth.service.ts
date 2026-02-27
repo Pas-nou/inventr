@@ -17,7 +17,12 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async register(email: string, password: string) {
+  async register(
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+  ) {
     const existingUser = await this.usersRepository.findOne({
       where: { email },
     });
@@ -28,9 +33,10 @@ export class AuthService {
     const newUser = this.usersRepository.create({
       email,
       password_hash: hashedPassword,
+      first_name: firstName,
+      last_name: lastName,
     });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password_hash, ...result } =
+    const { password_hash: _password_hash, ...result } =
       await this.usersRepository.save(newUser);
     return result;
   }
