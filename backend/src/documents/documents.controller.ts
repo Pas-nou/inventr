@@ -34,7 +34,7 @@ interface RequestWithUser extends Request {
 export class DocumentsController {
   constructor(private readonly documentsService: DocumentsService) {}
 
-  @Post()
+  @Post('asset/:assetId')
   @UseInterceptors(
     FileInterceptor('file', {
       limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max file size
@@ -63,13 +63,14 @@ export class DocumentsController {
   create(
     @Body() createDocumentDto: CreateDocumentDto,
     @UploadedFile() file: MulterFile,
+    @Param('assetId', ParseUUIDPipe) assetId: string,
     @Request() req: RequestWithUser,
   ) {
     if (!file) throw new BadRequestException('Aucun fichier fourni');
     return this.documentsService.create(
       createDocumentDto,
       file,
-      createDocumentDto.assetId,
+      assetId,
       req.user.userId,
     );
   }
