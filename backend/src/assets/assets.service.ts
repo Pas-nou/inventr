@@ -20,6 +20,7 @@ export class AssetsService {
   }
 
   async findAll(userId: string, page: number = 1, limit: number = 10) {
+    limit = Math.min(limit, 100);
     const [data, total] = await this.assetsRepository.findAndCount({
       where: { user: { id: userId } },
       skip: (page - 1) * limit,

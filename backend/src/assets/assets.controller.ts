@@ -10,6 +10,7 @@ import {
   UseGuards,
   Query,
   ParseUUIDPipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { AssetsService } from './assets.service';
 import { CreateAssetDto } from './dto/create-asset.dto';
@@ -38,8 +39,8 @@ export class AssetsController {
   @Get()
   findAll(
     @Request() req: RequestWithUser,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('page', new ParseIntPipe({ optional: true })) page: number = 1,
+    @Query('limit', new ParseIntPipe({ optional: true })) limit: number = 10,
   ) {
     return this.assetsService.findAll(req.user.userId, page, limit);
   }
