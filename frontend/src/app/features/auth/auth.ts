@@ -51,8 +51,13 @@ export class AuthComponent {
     return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
-  toggleMode() {
-    this.isLogin = !this.isLogin;
+  setLogin() {
+    this.isLogin = true;
+    this.errorMessage = '';
+  }
+
+  setRegister() {
+    this.isLogin = false;
     this.errorMessage = '';
   }
 

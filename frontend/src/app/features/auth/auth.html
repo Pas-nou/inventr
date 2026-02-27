@@ -25,11 +25,11 @@
       <button
         role="tab"
         [attr.aria-selected]="isLogin"
-        (click)="toggleMode()"
+        (click)="setLogin()"
         [class]="
           isLogin
-            ? 'relative flex-1 py-2 rounded-lg text-sm font-medium text-background transition-all'
-            : 'flex-1 py-2 rounded-lg text-sm font-medium text-text-secondary transition-all'
+            ? 'relative flex-1 py-2 rounded-lg text-sm font-bold text-background transition-all'
+            : 'flex-1 py-2 rounded-lg text-sm font-bold text-text-secondary transition-all'
         "
       >
         Connexion
@@ -37,11 +37,11 @@
       <button
         role="tab"
         [attr.aria-selected]="!isLogin"
-        (click)="toggleMode()"
+        (click)="setRegister()"
         [class]="
           !isLogin
-            ? 'relative flex-1 py-2 rounded-lg text-sm font-medium text-background transition-all'
-            : 'flex-1 py-2 rounded-lg text-sm font-medium text-text-secondary transition-all'
+            ? 'relative flex-1 py-2 rounded-lg text-sm font-bold text-background transition-all'
+            : 'flex-1 py-2 rounded-lg text-sm font-bold text-text-secondary transition-all'
         "
       >
         Inscription
