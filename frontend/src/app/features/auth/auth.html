@@ -13,5 +13,39 @@
         }}
       </p>
     </header>
+    <nav role="tablist" class=" relative flex bg-surface rounded-xl p-1 mb-6">
+      <!-- * Sliding pill -->
+      <span
+        class="absolute top-1 bottom-1 w-[calc(50%-4px)] bg-primary rounded-lg transition-transform duration-300 ease-in-out"
+        [class.translate-x-full]="!isLogin"
+      >
+      </span>
+
+      <!-- * buttons -->
+      <button
+        role="tab"
+        [attr.aria-selected]="isLogin"
+        (click)="toggleMode()"
+        [class]="
+          isLogin
+            ? 'relative flex-1 py-2 rounded-lg text-sm font-medium text-background transition-all'
+            : 'flex-1 py-2 rounded-lg text-sm font-medium text-text-secondary transition-all'
+        "
+      >
+        Connexion
+      </button>
+      <button
+        role="tab"
+        [attr.aria-selected]="!isLogin"
+        (click)="toggleMode()"
+        [class]="
+          !isLogin
+            ? 'relative flex-1 py-2 rounded-lg text-sm font-medium text-background transition-all'
+            : 'flex-1 py-2 rounded-lg text-sm font-medium text-text-secondary transition-all'
+        "
+      >
+        Inscription
+      </button>
+    </nav>
   </section>
 </main>
