@@ -110,12 +110,20 @@ export class DocumentsService {
 
   async remove(id: string, assetId: string, userId: string) {
     await this.verifyAssetOwnership(assetId, userId);
-    const result = await this.documentRepository.delete({
+
+    // We retrieve the document to obtain the storage_key before deletion
+    const document = await this.documentRepository.findOne({
+      where: { id, asset: { id: assetId } },
+    });
+    if (!document) throw new NotFoundException(`Document ${id} introuvable`);
+
+    // Deleting the file from Supabase Storage
+    await this.storageService.deleteFile('documents', document.storage_key);
+
+    // Deletion in base
+    await this.documentRepository.delete({
       id,
       asset: { id: assetId },
     });
-    if (result.affected === 0)
-      throw new NotFoundException(`Document ${id} introuvable`);
-    return result;
   }
 }
