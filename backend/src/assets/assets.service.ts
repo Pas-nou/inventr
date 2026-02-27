@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -39,20 +39,30 @@ export class AssetsService {
   }
 
   async findOne(id: string, userId: string) {
-    return await this.assetsRepository.findOne({
+    const asset = await this.assetsRepository.findOne({
       where: { id, user: { id: userId } },
     });
+    if (!asset) throw new NotFoundException(`Bien ${id} introuvable`);
+    return asset;
   }
 
   async update(id: string, updateAssetDto: UpdateAssetDto, userId: string) {
-    return await this.assetsRepository.save({
+    const asset = await this.assetsRepository.preload({
       id,
       ...updateAssetDto,
       user: { id: userId },
     });
+    if (!asset) throw new NotFoundException(`Bien ${id} introuvable`);
+    return await this.assetsRepository.save(asset);
   }
 
   async remove(id: string, userId: string) {
-    return await this.assetsRepository.delete({ id, user: { id: userId } });
+    const result = await this.assetsRepository.delete({
+      id,
+      user: { id: userId },
+    });
+    if (result.affected === 0)
+      throw new NotFoundException(`Bien ${id} introuvable`);
+    return result;
   }
 }
