@@ -105,7 +105,9 @@
               <p class="text-error text-xs mt-1">Le mot de passe est requis</p>
             }
             @if (loginForm.get('password')?.errors?.['minlength']) {
-              <p class="text-error text-xs mt-1">Le mot de passe doit comporter 8 caractères minimum</p>
+              <p class="text-error text-xs mt-1">
+                Le mot de passe doit comporter 8 caractères minimum
+              </p>
             }
           }
         </div>
@@ -160,10 +162,18 @@
             placeholder="example@mail.com"
             class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
           />
+          @if (registerForm.get('email')?.touched) {
+            @if (registerForm.get('email')?.errors?.['required']) {
+              <p class="text-error text-xs mt-1">L'email est requis</p>
+            }
+            @if (registerForm.get('email')?.errors?.['email']) {
+              <p class="text-error text-xs mt-1">Format d'email invalide</p>
+            }
+          }
         </div>
 
         <!-- * Password -->
-        <div class="mb-2">
+        <div class="mb-4">
           <label
             for="password"
             class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
@@ -178,10 +188,20 @@
             placeholder="••••••••"
             class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
           />
+          @if (registerForm.get('password')?.touched) {
+            @if (registerForm.get('password')?.errors?.['required']) {
+              <p class="text-error text-xs mt-1">Le mot de passe est requis</p>
+            }
+            @if (registerForm.get('password')?.errors?.['minlength']) {
+              <p class="text-error text-xs mt-1">
+                Le mot de passe doit comporter 8 caractères minimum
+              </p>
+            }
+          }
         </div>
 
         <!-- * Confirm password -->
-        <div class="mb-2">
+        <div class="mb-4">
           <label
             for="confirmPassword"
             class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
@@ -196,10 +216,23 @@
             placeholder="••••••••"
             class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
           />
+          @if (registerForm.get('confirmPassword')?.touched) {
+            @if (registerForm.get('confirmPassword')?.errors?.['required']) {
+              <p class="text-error text-xs mt-1">Le mot de passe est requis</p>
+            }
+            @if (registerForm.get('confirmPassword')?.errors?.['minlength']) {
+              <p class="text-error text-xs mt-1">
+                Le mot de passe doit comporter 8 caractères minimum
+              </p>
+            }
+          }
+          @if (registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched) {
+  <p class="text-error text-xs mt-1">Les mots de passe ne sont pas identiques</p>
+}
         </div>
 
         <!-- * Firstname -->
-        <div class="mb-2">
+        <div class="mb-4">
           <label
             for="firstname"
             class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
@@ -214,6 +247,14 @@
             placeholder="Minimum 2 caractères"
             class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
           />
+          @if (registerForm.get('first_name')?.touched) {
+            @if (registerForm.get('first_name')?.errors?.['required']) {
+              <p class="text-error text-xs mt-1">Le prénom est requis</p>
+            }
+            @if (registerForm.get('first_name')?.errors?.['minlength']) {
+              <p class="text-error text-xs mt-1">Le prénom doit comporter 2 caractères minimum</p>
+            }
+          }
         </div>
 
         <!-- * Lastname -->
@@ -232,6 +273,14 @@
             placeholder="Minimum 2 caractères"
             class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
           />
+          @if (registerForm.get('last_name')?.touched) {
+            @if (registerForm.get('last_name')?.errors?.['required']) {
+              <p class="text-error text-xs mt-1">Le nom est requis</p>
+            }
+            @if (registerForm.get('last_name')?.errors?.['minlength']) {
+              <p class="text-error text-xs mt-1">Le nom doit comporter 2 caractères minimum</p>
+            }
+          }
         </div>
 
         <!-- * Fixed area at the bottom of the page -->
