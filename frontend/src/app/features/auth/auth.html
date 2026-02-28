@@ -119,6 +119,12 @@
 
         <!-- * Fixed area at the bottom of the page -->
         <div class="mt-auto">
+
+          <!-- * Error message -->
+         @if (errorMessage) {
+           <p class="text-error text-xs text-center mb-2">{{errorMessage}}</p>
+        }
+
           <!-- * Submit button -->
           <button
             type="submit"
@@ -283,8 +289,15 @@
           }
         </div>
 
+        
         <!-- * Fixed area at the bottom of the page -->
         <div class="mt-auto">
+
+          <!-- * Error message -->
+          @if (errorMessage) {
+            <p class="text-error text-xs text-center mb-2">{{errorMessage}}</p>
+          }
+
           <!-- * Submit button -->
           <button
             type="submit"
