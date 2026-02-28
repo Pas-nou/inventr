@@ -1,114 +1,249 @@
-<main class="min-h-screen bg-background flex items-center justify-center px-4">
-  <section class="w-full max-w-sm">
-    <!-- * Logo -->
-    <header class="mb-8">
-      <h1 class="text-3xl font-bold text-text-primary font-display">
-        Invent<span class="text-primary">r</span>
-      </h1>
-      <p class="text-text-secondary mt-2 text-sm">
-        {{
-          isLogin
-            ? 'Gérer votre patrimoine en toute simplicité.'
-            : 'Créer votre compte gratuitement.'
-        }}
-      </p>
-    </header>
-    <nav role="tablist" class="relative flex bg-surface rounded-xl p-1 mb-6">
-      <!-- * Sliding pill -->
-      <span
-        class="absolute top-1 bottom-1 w-[calc(50%-4px)] bg-primary rounded-lg transition-transform duration-300 ease-in-out"
-        [class.translate-x-full]="!isLogin"
-      >
-      </span>
-
-      <!-- * buttons -->
-      <button
-        role="tab"
-        [attr.aria-selected]="isLogin"
-        (click)="setLogin()"
-        [class]="
-          isLogin
-            ? 'relative flex-1 py-2 rounded-lg text-sm font-bold text-background transition-all'
-            : 'flex-1 py-2 rounded-lg text-sm font-bold text-text-secondary transition-all'
-        "
-      >
-        Connexion
-      </button>
-      <button
-        role="tab"
-        [attr.aria-selected]="!isLogin"
-        (click)="setRegister()"
-        [class]="
-          !isLogin
-            ? 'relative flex-1 py-2 rounded-lg text-sm font-bold text-background transition-all'
-            : 'flex-1 py-2 rounded-lg text-sm font-bold text-text-secondary transition-all'
-        "
-      >
-        Inscription
-      </button>
-    </nav>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <!-- * Email -->
-      <div class="mb-4">
-        <label
-          for="email"
-          class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
+<main class="h-dvh bg-background flex items-center justify-center px-4 overflow-y-auto">
+  <span
+    class="absolute top-0 left-0 w-64 h-64 rounded-full opacity-20 blur-3xl pointer-events-none"
+    style="
+      background: radial-gradient(circle, var(--color-primary), transparent 70%);
+      transform: translate(-30%, -30%);
+    "
+  ></span>
+  <section class="w-full max-w-lg px-6 flex flex-col h-full py-12">
+    <!-- * Fixed area at the top of the page -->
+    <div>
+      <!-- * Logo -->
+      <header class="mb-8">
+        <h1 class="text-5xl font-bold text-text-primary font-display">
+          Invent<span class="text-primary">r</span>
+        </h1>
+        <p class="text-text-secondary mt-2 text-sm">
+          {{
+            isLogin
+              ? 'Gérer votre patrimoine en toute simplicité.'
+              : 'Créer votre compte gratuitement.'
+          }}
+        </p>
+      </header>
+      <nav role="tablist" class="relative flex bg-surface rounded-xl p-1 mb-6">
+        <!-- * Sliding pill -->
+        <span
+          class="absolute top-1 bottom-1 w-[calc(50%-4px)] bg-primary rounded-lg transition-transform duration-300 ease-in-out will-change-transform"
+          [class.translate-x-full]="!isLogin"
         >
-          EMAIL
-        </label>
-        <input
-          type="email"
-          id="email"
-          formControlName="email"
-          placeholder="example@mail.com"
-          class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-sm placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-light transition-colors"
-        />
-      </div>
+        </span>
 
-      <!-- * Password -->
-      <div class="mb-2">
-        <label
-          for="password"
-          class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
+        <!-- * buttons -->
+        <button
+          role="tab"
+          [attr.aria-selected]="isLogin"
+          (click)="setLogin()"
+          class="relative flex-1 py-2 rounded-lg text-sm font-bold transition-colors duration-300"
+          [class.text-background]="isLogin"
+          [class.text-text-secondary]="!isLogin"
         >
-          MOT DE PASSE
-        </label>
-        <input
-          type="password"
-          id="password"
-          formControlName="password"
-          placeholder="••••••••"
-          class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-sm placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-light transition-colors"
-        />
-      </div>
-
-      <!-- * Forgotten password -->
-      <div class="text-right mb-6">
-        <a href="javascript:void(0)" class="text-xs text-primary">Mot de passe oublié ?</a>
-      </div>
-
-      <!-- * Submit button -->
-      <button
-        type="sumbit"
-        class="w-full bg-primary text-background font-bold py-3 rounded-xl text-base transition-opacity hover:opacity-90 shadow-[0_4px_20px_rgba(45,212,191,0.3)]"
-      >
-        Se connecter
-      </button>
-
-      <!-- * Separator -->
-      <div class="flex items-center gap-3 my-6">
-        <hr class="flex-1 border-border" />
-        <span class="text-text-secondary text-xs">ou</span>
-        <hr class="flex-1 border-border" />
-      </div>
-
-      <!-- * Registration link -->
-      <p class="text-center text-text-secondary text-sm mt-6">
-        Pas encore de compte ?
-        <button type="button" (click)="setRegister()" class="text-primary font-medium">
-          S'inscrire
+          Connexion
         </button>
-      </p>
-    </form>
+        <button
+          role="tab"
+          [attr.aria-selected]="!isLogin"
+          (click)="setRegister()"
+          class="relative flex-1 py-2 rounded-lg text-sm font-bold transition-colors duration-300"
+          [class.text-background]="!isLogin"
+          [class.text-text-secondary]="isLogin"
+        >
+          Inscription
+        </button>
+      </nav>
+    </div>
+
+    <!-- * Forms -->
+    @if (isLogin) {
+      <!-- * Login Form -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col flex-1">
+        <!-- * Email -->
+        <div class="mb-4">
+          <label
+            for="email"
+            class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
+          >
+            EMAIL
+          </label>
+          <input
+            required
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="example@mail.com"
+            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
+          />
+        </div>
+
+        <!-- * Password -->
+        <div class="mb-2">
+          <label
+            for="password"
+            class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
+          >
+            MOT DE PASSE
+          </label>
+          <input
+            required
+            type="password"
+            id="password"
+            formControlName="password"
+            placeholder="••••••••"
+            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
+          />
+        </div>
+
+        <!-- * Forgotten password -->
+        <div class="text-right mb-6">
+          <a href="javascript:void(0)" class="text-xs text-primary">Mot de passe oublié ?</a>
+        </div>
+
+        <!-- * Fixed area at the bottom of the page -->
+        <div class="mt-auto">
+          <!-- * Submit button -->
+          <button
+            type="submit"
+            class="w-full bg-primary text-background font-bold py-3 rounded-xl text-base transition-opacity hover:opacity-90 shadow-[0_4px_20px_var(--color-primary-shadow)]"
+          >
+            Se connecter
+          </button>
+
+          <!-- * Separator -->
+          <div class="flex items-center gap-3  my-6">
+            <hr class="flex-1 border-border" />
+            <span class="text-text-secondary text-xs">ou</span>
+            <hr class="flex-1 border-border" />
+          </div>
+
+          <!-- * Registration link -->
+          <p class="text-center text-text-secondary text-sm">
+            Pas encore de compte ?
+            <button type="button" (click)="setRegister()" class="text-primary font-medium">
+              S'inscrire
+            </button>
+          </p>
+        </div>
+      </form>
+    } @else {
+      <!-- * Register Form -->
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-col flex-1">
+        <!-- * Email -->
+        <div class="mb-4">
+          <label
+            for="email"
+            class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
+          >
+            EMAIL
+          </label>
+          <input
+            required
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="example@mail.com"
+            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
+          />
+        </div>
+
+        <!-- * Password -->
+        <div class="mb-2">
+          <label
+            for="password"
+            class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
+          >
+            MOT DE PASSE
+          </label>
+          <input
+            required
+            type="password"
+            id="password"
+            formControlName="password"
+            placeholder="••••••••"
+            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
+          />
+        </div>
+
+        <!-- * Confirm password -->
+        <div class="mb-2">
+          <label
+            for="confirmPassword"
+            class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
+          >
+            CONFIRMEZ VOTRE MOT DE PASSE
+          </label>
+          <input
+            required
+            type="password"
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            placeholder="••••••••"
+            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
+          />
+        </div>
+
+        <!-- * Firstname -->
+        <div class="mb-2">
+          <label
+            for="firstname"
+            class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
+          >
+            PRÉNOM
+          </label>
+          <input
+            required
+            type="text"
+            id="firstname"
+            formControlName="first_name"
+            placeholder="Minimum 2 caractères"
+            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
+          />
+        </div>
+
+        <!-- * Lastname -->
+        <div class="mb-8">
+          <label
+            for="lastname"
+            class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
+          >
+            NOM
+          </label>
+          <input
+            required
+            type="text"
+            id="lastname"
+            formControlName="last_name"
+            placeholder="Minimum 2 caractères"
+            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
+          />
+        </div>
+
+        <!-- * Fixed area at the bottom of the page -->
+        <div class="mt-auto">
+          <!-- * Submit button -->
+          <button
+            type="submit"
+            class="w-full bg-primary text-background font-bold py-3 rounded-xl text-base transition-opacity hover:opacity-90 shadow-[0_4px_20px_var(--color-primary-shadow)]"
+          >
+            Créer mon compte
+          </button>
+
+          <!-- * Separator -->
+          <div class="flex items-center gap-3 my-6">
+            <hr class="flex-1 border-border" />
+            <span class="text-text-secondary text-xs">ou</span>
+            <hr class="flex-1 border-border" />
+          </div>
+
+          <!-- * Login link -->
+          <p class="text-center text-text-secondary text-sm">
+            Déjà un compte ?
+            <button type="button" (click)="setLogin()" class="text-primary font-medium">
+              Se connecter
+            </button>
+          </p>
+        </div>
+      </form>
+    }
   </section>
 </main>
