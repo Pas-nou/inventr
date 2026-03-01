@@ -1,1 +1,40 @@
-<p>nabvar works!</p>
+<nav class="fixed bottom-0 left-0 right-0 bg-surface border-t border-border px-6 pb-safe">
+  <ul class="flex justify-around items-center h-16">
+    <!-- Home -->
+    <li>
+      <a
+        routerLink="/home"
+        routerLinkActive="!text-primary"
+        class="flex flex-col items-center gap-1 text-text-secondary"
+      >
+        <lucide-angular [img]="layoutGrid" [size]="22" />
+        <span class="text-xs">Inventaire</span>
+      </a>
+    </li>
+
+    <!-- Add -->
+    <li>
+      <div class="flex flex-col items-center gap-1">
+        <button
+          class="flex items-center justify-center w-14 h-14 rounded-full bg-primary shadow-[0_4px_20px_var(--color-primary-shadow)] -translate-y-6"
+        >
+          <span class="text-2xl font-bold text-background">+</span>
+      </button>
+      </div>
+    </li>
+
+    <!-- Profile -->
+    <li>
+      <a
+        routerLink="/profile"
+        routerLinkActive="!text-primary"
+        class="flex flex-col items-center gap-1 text-text-secondary"
+      >
+        <lucide-angular [img]="user" [size]="22" />
+        <span class="text-xs">Profil</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<div class="h-16"></div>
