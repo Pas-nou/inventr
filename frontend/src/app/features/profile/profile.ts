@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LucideAngularModule, Pencil, Bell, LogOut } from 'lucide-angular';
+import { LucideAngularModule, Pencil, Bell, LogOut, ChevronRight } from 'lucide-angular';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
@@ -13,6 +13,7 @@ export class ProfileComponent implements OnInit {
   readonly pencil = Pencil;
   readonly bell = Bell;
   readonly logOut = LogOut;
+  readonly chevronRight = ChevronRight;
 
   firstName = '';
   lastName = '';

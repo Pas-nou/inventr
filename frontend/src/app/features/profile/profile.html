@@ -1,1 +1,73 @@
-<p>profile works!</p>
+<main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6">
+  <header class="mb-6">
+    <h1 class="text-3xl font-bold font-display">Mon profil</h1>
+  </header>
+
+  <!-- User card -->
+  <section
+    aria-label="Informations utilisateur"
+    class="bg-surface border border-border rounded-2xl p-4 flex items-center gap-4 mb-6"
+  >
+    <span
+      class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-xl font-bold text-background shrink-0"
+      aria-hidden="true"
+    >
+      {{ initials }}
+    </span>
+    <hgroup>
+      <p class="font-semibold text-text-primary">{{ firstName }} {{ lastName }}</p>
+      <p class="text-sm text-text-secondary">{{ email }}</p>
+    </hgroup>
+  </section>
+
+  <!-- Account settings -->
+  <section aria-label="Paramètres du compte">
+    <p class="text-xs uppercase tracking-widest text-text-secondary mb-3">Compte</p>
+    <ul class="flex flex-col gap-2">
+      <li>
+        <button
+          class="w-full bg-surface border border-border rounded-2xl p-4 flex items-center gap-4 transition-colors hover:border-primary"
+        >
+          <span
+            class="w-8 h-8 rounded-xl bg-surface-light flex items-center justify-center shrink-0"
+            aria-hidden="true"
+          >
+            <lucide-angular [img]="pencil" [size]="16" class="text-text-secondary" />
+          </span>
+          <hgroup class="flex-1 text-left">
+            <p class="text-sm font-semibold text-text-primary">Modifier mon profil</p>
+            <p class="text-xs text-text-secondary">Nom, email, mot de passe</p>
+          </hgroup>
+          <lucide-angular [img]="chevronRight" [size]="16" class="text-text-secondary shrink-0" />
+        </button>
+      </li>
+      <li>
+        <button
+          class="w-full bg-surface border border-border rounded-2xl p-4 flex items-center gap-4 transition-colors hover:border-primary"
+        >
+          <span
+            class="w-8 h-8 rounded-xl bg-surface-light flex items-center justify-center shrink-0"
+            aria-hidden="true"
+          >
+            <lucide-angular [img]="bell" [size]="16" class="text-text-secondary" />
+          </span>
+          <hgroup class="flex-1 text-left">
+            <p class="text-sm font-semibold text-text-primary">Notifications</p>
+            <p class="text-xs text-text-secondary">Alertes garanties, maintenance</p>
+          </hgroup>
+          <lucide-angular [img]="chevronRight" [size]="16" class="text-text-secondary shrink-0" />
+        </button>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Logout -->
+  <section aria-label="Déconnexion" class="mt-auto pt-8">
+    <button (click)="logout()" class="w-full bg-surface border border-border rounded-2xl p-4 flex items-center gap-4 transition-colors hover:border-error">
+      <span class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style="background: rgba(239, 68, 68, 0.12);" aria-hidden="true">
+        <lucide-angular [img]="logOut" [size]="16" class="text-error-dim" />
+      </span>
+      <p class="text-sm font-semibold text-error-dim">Se déconnecter</p>
+    </button>
+  </section>
+</main>
