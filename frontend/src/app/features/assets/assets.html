@@ -145,8 +145,9 @@
   <ul class="flex flex-col gap-3" aria-label="Liste des biens">
     @for (asset of filteredAssets; track asset.id) {
       <li
-        class="flex items-center gap-3 rounded-2xl p-4"
-        style="background: var(--color-surface); border: 1px solid var(--color-border)"
+        class="animate-fade-in-up flex items-center gap-3 rounded-2xl p-4"
+        [style.animation-delay]="$index * 60 + 'ms'"
+        style="background: var(--color-surface); border: 1px solid var(--color-border); opacity: 0;"
       >
         <!-- Category icon -->
         <span
