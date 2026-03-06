@@ -76,7 +76,7 @@
     <section
       aria-label="Alertes garanties"
       class="flex items-center gap-3 rounded-2xl p-4 mb-4"
-      style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.25);"
+      style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.25)"
     >
       <!-- Warning icon -->
       <span class="text-error-dim shrink-0" aria-hidden="true">
@@ -90,54 +90,98 @@
       </hgroup>
 
       <span
-      class="shrink-0 w-6 h-6 rounded-full bg-error-dim flex items-center justify-center text-xs font-bold text-white"
-      aria-hidden="true"
-    >
-      {{ warrantyAlerts.length }}
-    </span>
+        class="shrink-0 w-6 h-6 rounded-full bg-error-dim flex items-center justify-center text-xs font-bold text-white"
+        aria-hidden="true"
+      >
+        {{ warrantyAlerts.length }}
+      </span>
     </section>
   }
 
   <!-- * Filters -->
-   <section aria-label="Filtres par catégorie" class="flex items-center justify-between mb-4">
+  <section aria-label="Filtres par catégorie" class="flex items-center justify-between mb-4">
     <h2 class="text-lg font-bold font-display">Inventaire</h2>
     <div class="relative">
-    <button
-      (click)="toggleDropdown()"
-      [attr.aria-expanded]="isDropdownOpen"
-      class="flex items-center gap-2 px-4 py-1.5 rounded-full text-sm border transition-colors"
-      [class.bg-primary]="isDropdownOpen"
-      [class.text-background]="isDropdownOpen"
-      [class.border-primary]="isDropdownOpen"
-      [class.text-text-secondary]="!isDropdownOpen"
-      [class.border-border]="!isDropdownOpen"
-    >
-      {{ activeCategory }}
-      <lucide-angular [img]="isDropdownOpen ? chevronUp : chevronDown" [size]="14" />
-    </button>
-
-    @if (isDropdownOpen) {
-      <ul
-        role="listbox"
-        class="absolute right-0 mt-2 w-48 rounded-2xl overflow-hidden z-10"
-        style="background: var(--color-surface-light); border: 1px solid var(--color-border);"
+      <button
+        (click)="toggleDropdown()"
+        [attr.aria-expanded]="isDropdownOpen"
+        class="flex items-center gap-2 px-4 py-1.5 rounded-full text-sm border transition-colors"
+        [class.bg-primary]="isDropdownOpen"
+        [class.text-background]="isDropdownOpen"
+        [class.border-primary]="isDropdownOpen"
+        [class.text-text-secondary]="!isDropdownOpen"
+        [class.border-border]="!isDropdownOpen"
       >
-        @for (category of categories; track category) {
-          <li
-            role="option"
-            [attr.aria-selected]="activeCategory === category"
-            (click)="selectCategory(category)"
-            class="px-4 py-2.5 text-sm cursor-pointer transition-colors"
-            [class.text-primary]="activeCategory === category"
-            [class.font-semibold]="activeCategory === category"
-            [class.text-text-secondary]="activeCategory !== category"
-            [class.hover:bg-surface]="true"
-          >
-            {{ category }}
-          </li>
-        }
-      </ul>
+        {{ activeCategory }}
+        <lucide-angular [img]="isDropdownOpen ? chevronUp : chevronDown" [size]="14" />
+      </button>
+
+      @if (isDropdownOpen) {
+        <ul
+          role="listbox"
+          class="absolute right-0 mt-2 w-48 rounded-2xl overflow-hidden z-10"
+          style="background: var(--color-surface-light); border: 1px solid var(--color-border)"
+        >
+          @for (category of categories; track category) {
+            <li
+              role="option"
+              [attr.aria-selected]="activeCategory === category"
+              (click)="selectCategory(category)"
+              class="px-4 py-2.5 text-sm cursor-pointer transition-colors"
+              [class.text-primary]="activeCategory === category"
+              [class.font-semibold]="activeCategory === category"
+              [class.text-text-secondary]="activeCategory !== category"
+              [class.hover:bg-surface]="true"
+            >
+              {{ category }}
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  </section>
+
+  <!-- * Assets list -->
+  <ul class="flex flex-col gap-3" aria-label="Liste des biens">
+    @for (asset of filteredAssets; track asset.id) {
+      <li
+        class="flex items-center gap-3 rounded-2xl p-4"
+        style="background: var(--color-surface); border: 1px solid var(--color-border)"
+      >
+        <!-- Category icon -->
+        <span
+          class="flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
+          style="background: var(--color-surface-light)"
+          aria-hidden="true"
+        >
+          <lucide-angular
+            [img]="getCategoryIcon(asset.category)"
+            [size]="20"
+            class="text-text-secondary"
+          />
+        </span>
+
+        <!--  Info -->
+        <hgroup class="flex-1 min-w-0">
+          <p class="text-sm font-semibold text-text-primary truncate">{{ asset.name }}</p>
+          <p class="text-xs text-text-secondary">{{ asset.category }}</p>
+        </hgroup>
+
+        <!-- Right side -->
+        <div class="flex flex-col items-end gap-1 shrink-0">
+          <span class="text-sm font-semibold text-primary">
+            {{ asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
+          </span>
+          @if (isWarrantyExpiringSoon(asset.warranty_end_date)) {
+            <span
+              class="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full"
+              style="background: rgba(239, 68, 68, 0.12); color: var(--color-error-dim);"
+            >
+              <lucide-angular [img]="triangleAlert" [size]="10" aria-hidden="true" /> Garantie
+            </span>
+          }
+        </div>
+      </li>
     }
-  </div>
-   </section>
+  </ul>
 </main>

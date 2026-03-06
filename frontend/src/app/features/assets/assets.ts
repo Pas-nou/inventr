@@ -1,6 +1,21 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { LucideAngularModule, TriangleAlert, ChevronDown, ChevronUp } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  LucideIconData,
+  TriangleAlert,
+  ChevronDown,
+  ChevronUp,
+  Laptop,
+  Sofa,
+  Car,
+  WashingMachine,
+  Bike,
+  Wrench,
+  Flower,
+  Shirt,
+  Package,
+} from 'lucide-angular';
 import { AuthService } from '../../core/services/auth.service';
 import { AssetsService, Asset } from '../../core/services/assets.service';
 @Component({
@@ -34,6 +49,22 @@ export class AssetsComponent implements OnInit {
   ];
   activeCategory = 'Tous';
 
+  categoryIcons: Record<string, LucideIconData> = {
+    'High-tech': Laptop,
+    Meuble: Sofa,
+    Véhicule: Car,
+    Électroménager: WashingMachine,
+    'Sport & Loisirs': Bike,
+    Outil: Wrench,
+    Jardin: Flower,
+    'Vêtement & Accessoire': Shirt,
+    Autre: Package,
+  };
+
+  getCategoryIcon(category: string): LucideIconData {
+    return this.categoryIcons[category] ?? Package;
+  }
+
   isDropdownOpen = false;
 
   toggleDropdown(): void {
@@ -43,6 +74,11 @@ export class AssetsComponent implements OnInit {
   selectCategory(category: string): void {
     this.activeCategory = category;
     this.isDropdownOpen = false;
+  }
+
+  get filteredAssets(): Asset[] {
+    if (this.activeCategory === 'Tous') return this.assets;
+    return this.assets.filter((a) => a.category === this.activeCategory);
   }
 
   constructor(
