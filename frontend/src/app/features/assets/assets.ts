@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { LucideAngularModule, TriangleAlert } from 'lucide-angular';
 import { AuthService } from '../../core/services/auth.service';
@@ -15,21 +15,24 @@ export class AssetsComponent implements OnInit {
   firstName = '';
   assets: Asset[] = [];
   warrantyAlerts: string[] = [];
+  assetsCount = 0;
+  totalValue = 0;
 
   categories = ['Tous', 'Tech', 'Auto'];
   activeCategory = 'Tous';
 
-  get assetsCount(): number {
-    return this.assets.length;
-  }
+  // get assetsCount(): number {
+  //   return this.assets.length;
+  // }
 
-  get totalValue(): number {
-    return this.assets.reduce((sum, a) => sum + a.purchase_price_cents, 0) / 100;
-  }
+  // get totalValue(): number {
+  //   return this.assets.reduce((sum, a) => sum + a.purchase_price_cents, 0) / 100;
+  // }
 
   constructor(
     private authService: AuthService,
     private assetsService: AssetsService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -37,10 +40,13 @@ export class AssetsComponent implements OnInit {
     if (user) this.firstName = user.first_name;
 
     this.assetsService.getAssets().subscribe((response) => {
-      this.assets = response.data;
+      this.assets = [...response.data];
+      this.assetsCount = this.assets.length;
+      this.totalValue = this.assets.reduce((sum, a) => sum + a.purchase_price_cents, 0) / 100;
       this.warrantyAlerts = response.data
         .filter((a) => this.isWarrantyExpiringSoon(a.warranty_end_date))
         .map((a) => a.name);
+        this.cdr.detectChanges();
     });
   }
 
