@@ -1,1 +1,100 @@
-<p>assets works!</p>
+<main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6">
+  <header class="mb-6">
+    <p class="text-text-secondary text-sm">Bonjour 👋</p>
+    <h1 class="text-3xl font-bold font-display">{{ firstName }}</h1>
+  </header>
+
+  <!-- * Informative cards -->
+  <section class="grid grid-cols-2 gap-3 mb-4">
+    <!-- * Assets card -->
+    <dl
+      class="rounded-2xl p-4 relative overflow-hidden"
+      style="
+        background: linear-gradient(135deg, rgba(20, 18, 40, 0.95) 0%, rgba(15, 28, 35, 0.95) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      "
+      aria-label="Nombre de biens"
+    >
+      <!-- Ellipse teal droite -->
+      <span
+        class="absolute -right-25 -top-5 -translate-y-1/2 w-52 h-32 rounded-full pointer-events-none"
+        style="
+          background: radial-gradient(circle, rgba(45, 212, 191, 0.5), transparent 70%);
+          filter: blur(20px);
+        "
+      ></span>
+
+      <!-- Ellipse teal bas-gauche -->
+      <span
+        class="absolute -bottom-15 -left-10 w-58 h-18 rounded-full pointer-events-none"
+        style="
+          background: radial-gradient(circle, rgba(45, 212, 191, 0.5), transparent 70%);
+          filter: blur(18px);
+        "
+      ></span>
+
+      <dt class="text-text-secondary text-xs uppercase tracking-widest mb-2">Nombre de biens</dt>
+      <dd class="text-4xl font-bold font-display m-0">{{ assetsCount }}</dd>
+    </dl>
+
+    <!-- * Value card -->
+    <dl
+      class="rounded-2xl p-4 relative overflow-hidden"
+      style="
+        background: linear-gradient(135deg, rgba(20, 18, 40, 0.95) 0%, rgba(15, 28, 35, 0.95) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      "
+      aria-label="Valeur totale du patrimoine"
+    >
+      <!-- Ellipse teal gauche -->
+      <span
+        class="absolute -left-25 -top-5 -translate-y-1/2 w-52 h-32 rounded-full pointer-events-none"
+        style="
+          background: radial-gradient(circle, rgba(45, 212, 191, 0.5), transparent 70%);
+          filter: blur(20px);
+        "
+      ></span>
+
+      <!-- Ellipse teal haut-droit -->
+      <span
+        class="absolute -bottom-15 -right-10 w-58 h-18 rounded-full pointer-events-none"
+        style="
+          background: radial-gradient(circle, rgba(45, 212, 191, 0.5), transparent 70%);
+          filter: blur(18px);
+        "
+      ></span>
+
+      <dt class="text-text-secondary text-xs uppercase tracking-widest mb-2">Valeur totale</dt>
+      <dd class="text-3xl font-bold font-display m-0">
+        {{ totalValue | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
+      </dd>
+    </dl>
+  </section>
+
+  <!-- * Alert card -->
+  @if (warrantyAlerts.length > 0) {
+    <section
+      aria-label="Alertes garanties"
+      class="flex items-center gap-3 rounded-2xl p-4 mb-4"
+      style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.25);"
+    >
+      <!-- Warning icon -->
+      <span class="text-error-dim shrink-0" aria-hidden="true">
+        <lucide-angular [img]="triangleAlert" [size]="22" />
+      </span>
+
+      <!-- Text -->
+      <hgroup class="flex-1 min-w-0">
+        <p class="text-sm font-semibold text-error-dim">Garanties expirant bientôt</p>
+        <p class="text-xs text-text-secondary truncate">{{ warrantyAlerts.join(', ') }}</p>
+      </hgroup>
+
+      <span
+      class="shrink-0 w-6 h-6 rounded-full bg-error-dim flex items-center justify-center text-xs font-bold text-white"
+      aria-hidden="true"
+    >
+      {{ warrantyAlerts.length }}
+    </span>
+    </section>
+  }
+</main>

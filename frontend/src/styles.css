@@ -10,6 +10,7 @@
   --color-surface-dark: #0f181e;
   --color-border: #232a38;
   --color-primary-shadow: rgba(45, 212, 191, 0.3);
+  --color-error-dim: rgba(239, 68, 68, 0.75);
 
   /* Couleur primaire */
   --color-primary: #2dd4bf;
