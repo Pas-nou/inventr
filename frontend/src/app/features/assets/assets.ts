@@ -107,7 +107,7 @@ export class AssetsComponent implements OnInit {
     this.isDropdownOpen = false;
   }
 
-  private isWarrantyExpiringSoon(date: string | null): boolean {
+  isWarrantyExpiringSoon(date: string | null): boolean {
     if (!date) return false;
     const diff = new Date(date).getTime() - Date.now();
     return diff > 0 && diff < WARRANTY_ALERT_DAYS * 24 * 60 * 60 * 1000;
