@@ -7,30 +7,15 @@
   <!-- * Informative cards -->
   <section class="grid grid-cols-2 gap-3 mb-4">
     <!-- * Assets card -->
-    <dl
-      class="rounded-2xl p-4 relative overflow-hidden"
-      style="
-        background: linear-gradient(135deg, rgba(20, 18, 40, 0.95) 0%, rgba(15, 28, 35, 0.95) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-      "
-      aria-label="Nombre de biens"
-    >
+    <dl class="stat-card rounded-2xl p-4 relative overflow-hidden" aria-label="Nombre de biens">
       <!-- Ellipse teal droite -->
       <span
-        class="absolute -right-25 -top-5 -translate-y-1/2 w-52 h-32 rounded-full pointer-events-none"
-        style="
-          background: radial-gradient(circle, rgba(45, 212, 191, 0.5), transparent 70%);
-          filter: blur(20px);
-        "
+        class="stat-card-ellipse absolute -right-25 -top-5 -translate-y-1/2 w-52 h-32 rounded-full pointer-events-none"
       ></span>
 
       <!-- Ellipse teal bas-gauche -->
       <span
-        class="absolute -bottom-15 -left-10 w-58 h-18 rounded-full pointer-events-none"
-        style="
-          background: radial-gradient(circle, rgba(45, 212, 191, 0.5), transparent 70%);
-          filter: blur(18px);
-        "
+        class="stat-card-ellipse absolute -bottom-15 -left-10 w-58 h-18 rounded-full pointer-events-none"
       ></span>
 
       <dt class="text-text-secondary text-xs uppercase tracking-widest mb-2">Nombre de biens</dt>
@@ -39,29 +24,17 @@
 
     <!-- * Value card -->
     <dl
-      class="rounded-2xl p-4 relative overflow-hidden"
-      style="
-        background: linear-gradient(135deg, rgba(20, 18, 40, 0.95) 0%, rgba(15, 28, 35, 0.95) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-      "
+      class="stat-card rounded-2xl p-4 relative overflow-hidden"
       aria-label="Valeur totale du patrimoine"
     >
       <!-- Ellipse teal gauche -->
       <span
-        class="absolute -left-25 -top-5 -translate-y-1/2 w-52 h-32 rounded-full pointer-events-none"
-        style="
-          background: radial-gradient(circle, rgba(45, 212, 191, 0.5), transparent 70%);
-          filter: blur(20px);
-        "
+        class="stat-card-ellipse absolute -left-25 -top-5 -translate-y-1/2 w-52 h-32 rounded-full pointer-events-none"
       ></span>
 
       <!-- Ellipse teal haut-droit -->
       <span
-        class="absolute -bottom-15 -right-10 w-58 h-18 rounded-full pointer-events-none"
-        style="
-          background: radial-gradient(circle, rgba(45, 212, 191, 0.5), transparent 70%);
-          filter: blur(18px);
-        "
+        class="stat-card-ellipse absolute -bottom-15 -right-10 w-58 h-18 rounded-full pointer-events-none"
       ></span>
 
       <dt class="text-text-secondary text-xs uppercase tracking-widest mb-2">Valeur totale</dt>
@@ -75,8 +48,7 @@
   @if (warrantyAlerts.length > 0) {
     <section
       aria-label="Alertes garanties"
-      class="flex items-center gap-3 rounded-2xl p-4 mb-4"
-      style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.25)"
+      class="alert-card flex items-center gap-3 rounded-2xl p-4 mb-4"
     >
       <!-- Warning icon -->
       <span class="text-error-dim shrink-0" aria-hidden="true">
@@ -119,19 +91,17 @@
       @if (isDropdownOpen) {
         <ul
           role="listbox"
-          class="absolute right-0 mt-2 w-48 rounded-2xl overflow-hidden z-10"
-          style="background: var(--color-surface-light); border: 1px solid var(--color-border)"
+          class="absolute right-0 mt-2 w-48 rounded-2xl overflow-hidden z-10 bg-surface-light border border-border"
         >
           @for (category of categories; track category) {
             <li
               role="option"
               [attr.aria-selected]="activeCategory === category"
               (click)="selectCategory(category)"
-              class="px-4 py-2.5 text-sm cursor-pointer transition-colors"
+              class="px-4 py-2.5 text-sm cursor-pointer transition-colors hover:bg-surface"
               [class.text-primary]="activeCategory === category"
               [class.font-semibold]="activeCategory === category"
               [class.text-text-secondary]="activeCategory !== category"
-              [class.hover:bg-surface]="true"
             >
               {{ category }}
             </li>
@@ -145,14 +115,12 @@
   <ul class="flex flex-col gap-3" aria-label="Liste des biens">
     @for (asset of filteredAssets; track asset.id) {
       <li
-        class="animate-fade-in-up flex items-center gap-3 rounded-2xl p-4"
+        class="animate-fade-in-up flex items-center gap-3 rounded-2xl p-4 bg-surface border border-border opacity-0"
         [style.animation-delay]="$index * 60 + 'ms'"
-        style="background: var(--color-surface); border: 1px solid var(--color-border); opacity: 0;"
       >
         <!-- Category icon -->
         <span
-          class="flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
-          style="background: var(--color-surface-light)"
+          class="flex items-center justify-center w-10 h-10 rounded-xl shrink-0 bg-surface-light"
           aria-hidden="true"
         >
           <lucide-angular
@@ -169,12 +137,7 @@
             <p class="text-xs text-text-secondary">{{ asset.category }}</p>
             @if (isWarrantyExpiringSoon(asset.warranty_end_date)) {
               <span
-                class="flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-full"
-                style="
-                  background: rgba(239, 68, 68, 0.12);
-                  border: 1px solid rgba(239, 68, 68, 0.2);
-                  color: var(--color-error-dim);
-                "
+                class="warranty-badge flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-full"
                 aria-label="Garantie expirant bientôt"
               >
                 <lucide-angular [img]="triangleAlert" [size]="10" aria-hidden="true" />
@@ -185,7 +148,6 @@
         </hgroup>
 
         <!-- Right side -->
-
         <span class="text-sm font-semibold text-primary">
           {{ asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
         </span>

@@ -1,32 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
 
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+
 @theme {
-  /* Couleurs de fond */
+  /* Backgrounds */
   --color-background: #0e1117;
   --color-surface: #161b24;
   --color-surface-light: #1e2433;
   --color-surface-dark: #0f181e;
   --color-border: #232a38;
-  --color-primary-shadow: rgba(45, 212, 191, 0.3);
-  --color-error-dim: rgba(239, 68, 68, 0.75);
 
-  /* Couleur primaire */
+  /* Primary */
   --color-primary: #2dd4bf;
   --color-primary-dim: rgba(45, 212, 191, 0.08);
+  --color-primary-shadow: rgba(45, 212, 191, 0.3);
 
-  /* Texte */
+  /* Text */
   --color-text-primary: #e8eaf0;
   --color-text-secondary: #8e95a8;
 
-  /* Erreur */
+  /* Error */
   --color-error: #ef4444;
+  --color-error-dim: rgba(239, 68, 68, 0.75);
 
-  /* Typographie */
+  /* Typography */
   --font-display: 'Outfit', sans-serif;
   --font-body: 'Inter', sans-serif;
 }
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
 
 * {
   box-sizing: border-box;
@@ -45,9 +51,18 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
 @keyframes bounce-high {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 .dot-1 {
@@ -79,4 +94,29 @@ body {
 
 .animate-fade-in-up {
   animation: fade-in-up 0.3s ease forwards;
+}
+
+/* ============================================================
+   COMPONENTS
+   ============================================================ */
+
+.stat-card {
+  background: linear-gradient(135deg, rgba(20, 18, 40, 0.95) 0%, rgba(15, 28, 35, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stat-card-ellipse {
+  background: radial-gradient(circle, rgba(45, 212, 191, 0.5), transparent 70%);
+  filter: blur(20px);
+}
+
+.warranty-badge {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: var(--color-error-dim);
+}
+
+.alert-card {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.25);
 }
