@@ -18,6 +18,9 @@ import {
 } from 'lucide-angular';
 import { AuthService } from '../../core/services/auth.service';
 import { AssetsService, Asset } from '../../core/services/assets.service';
+
+const WARRANTY_ALERT_DAYS = 30;
+
 @Component({
   selector: 'app-assets',
   imports: [CurrencyPipe, LucideAngularModule],
@@ -25,17 +28,22 @@ import { AssetsService, Asset } from '../../core/services/assets.service';
   styleUrl: './assets.css',
 })
 export class AssetsComponent implements OnInit {
-  triangleAlert = TriangleAlert;
-  chevronDown = ChevronDown;
-  chevronUp = ChevronUp;
+  // Icons
+  readonly triangleAlert = TriangleAlert;
+  readonly chevronDown = ChevronDown;
+  readonly chevronUp = ChevronUp;
 
+  // State
   firstName = '';
   assets: Asset[] = [];
   warrantyAlerts: string[] = [];
   assetsCount = 0;
   totalValue = 0;
+  activeCategory = 'Tous';
+  isDropdownOpen = false;
 
-  categories = [
+  // Category config
+  readonly categories = [
     'Tous',
     'High-tech',
     'Meuble',
@@ -47,9 +55,8 @@ export class AssetsComponent implements OnInit {
     'Vêtement & Accessoire',
     'Autre',
   ];
-  activeCategory = 'Tous';
 
-  categoryIcons: Record<string, LucideIconData> = {
+  private readonly categoryIcons: Record<string, LucideIconData> = {
     'High-tech': Laptop,
     Meuble: Sofa,
     Véhicule: Car,
@@ -60,26 +67,6 @@ export class AssetsComponent implements OnInit {
     'Vêtement & Accessoire': Shirt,
     Autre: Package,
   };
-
-  getCategoryIcon(category: string): LucideIconData {
-    return this.categoryIcons[category] ?? Package;
-  }
-
-  isDropdownOpen = false;
-
-  toggleDropdown(): void {
-    this.isDropdownOpen = !this.isDropdownOpen;
-  }
-
-  selectCategory(category: string): void {
-    this.activeCategory = category;
-    this.isDropdownOpen = false;
-  }
-
-  get filteredAssets(): Asset[] {
-    if (this.activeCategory === 'Tous') return this.assets;
-    return this.assets.filter((a) => a.category === this.activeCategory);
-  }
 
   constructor(
     private authService: AuthService,
@@ -102,9 +89,27 @@ export class AssetsComponent implements OnInit {
     });
   }
 
-  isWarrantyExpiringSoon(date: string | null): boolean {
+  get filteredAssets(): Asset[] {
+    if (this.activeCategory === 'Tous') return this.assets;
+    return this.assets.filter((a) => a.category === this.activeCategory);
+  }
+
+  getCategoryIcon(category: string): LucideIconData {
+    return this.categoryIcons[category] ?? Package;
+  }
+
+  toggleDropdown(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  selectCategory(category: string): void {
+    this.activeCategory = category;
+    this.isDropdownOpen = false;
+  }
+
+  private isWarrantyExpiringSoon(date: string | null): boolean {
     if (!date) return false;
     const diff = new Date(date).getTime() - Date.now();
-    return diff > 0 && diff < 30 * 24 * 60 * 60 * 1000;
+    return diff > 0 && diff < WARRANTY_ALERT_DAYS * 24 * 60 * 60 * 1000;
   }
 }
