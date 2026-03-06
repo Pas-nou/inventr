@@ -21,14 +21,6 @@ export class AssetsComponent implements OnInit {
   categories = ['Tous', 'Tech', 'Auto'];
   activeCategory = 'Tous';
 
-  // get assetsCount(): number {
-  //   return this.assets.length;
-  // }
-
-  // get totalValue(): number {
-  //   return this.assets.reduce((sum, a) => sum + a.purchase_price_cents, 0) / 100;
-  // }
-
   constructor(
     private authService: AuthService,
     private assetsService: AssetsService,
