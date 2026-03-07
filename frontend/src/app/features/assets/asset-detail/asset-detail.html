@@ -98,6 +98,7 @@
   </nav>
 
   <!-- Tab content -->
+  <!-- Info tab -->
   @if (activeTab === 'infos') {
     <section aria-label="Informations détaillées">
       <ul class="flex flex-col">
@@ -151,12 +152,45 @@
     </section>
   }
 
+  <!-- Doc tab -->
   @if (activeTab === 'documents') {
     <section aria-label="Documents">
-      <!-- Partie doc -->
+      <ul class="flex flex-col gap-3 mb-4">
+        @for (doc of documents; track doc.id) {
+          <li class="flex items-center gap-3 bg-surface border border-border rounded-2xl p-4">
+            <span
+              class="flex items-center justify-center w-10 h-10 rounded-xl bg-surface-light shrink-0"
+              aria-hidden="true"
+            >
+              <lucide-angular [img]="fileText" [size]="18" class="text-text-secondary" />
+            </span>
+
+            <hgroup class="flex-1 min-w-0">
+              <p class="text-sm font-semibold text-text-primary truncate">{{ doc.name }}</p>
+              <p class="text-xs text-text-secondary">
+                {{ doc.size }} · {{ doc.date | date: 'dd MMM yyyy' : '' : 'fr' }}
+              </p>
+            </hgroup>
+
+            <span
+              class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary shrink-0"
+            >
+              {{ doc.type }}
+            </span>
+          </li>
+        }
+      </ul>
+
+      <button
+        class="w-full flex items-center justify-center gap-2 bg-surface border border-border rounded-2xl p-4 text-sm text-text-secondary transition-colors hover:border-primary hover:text-primary"
+      >
+        <lucide-angular [img]="plus" [size]="16" aria-hidden="true" />
+        Ajouter un document
+      </button>
     </section>
   }
 
+  <!-- Event tab -->
   @if (activeTab === 'maintenance') {
     <section aria-label="Maintenance">
       <!-- On complétera -->

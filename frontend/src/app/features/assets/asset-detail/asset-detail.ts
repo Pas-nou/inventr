@@ -7,7 +7,9 @@ import {
   ArrowLeft,
   TriangleAlert,
   Laptop,
-  LucideIconData,
+  FileText,
+  Plus,
+  LucideIconData
 } from 'lucide-angular';
 import { Asset } from '../../../core/services/assets.service';
 
@@ -23,6 +25,8 @@ export class AssetDetailComponent implements OnInit {
   // Icons
   readonly arrowLeft = ArrowLeft;
   readonly triangleAlert = TriangleAlert;
+  readonly fileText = FileText;
+  readonly plus = Plus;
 
   readonly categoryIcon: LucideIconData = Laptop; // * Donnée mockée
 
@@ -37,7 +41,7 @@ export class AssetDetailComponent implements OnInit {
     { key: 'maintenance' as const, label: 'Maintenance' },
   ];
 
-  // Mock data
+  // ------ Mock data
   asset: Asset = {
     id: '',
     name: 'MacBook Pro M3',
@@ -49,6 +53,32 @@ export class AssetDetailComponent implements OnInit {
     notes: 'Acheté sur apple.com',
     created_at: '',
   };
+
+  documents = [
+    {
+      id: '1',
+      name: "Facture d'achat",
+      type: 'Facture',
+      size: '245 Ko',
+      date: '2024-01-15',
+    },
+    {
+      id: '2',
+      name: 'Certificat de garantie',
+      type: 'Garantie',
+      size: '120 Ko',
+      date: '2024-01-15',
+    },
+    {
+      id: '3',
+      name: 'Manuel utilisateur',
+      type: 'Manuel',
+      size: '8,4 Mo',
+      date: '2024-01-15',
+    },
+  ];
+
+  // --------
 
   constructor(
     private route: ActivatedRoute,
