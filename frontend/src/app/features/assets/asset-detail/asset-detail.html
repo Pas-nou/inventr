@@ -1,1 +1,118 @@
-<p>asset-detail works!</p>
+<main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6">
+  <!-- Back button -->
+  <button
+    (click)="goBack()"
+    class="flex items-center gap-2 text-primary text-sm mb-4 hover:text-text-primary transition-colors"
+  >
+    <lucide-angular [img]="arrowLeft" [size]="16" aria-hidden="true" />
+    Inventaire
+  </button>
+
+  <!-- Hero card -->
+  <section
+    aria-label="Informations du bien"
+    class="stat-card rounded-2xl p-4 mb-4 relative overflow-hidden"
+  >
+    <!-- Right teal ellipse -->
+    <span
+      class="stat-card-ellipse absolute -right-10 -top-10 w-40 h-40 rounded-full pointer-events-none"
+    ></span>
+
+    <!-- Left teal ellipse -->
+    <span
+      class="stat-card-ellipse absolute -bottom-10 -left-10 w-40 h-40 rounded-full pointer-events-none"
+    ></span>
+
+    <!-- Header -->
+    <header class="flex items-center gap-3 mb-4">
+      <span
+        class="flex items-center justify-center w-12 h-12 rounded-xl bg-surface-light shrink-0"
+        aria-hidden="true"
+      >
+        <lucide-angular [img]="categoryIcon" [size]="22" class="text-text-secondary" />
+      </span>
+      <hgroup class="flex-1">
+        <p class="font-bold text-lg text-text-primary">{{ asset.name }}</p>
+        <p class="text-sm text-text-secondary">{{ asset.category }} · {{ asset.condition }}</p>
+      </hgroup>
+      <button
+        class="px-3 py-1.5 rounded-full text-sm font-semibold border border-primary text-primary transition-colors hover:bg-primary hover:text-background"
+      >
+        Modifier
+      </button>
+    </header>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-3 gap-2">
+      <dl class="flex flex-col gap-1">
+        <dt class="text-xs uppercase tracking-widest text-text-secondary">Prix d'achat</dt>
+        <dd class="text-sm font-bold text-primary">
+          {{ asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
+        </dd>
+      </dl>
+      <dl class="flex flex-col gap-1">
+        <dt class="text-xs uppercase tracking-widest text-text-secondary">Acheté le</dt>
+        <dd class="text-sm font-bold text-primary">
+          {{ asset.purchase_date | date: 'MMM yyyy' : '' : 'fr' }}
+        </dd>
+      </dl>
+      <dl class="flex flex-col gap-1">
+        <dt class="text-xs uppercase tracking-widest text-text-secondary">Garantie</dt>
+        <dd
+          class="text-sm font-bold"
+          [class.text-error-dim]="isWarrantyExpiringSoon(asset.warranty_end_date)"
+          [class.text-text-primary]="!isWarrantyExpiringSoon(asset.warranty_end_date)"
+        >
+          @if (asset.warranty_end_date) {
+            <span class="flex items-center gap-1">
+              @if (isWarrantyExpiringSoon(asset.warranty_end_date)) {
+                <lucide-angular [img]="triangleAlert" [size]="12" aria-hidden="true" />
+              }
+              {{ warrantyDaysLeft }}j
+            </span>
+          } @else {
+            —
+          }
+        </dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Tabs -->
+  <nav aria-label="Sections" class="flex gap-2 mb-4 rounded-xl p-1">
+    @for (tab of tabs; track tab.key) {
+      <button
+        (click)="setTab(tab.key)"
+        [attr.aria-pressed]="activeTab === tab.key"
+        class="flex-1 px-4 py-1.5 rounded-lg text-sm border transition-colors"
+        [class.bg-primary]="activeTab === tab.key"
+        [class.text-background]="activeTab === tab.key"
+        [class.border-primary]="activeTab === tab.key"
+        [class.font-semibold]="activeTab === tab.key"
+        [class.text-text-secondary]="activeTab !== tab.key"
+        [class.border-border]="activeTab !== tab.key"
+      >
+        {{ tab.label }}
+      </button>
+    }
+  </nav>
+
+  <!-- Tab content -->
+  @if (activeTab === 'infos') {
+    <section aria-label="Informations détaillées">
+      <!-- Partie "infos" -->
+    </section>
+  }
+
+  @if (activeTab === 'documents') {
+    <section aria-label="Documents">
+      <!-- Partie doc -->
+    </section>
+  }
+
+  @if (activeTab === 'maintenance') {
+    <section aria-label="Maintenance">
+      <!-- On complétera -->
+    </section>
+  }
+</main>

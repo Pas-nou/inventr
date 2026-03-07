@@ -2,7 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { LucideAngularModule } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  ArrowLeft,
+  TriangleAlert,
+  Laptop,
+  LucideIconData,
+} from 'lucide-angular';
 import { Asset } from '../../../core/services/assets.service';
 
 type ActiveTab = 'infos' | 'documents' | 'maintenance';
@@ -14,9 +20,22 @@ type ActiveTab = 'infos' | 'documents' | 'maintenance';
   styleUrl: './asset-detail.css',
 })
 export class AssetDetailComponent implements OnInit {
+  // Icons
+  readonly arrowLeft = ArrowLeft;
+  readonly triangleAlert = TriangleAlert;
+
+  readonly categoryIcon: LucideIconData = Laptop; // * Donnée mockée
+
   // State
   assetId = '';
   activeTab: ActiveTab = 'infos';
+
+  // Tabs
+  readonly tabs = [
+    { key: 'infos' as const, label: 'Infos' },
+    { key: 'documents' as const, label: 'Documents' },
+    { key: 'maintenance' as const, label: 'Maintenance' },
+  ];
 
   // Mock data
   asset: Asset = {
@@ -46,5 +65,18 @@ export class AssetDetailComponent implements OnInit {
 
   setTab(tab: ActiveTab): void {
     this.activeTab = tab;
+  }
+
+  get warrantyDaysLeft(): number {
+    if (!this.asset.warranty_end_date) return 0;
+    return Math.ceil(
+      (new Date(this.asset.warranty_end_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24),
+    );
+  }
+
+  isWarrantyExpiringSoon(date: string | null): boolean {
+    if (!date) return false;
+    const diff = new Date(date).getTime() - Date.now();
+    return diff > 0 && diff < 30 * 24 * 60 * 60 * 1000;
   }
 }
