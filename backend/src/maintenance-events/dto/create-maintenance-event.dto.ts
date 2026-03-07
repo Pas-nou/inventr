@@ -14,6 +14,9 @@ export class CreateMaintenanceEventDto {
   type: MaintenanceEventType;
 
   @IsDate()
+  name: string;
+
+  @IsDate()
   @Type(() => Date)
   date: Date;
 

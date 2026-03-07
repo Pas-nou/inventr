@@ -6,6 +6,8 @@ import { User } from './users/entities/user.entity';
 import { Asset } from './assets/entities/asset.entity';
 import { AssetCategory } from './assets/enums/asset-category.enum';
 import { AssetCondition } from './assets/enums/asset-condition.enum';
+import { MaintenanceEvent } from './maintenance-events/entities/maintenance-event.entity';
+import { MaintenanceEventType } from './maintenance-events/enums/maintenance-event-type.enum';
 import * as bcrypt from 'bcrypt';
 
 async function bootstrap() {
@@ -15,7 +17,9 @@ async function bootstrap() {
   const assetRepo = app.get<Repository<Asset>>(getRepositoryToken(Asset));
 
   // Clean
-  await assetRepo.query('TRUNCATE TABLE document, maintenance_event, asset, "user" CASCADE');
+  await assetRepo.query(
+    'TRUNCATE TABLE document, maintenance_event, asset, "user" CASCADE',
+  );
 
   // User creation
   const password_hash = await bcrypt.hash('password123', 10);
@@ -86,9 +90,58 @@ async function bootstrap() {
 
   await assetRepo.save(assets);
 
+  // MaintenanceEvents creation
+  const maintenanceRepo = app.get<Repository<MaintenanceEvent>>(
+    getRepositoryToken(MaintenanceEvent),
+  );
+
+  const macbook = assets[0];
+  const peugeot = assets[3];
+
+  const maintenanceEvents = maintenanceRepo.create([
+    {
+      name: 'Nettoyage ventilateur',
+      type: MaintenanceEventType.CLEANING,
+      date: new Date('2024-06-12'),
+      cost_cents: 5000,
+      notes: 'Nettoyage complet poussières internes',
+      next_due_date: new Date('2025-06-01'),
+      asset: macbook,
+    },
+    {
+      name: 'Remplacement SSD',
+      type: MaintenanceEventType.UPGRADE,
+      date: new Date('2024-03-03'),
+      cost_cents: 32000,
+      notes: 'SSD 1To remplacé par 2To',
+      asset: macbook,
+    },
+    {
+      name: 'Diagnostic général',
+      type: MaintenanceEventType.INSPECTION,
+      date: new Date('2024-01-15'),
+      cost_cents: 0,
+      asset: macbook,
+    },
+    {
+      name: 'Vidange',
+      type: MaintenanceEventType.SERVICE,
+      date: new Date('2024-09-15'),
+      cost_cents: 8900,
+      notes: 'Vidange + filtre à huile',
+      next_due_date: new Date('2025-09-15'),
+      asset: peugeot,
+    },
+  ]);
+
+  await maintenanceRepo.save(maintenanceEvents);
+
   console.log('✅ Seed terminé — 1 utilisateur, 6 assets créés');
   console.log('📧 Email : john@inventr.app');
   console.log('🔑 Mot de passe : password123');
+  console.log(
+    '✅ Seed terminé — 1 utilisateur, 6 assets, 4 événements maintenance créés',
+  );
 
   await app.close();
 }

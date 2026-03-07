@@ -22,6 +22,9 @@ export class MaintenanceEvent {
   type: MaintenanceEventType;
 
   @Column()
+  name: string;
+
+  @Column()
   date: Date;
 
   @Column({ nullable: true })

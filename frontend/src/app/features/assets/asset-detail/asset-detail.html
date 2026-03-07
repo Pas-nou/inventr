@@ -170,7 +170,7 @@
               <hgroup class="flex-1 min-w-0">
                 <p class="text-sm font-semibold text-text-primary truncate">{{ doc.name }}</p>
                 <p class="text-xs text-text-secondary">
-                  {{ doc.size }} · {{ doc.date | date: 'dd MMM yyyy' : '' : 'fr' }}
+                  {{ doc.size_bytes | number }} octets · {{ doc.created_at | date: 'dd MMM yyyy' : '' : 'fr' }}
                 </p>
               </hgroup>
 
