@@ -157,7 +157,7 @@
     <section aria-label="Documents">
       <ul class="flex flex-col gap-3 mb-4">
         @for (doc of documents; track doc.id) {
-          <li class="flex items-center gap-3 bg-surface border border-border rounded-2xl p-4">
+          <li class="flex items-center gap-3 py-3 border-b border-border">
             <span
               class="flex items-center justify-center w-10 h-10 rounded-xl bg-surface-light shrink-0"
               aria-hidden="true"
@@ -193,7 +193,54 @@
   <!-- Event tab -->
   @if (activeTab === 'maintenance') {
     <section aria-label="Maintenance">
-      <!-- On complétera -->
+      <ul class="flex flex-col gap-3 mb-4">
+        @for (event of maintenanceEvents; track event.id) {
+          <li class="py-3 border-b border-border">
+            <header class="flex items-center justify-between mb-2">
+              <hgroup class="flex items-center gap-2">
+                <lucide-angular
+                  [img]="wrench"
+                  [size]="14"
+                  class="text-primary"
+                  aria-hidden="true"
+                />
+                <p class="text-sm font-semibold text-text-primary">{{ event.name }}</p>
+              </hgroup>
+              @if (event.cost_cents > 0) {
+                <span class="text-sm font-bold text-primary">
+                  {{ event.cost_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
+                </span>
+              } @else {
+                <span class="text-sm font-bold text-text-secondary">0 €</span>
+              }
+            </header>
+
+            <p class="text-xs text-text-secondary mb-2">
+              {{ event.type }} · {{ event.date | date: 'dd MMM yyyy' : '' : 'fr' }}
+            </p>
+
+            @if (event.notes) {
+              <p class="text-xs text-text-secondary mb-2">{{ event.notes }}</p>
+            }
+
+            @if (event.next_due_date) {
+              <span
+                class="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-primary-dim text-primary"
+              >
+                <lucide-angular [img]="calendarClock" [size]="10" aria-hidden="true" />
+                Prochain : {{ event.next_due_date | date: 'MMM yyyy' : '' : 'fr' }}
+              </span>
+            }
+          </li>
+        }
+      </ul>
+
+      <button
+        class="w-full flex items-center justify-center gap-2 bg-surface border border-border rounded-2xl p-4 text-sm text-text-secondary transition-colors hover:border-primary hover:text-primary"
+      >
+        <lucide-angular [img]="plus" [size]="16" aria-hidden="true" />
+        Ajouter un événement
+      </button>
     </section>
   }
 </main>

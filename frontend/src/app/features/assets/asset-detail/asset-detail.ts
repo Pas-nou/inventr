@@ -9,7 +9,9 @@ import {
   Laptop,
   FileText,
   Plus,
-  LucideIconData
+  Wrench,
+  CalendarClock,
+  LucideIconData,
 } from 'lucide-angular';
 import { Asset } from '../../../core/services/assets.service';
 
@@ -27,6 +29,8 @@ export class AssetDetailComponent implements OnInit {
   readonly triangleAlert = TriangleAlert;
   readonly fileText = FileText;
   readonly plus = Plus;
+  readonly wrench = Wrench;
+  readonly calendarClock = CalendarClock;
 
   readonly categoryIcon: LucideIconData = Laptop; // * Donnée mockée
 
@@ -75,6 +79,36 @@ export class AssetDetailComponent implements OnInit {
       type: 'Manuel',
       size: '8,4 Mo',
       date: '2024-01-15',
+    },
+  ];
+
+  maintenanceEvents = [
+    {
+      id: '1',
+      type: 'Entretien',
+      name: 'Nettoyage ventilateurs',
+      date: '2024-06-12',
+      cost_cents: 5000,
+      notes: 'Nettoyage complet poussières internes',
+      next_due_date: '2025-06-01',
+    },
+    {
+      id: '2',
+      type: 'Réparation',
+      name: 'Remplacement SSD',
+      date: '2024-03-03',
+      cost_cents: 32000,
+      notes: 'SSD 1To remplacé par 2To',
+      next_due_date: null,
+    },
+    {
+      id: '3',
+      type: 'Inspection',
+      name: 'Diagnostic général',
+      date: '2024-01-15',
+      cost_cents: 0,
+      notes: null,
+      next_due_date: null,
     },
   ];
 
