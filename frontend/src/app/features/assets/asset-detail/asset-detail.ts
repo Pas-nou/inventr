@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { CurrencyPipe, DatePipe } from '@angular/common';
@@ -13,7 +13,7 @@ import {
   CalendarClock,
   LucideIconData,
 } from 'lucide-angular';
-import { Asset } from '../../../core/services/assets.service';
+import { Asset, AssetsService } from '../../../core/services/assets.service';
 
 type ActiveTab = 'infos' | 'documents' | 'maintenance';
 
@@ -37,6 +37,7 @@ export class AssetDetailComponent implements OnInit {
   // State
   assetId = '';
   activeTab: ActiveTab = 'infos';
+  asset: Asset | null = null;
 
   // Tabs
   readonly tabs = [
@@ -46,18 +47,6 @@ export class AssetDetailComponent implements OnInit {
   ];
 
   // ------ Mock data
-  asset: Asset = {
-    id: '',
-    name: 'MacBook Pro M3',
-    category: 'High-tech',
-    purchase_date: '2024-01-15',
-    purchase_price_cents: 249900,
-    condition: 'Bon état',
-    warranty_end_date: '2026-03-15',
-    notes: 'Acheté sur apple.com',
-    created_at: '',
-  };
-
   documents = [
     {
       id: '1',
@@ -117,10 +106,16 @@ export class AssetDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private location: Location,
+    private assetsService: AssetsService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.assetId = this.route.snapshot.paramMap.get('id') ?? '';
+    this.assetsService.getAssetById(this.assetId).subscribe((asset) => {
+      this.asset = asset;
+      this.cdr.detectChanges();
+    });
   }
 
   goBack(): void {
@@ -132,7 +127,7 @@ export class AssetDetailComponent implements OnInit {
   }
 
   get warrantyDaysLeft(): number {
-    if (!this.asset.warranty_end_date) return 0;
+    if (!this.asset?.warranty_end_date) return 0;
     return Math.ceil(
       (new Date(this.asset.warranty_end_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24),
     );

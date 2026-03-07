@@ -34,13 +34,18 @@ export class AssetsService {
   constructor(private http: HttpClient) {}
 
   getAssets(page: number = 1, limit: number = 100): Observable<AssetsResponse> {
-    return this.http.get<AssetsResponse>(
-      `${this.apiUrl}?page=${page}&limit=${limit}`,
-      {
-        headers: {
-          'Cache-Control': 'no-cache',
-        },
+    return this.http.get<AssetsResponse>(`${this.apiUrl}?page=${page}&limit=${limit}`, {
+      headers: {
+        'Cache-Control': 'no-cache',
       },
-    );
+    });
+  }
+
+  getAssetById(id: string): Observable<Asset> {
+    return this.http.get<Asset>(`${this.apiUrl}/${id}`, {
+      headers: {
+        'Cache-Control': 'no-cache',
+      },
+    });
   }
 }

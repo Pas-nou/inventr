@@ -8,239 +8,246 @@
     Inventaire
   </button>
 
-  <!-- Hero card -->
-  <section
-    aria-label="Informations du bien"
-    class="stat-card rounded-2xl p-4 mb-4 relative overflow-hidden"
-  >
-    <!-- Right teal ellipse -->
-    <span
-      class="stat-card-ellipse absolute -right-10 -top-10 w-40 h-40 rounded-full pointer-events-none"
-    ></span>
-
-    <!-- Left teal ellipse -->
-    <span
-      class="stat-card-ellipse absolute -bottom-10 -left-10 w-40 h-40 rounded-full pointer-events-none"
-    ></span>
-
-    <!-- Header -->
-    <header class="flex items-center gap-3 mb-4">
+  @if (asset) {
+    <!-- Hero card -->
+    <section
+      aria-label="Informations du bien"
+      class="stat-card rounded-2xl p-4 mb-4 relative overflow-hidden"
+    >
+      <!-- Right teal ellipse -->
       <span
-        class="flex items-center justify-center w-12 h-12 rounded-xl bg-surface-light shrink-0"
-        aria-hidden="true"
-      >
-        <lucide-angular [img]="categoryIcon" [size]="22" class="text-text-secondary" />
-      </span>
-      <hgroup class="flex-1">
-        <p class="font-bold text-lg text-text-primary">{{ asset.name }}</p>
-        <p class="text-sm text-text-secondary">{{ asset.category }} · {{ asset.condition }}</p>
-      </hgroup>
-      <button
-        class="px-3 py-1.5 rounded-full text-sm font-semibold border border-primary text-primary transition-colors hover:bg-primary hover:text-background"
-      >
-        Modifier
-      </button>
-    </header>
+        class="stat-card-ellipse absolute -right-10 -top-10 w-40 h-40 rounded-full pointer-events-none"
+      ></span>
 
-    <!-- Stats -->
-    <div class="grid grid-cols-3 gap-2">
-      <dl class="flex flex-col items-center gap-1">
-        <dt class="text-xs uppercase tracking-widest text-text-secondary">Prix d'achat</dt>
-        <dd class="text-sm font-bold text-primary">
-          {{ asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
-        </dd>
-      </dl>
-      <dl class="flex flex-col items-center gap-1">
-        <dt class="text-xs uppercase tracking-widest text-text-secondary">Acheté le</dt>
-        <dd class="text-sm font-bold text-primary">
-          {{ asset.purchase_date | date: 'MMM yyyy' : '' : 'fr' }}
-        </dd>
-      </dl>
-      <dl class="flex flex-col items-center gap-1">
-        <dt class="text-xs uppercase tracking-widest text-text-secondary">Garantie</dt>
-        <dd
-          class="text-sm font-bold"
-          [class.text-error-dim]="isWarrantyExpiringSoon(asset.warranty_end_date)"
-          [class.text-text-primary]="!isWarrantyExpiringSoon(asset.warranty_end_date)"
+      <!-- Left teal ellipse -->
+      <span
+        class="stat-card-ellipse absolute -bottom-10 -left-10 w-40 h-40 rounded-full pointer-events-none"
+      ></span>
+
+      <!-- Header -->
+      <header class="flex items-center gap-3 mb-4">
+        <span
+          class="flex items-center justify-center w-12 h-12 rounded-xl bg-surface-light shrink-0"
+          aria-hidden="true"
         >
-          @if (asset.warranty_end_date) {
-            <span class="flex items-center gap-1">
-              @if (isWarrantyExpiringSoon(asset.warranty_end_date)) {
-                <lucide-angular [img]="triangleAlert" [size]="12" aria-hidden="true" />
-              }
-              {{ warrantyDaysLeft }}j
-            </span>
-          } @else {
-            —
-          }
-        </dd>
-      </dl>
-    </div>
-  </section>
+          <lucide-angular [img]="categoryIcon" [size]="22" class="text-text-secondary" />
+        </span>
+        <hgroup class="flex-1">
+          <p class="font-bold text-lg text-text-primary">{{ asset.name }}</p>
+          <p class="text-sm text-text-secondary">{{ asset.category }} · {{ asset.condition }}</p>
+        </hgroup>
+        <button
+          class="px-3 py-1.5 rounded-full text-sm font-semibold border border-primary text-primary transition-colors hover:bg-primary hover:text-background"
+        >
+          Modifier
+        </button>
+      </header>
 
-  <!-- Tabs -->
-  <nav aria-label="Sections" class="flex gap-2 mb-4 rounded-xl p-1">
-    @for (tab of tabs; track tab.key) {
-      <button
-        (click)="setTab(tab.key)"
-        [attr.aria-pressed]="activeTab === tab.key"
-        class="flex-1 px-4 py-1.5 rounded-lg text-sm border transition-colors"
-        [class.bg-primary]="activeTab === tab.key"
-        [class.text-background]="activeTab === tab.key"
-        [class.border-primary]="activeTab === tab.key"
-        [class.font-semibold]="activeTab === tab.key"
-        [class.text-text-secondary]="activeTab !== tab.key"
-        [class.border-border]="activeTab !== tab.key"
-      >
-        {{ tab.label }}
-      </button>
-    }
-  </nav>
-
-  <!-- Tab content -->
-  <!-- Info tab -->
-  @if (activeTab === 'infos') {
-    <section aria-label="Informations détaillées">
-      <ul class="flex flex-col">
-        <li class="flex items-center justify-between py-3 border-b border-border">
-          <span class="text-sm text-text-secondary">Nom</span>
-          <span class="text-sm font-semibold text-text-primary">{{ asset.name }}</span>
-        </li>
-        <li class="flex items-center justify-between py-3 border-b border-border">
-          <span class="text-sm text-text-secondary">Catégorie</span>
-          <span class="text-sm font-semibold text-text-primary">{{ asset.category }}</span>
-        </li>
-        <li class="flex items-center justify-between py-3 border-b border-border">
-          <span class="text-sm text-text-secondary">Prix d'achat</span>
-          <span class="text-sm font-semibold text-text-primary">{{
-            asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr'
-          }}</span>
-        </li>
-        <li class="flex items-center justify-between py-3 border-b border-border">
-          <span class="text-sm text-text-secondary">Date d'achat</span>
-          <span class="text-sm font-semibold text-text-primary">{{
-            asset.purchase_date | date: 'dd MMM yyyy' : '' : 'fr'
-          }}</span>
-        </li>
-        <li class="flex items-center justify-between py-3 border-b border-border">
-          <span class="text-sm text-text-secondary">Fin de garantie</span>
-          <span
-            class="text-sm font-semibold text-text-primary"
+      <!-- Stats -->
+      <div class="grid grid-cols-3 gap-2">
+        <dl class="flex flex-col items-center gap-1">
+          <dt class="text-xs uppercase tracking-widest text-text-secondary">Prix d'achat</dt>
+          <dd class="text-sm font-bold text-primary">
+            {{ asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
+          </dd>
+        </dl>
+        <dl class="flex flex-col items-center gap-1">
+          <dt class="text-xs uppercase tracking-widest text-text-secondary">Acheté le</dt>
+          <dd class="text-sm font-bold text-primary">
+            {{ asset.purchase_date | date: 'MMM yyyy' : '' : 'fr' }}
+          </dd>
+        </dl>
+        <dl class="flex flex-col items-center gap-1">
+          <dt class="text-xs uppercase tracking-widest text-text-secondary">Garantie</dt>
+          <dd
+            class="text-sm font-bold"
             [class.text-error-dim]="isWarrantyExpiringSoon(asset.warranty_end_date)"
             [class.text-text-primary]="!isWarrantyExpiringSoon(asset.warranty_end_date)"
           >
             @if (asset.warranty_end_date) {
-              {{ asset.warranty_end_date | date: 'dd MMM yyyy' : '' : 'fr' }}
+              <span class="flex items-center gap-1">
+                @if (isWarrantyExpiringSoon(asset.warranty_end_date)) {
+                  <lucide-angular [img]="triangleAlert" [size]="12" aria-hidden="true" />
+                }
+                {{ warrantyDaysLeft }}j
+              </span>
             } @else {
               —
             }
-          </span>
-        </li>
-        <li class="flex items-center justify-between py-3 border-b border-border">
-          <span class="text-sm text-text-secondary">État</span>
-          <span class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary">{{
-            asset.condition
-          }}</span>
-        </li>
-        @if (asset.notes) {
+          </dd>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Tabs -->
+    <nav aria-label="Sections" class="flex gap-2 mb-4 rounded-xl p-1">
+      @for (tab of tabs; track tab.key) {
+        <button
+          (click)="setTab(tab.key)"
+          [attr.aria-pressed]="activeTab === tab.key"
+          class="flex-1 px-4 py-1.5 rounded-lg text-sm border transition-colors"
+          [class.bg-primary]="activeTab === tab.key"
+          [class.text-background]="activeTab === tab.key"
+          [class.border-primary]="activeTab === tab.key"
+          [class.font-semibold]="activeTab === tab.key"
+          [class.text-text-secondary]="activeTab !== tab.key"
+          [class.border-border]="activeTab !== tab.key"
+        >
+          {{ tab.label }}
+        </button>
+      }
+    </nav>
+
+    <!-- Tab content -->
+    <!-- Info tab -->
+    @if (activeTab === 'infos') {
+      <section aria-label="Informations détaillées">
+        <ul class="flex flex-col">
           <li class="flex items-center justify-between py-3 border-b border-border">
-            <span class="text-sm text-text-secondary">Notes</span>
-            <span class="text-sm text-text-secondary text-right max-w-48">{{ asset.notes }}</span>
+            <span class="text-sm text-text-secondary">Nom</span>
+            <span class="text-sm font-semibold text-text-primary">{{ asset.name }}</span>
           </li>
-        }
-      </ul>
-    </section>
-  }
-
-  <!-- Doc tab -->
-  @if (activeTab === 'documents') {
-    <section aria-label="Documents">
-      <ul class="flex flex-col gap-3 mb-4">
-        @for (doc of documents; track doc.id) {
-          <li class="flex items-center gap-3 py-3 border-b border-border">
-            <span
-              class="flex items-center justify-center w-10 h-10 rounded-xl bg-surface-light shrink-0"
-              aria-hidden="true"
-            >
-              <lucide-angular [img]="fileText" [size]="18" class="text-text-secondary" />
-            </span>
-
-            <hgroup class="flex-1 min-w-0">
-              <p class="text-sm font-semibold text-text-primary truncate">{{ doc.name }}</p>
-              <p class="text-xs text-text-secondary">
-                {{ doc.size }} · {{ doc.date | date: 'dd MMM yyyy' : '' : 'fr' }}
-              </p>
-            </hgroup>
-
-            <span
-              class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary shrink-0"
-            >
-              {{ doc.type }}
-            </span>
+          <li class="flex items-center justify-between py-3 border-b border-border">
+            <span class="text-sm text-text-secondary">Catégorie</span>
+            <span class="text-sm font-semibold text-text-primary">{{ asset.category }}</span>
           </li>
-        }
-      </ul>
-
-      <button
-        class="w-full flex items-center justify-center gap-2 bg-surface border border-border rounded-2xl p-4 text-sm text-text-secondary transition-colors hover:border-primary hover:text-primary"
-      >
-        <lucide-angular [img]="plus" [size]="16" aria-hidden="true" />
-        Ajouter un document
-      </button>
-    </section>
-  }
-
-  <!-- Event tab -->
-  @if (activeTab === 'maintenance') {
-    <section aria-label="Maintenance">
-      <ul class="flex flex-col gap-3 mb-4">
-        @for (event of maintenanceEvents; track event.id) {
-          <li class="py-3 border-b border-border">
-            <header class="flex items-center justify-between mb-2">
-              <hgroup class="flex items-center gap-2">
-                <lucide-angular
-                  [img]="wrench"
-                  [size]="14"
-                  class="text-primary"
-                  aria-hidden="true"
-                />
-                <p class="text-sm font-semibold text-text-primary">{{ event.name }}</p>
-              </hgroup>
-              @if (event.cost_cents > 0) {
-                <span class="text-sm font-bold text-primary">
-                  {{ event.cost_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
-                </span>
+          <li class="flex items-center justify-between py-3 border-b border-border">
+            <span class="text-sm text-text-secondary">Prix d'achat</span>
+            <span class="text-sm font-semibold text-text-primary">{{
+              asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr'
+            }}</span>
+          </li>
+          <li class="flex items-center justify-between py-3 border-b border-border">
+            <span class="text-sm text-text-secondary">Date d'achat</span>
+            <span class="text-sm font-semibold text-text-primary">{{
+              asset.purchase_date | date: 'dd MMM yyyy' : '' : 'fr'
+            }}</span>
+          </li>
+          <li class="flex items-center justify-between py-3 border-b border-border">
+            <span class="text-sm text-text-secondary">Fin de garantie</span>
+            <span
+              class="text-sm font-semibold text-text-primary"
+              [class.text-error-dim]="isWarrantyExpiringSoon(asset.warranty_end_date)"
+              [class.text-text-primary]="!isWarrantyExpiringSoon(asset.warranty_end_date)"
+            >
+              @if (asset.warranty_end_date) {
+                {{ asset.warranty_end_date | date: 'dd MMM yyyy' : '' : 'fr' }}
               } @else {
-                <span class="text-sm font-bold text-text-secondary">0 €</span>
+                —
               }
-            </header>
-
-            <p class="text-xs text-text-secondary mb-2">
-              {{ event.type }} · {{ event.date | date: 'dd MMM yyyy' : '' : 'fr' }}
-            </p>
-
-            @if (event.notes) {
-              <p class="text-xs text-text-secondary mb-2">{{ event.notes }}</p>
-            }
-
-            @if (event.next_due_date) {
-              <span
-                class="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-primary-dim text-primary"
-              >
-                <lucide-angular [img]="calendarClock" [size]="10" aria-hidden="true" />
-                Prochain : {{ event.next_due_date | date: 'MMM yyyy' : '' : 'fr' }}
-              </span>
-            }
+            </span>
           </li>
-        }
-      </ul>
+          <li class="flex items-center justify-between py-3 border-b border-border">
+            <span class="text-sm text-text-secondary">État</span>
+            <span
+              class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary"
+              >{{ asset.condition }}</span
+            >
+          </li>
+          @if (asset.notes) {
+            <li class="flex items-center justify-between py-3 border-b border-border">
+              <span class="text-sm text-text-secondary">Notes</span>
+              <span class="text-sm text-text-secondary text-right max-w-48">{{ asset.notes }}</span>
+            </li>
+          }
+        </ul>
+      </section>
+    }
 
-      <button
-        class="w-full flex items-center justify-center gap-2 bg-surface border border-border rounded-2xl p-4 text-sm text-text-secondary transition-colors hover:border-primary hover:text-primary"
-      >
-        <lucide-angular [img]="plus" [size]="16" aria-hidden="true" />
-        Ajouter un événement
-      </button>
-    </section>
+    <!-- Doc tab -->
+    @if (activeTab === 'documents') {
+      <section aria-label="Documents">
+        <ul class="flex flex-col gap-3 mb-4">
+          @for (doc of documents; track doc.id) {
+            <li class="flex items-center gap-3 py-3 border-b border-border">
+              <span
+                class="flex items-center justify-center w-10 h-10 rounded-xl bg-surface-light shrink-0"
+                aria-hidden="true"
+              >
+                <lucide-angular [img]="fileText" [size]="18" class="text-text-secondary" />
+              </span>
+
+              <hgroup class="flex-1 min-w-0">
+                <p class="text-sm font-semibold text-text-primary truncate">{{ doc.name }}</p>
+                <p class="text-xs text-text-secondary">
+                  {{ doc.size }} · {{ doc.date | date: 'dd MMM yyyy' : '' : 'fr' }}
+                </p>
+              </hgroup>
+
+              <span
+                class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary shrink-0"
+              >
+                {{ doc.type }}
+              </span>
+            </li>
+          }
+        </ul>
+
+        <button
+          class="w-full flex items-center justify-center gap-2 bg-surface border border-border rounded-2xl p-4 text-sm text-text-secondary transition-colors hover:border-primary hover:text-primary"
+        >
+          <lucide-angular [img]="plus" [size]="16" aria-hidden="true" />
+          Ajouter un document
+        </button>
+      </section>
+    }
+
+    <!-- Event tab -->
+    @if (activeTab === 'maintenance') {
+      <section aria-label="Maintenance">
+        <ul class="flex flex-col gap-3 mb-4">
+          @for (event of maintenanceEvents; track event.id) {
+            <li class="py-3 border-b border-border">
+              <header class="flex items-center justify-between mb-2">
+                <hgroup class="flex items-center gap-2">
+                  <lucide-angular
+                    [img]="wrench"
+                    [size]="14"
+                    class="text-primary"
+                    aria-hidden="true"
+                  />
+                  <p class="text-sm font-semibold text-text-primary">{{ event.name }}</p>
+                </hgroup>
+                @if (event.cost_cents > 0) {
+                  <span class="text-sm font-bold text-primary">
+                    {{ event.cost_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
+                  </span>
+                } @else {
+                  <span class="text-sm font-bold text-text-secondary">0 €</span>
+                }
+              </header>
+
+              <p class="text-xs text-text-secondary mb-2">
+                {{ event.type }} · {{ event.date | date: 'dd MMM yyyy' : '' : 'fr' }}
+              </p>
+
+              @if (event.notes) {
+                <p class="text-xs text-text-secondary mb-2">{{ event.notes }}</p>
+              }
+
+              @if (event.next_due_date) {
+                <span
+                  class="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-primary-dim text-primary"
+                >
+                  <lucide-angular [img]="calendarClock" [size]="10" aria-hidden="true" />
+                  Prochain : {{ event.next_due_date | date: 'MMM yyyy' : '' : 'fr' }}
+                </span>
+              }
+            </li>
+          }
+        </ul>
+
+        <button
+          class="w-full flex items-center justify-center gap-2 bg-surface border border-border rounded-2xl p-4 text-sm text-text-secondary transition-colors hover:border-primary hover:text-primary"
+        >
+          <lucide-angular [img]="plus" [size]="16" aria-hidden="true" />
+          Ajouter un événement
+        </button>
+      </section>
+    }
+  } @else {
+    <div class="flex items-center justify-center pt-20">
+      <p class="text-text-secondary text-sm">Chargement...</p>
+    </div>
   }
 </main>
