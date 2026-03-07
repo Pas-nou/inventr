@@ -44,19 +44,19 @@
 
     <!-- Stats -->
     <div class="grid grid-cols-3 gap-2">
-      <dl class="flex flex-col gap-1">
+      <dl class="flex flex-col items-center gap-1">
         <dt class="text-xs uppercase tracking-widest text-text-secondary">Prix d'achat</dt>
         <dd class="text-sm font-bold text-primary">
           {{ asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
         </dd>
       </dl>
-      <dl class="flex flex-col gap-1">
+      <dl class="flex flex-col items-center gap-1">
         <dt class="text-xs uppercase tracking-widest text-text-secondary">Acheté le</dt>
         <dd class="text-sm font-bold text-primary">
           {{ asset.purchase_date | date: 'MMM yyyy' : '' : 'fr' }}
         </dd>
       </dl>
-      <dl class="flex flex-col gap-1">
+      <dl class="flex flex-col items-center gap-1">
         <dt class="text-xs uppercase tracking-widest text-text-secondary">Garantie</dt>
         <dd
           class="text-sm font-bold"
@@ -100,7 +100,54 @@
   <!-- Tab content -->
   @if (activeTab === 'infos') {
     <section aria-label="Informations détaillées">
-      <!-- Partie "infos" -->
+      <ul class="flex flex-col">
+        <li class="flex items-center justify-between py-3 border-b border-border">
+          <span class="text-sm text-text-secondary">Nom</span>
+          <span class="text-sm font-semibold text-text-primary">{{ asset.name }}</span>
+        </li>
+        <li class="flex items-center justify-between py-3 border-b border-border">
+          <span class="text-sm text-text-secondary">Catégorie</span>
+          <span class="text-sm font-semibold text-text-primary">{{ asset.category }}</span>
+        </li>
+        <li class="flex items-center justify-between py-3 border-b border-border">
+          <span class="text-sm text-text-secondary">Prix d'achat</span>
+          <span class="text-sm font-semibold text-text-primary">{{
+            asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr'
+          }}</span>
+        </li>
+        <li class="flex items-center justify-between py-3 border-b border-border">
+          <span class="text-sm text-text-secondary">Date d'achat</span>
+          <span class="text-sm font-semibold text-text-primary">{{
+            asset.purchase_date | date: 'dd MMM yyyy' : '' : 'fr'
+          }}</span>
+        </li>
+        <li class="flex items-center justify-between py-3 border-b border-border">
+          <span class="text-sm text-text-secondary">Fin de garantie</span>
+          <span
+            class="text-sm font-semibold text-text-primary"
+            [class.text-error-dim]="isWarrantyExpiringSoon(asset.warranty_end_date)"
+            [class.text-text-primary]="!isWarrantyExpiringSoon(asset.warranty_end_date)"
+          >
+            @if (asset.warranty_end_date) {
+              {{ asset.warranty_end_date | date: 'dd MMM yyyy' : '' : 'fr' }}
+            } @else {
+              —
+            }
+          </span>
+        </li>
+        <li class="flex items-center justify-between py-3 border-b border-border">
+          <span class="text-sm text-text-secondary">État</span>
+          <span class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary">{{
+            asset.condition
+          }}</span>
+        </li>
+        @if (asset.notes) {
+          <li class="flex items-center justify-between py-3 border-b border-border">
+            <span class="text-sm text-text-secondary">Notes</span>
+            <span class="text-sm text-text-secondary text-right max-w-48">{{ asset.notes }}</span>
+          </li>
+        }
+      </ul>
     </section>
   }
 
