@@ -18,12 +18,13 @@ import {
 } from 'lucide-angular';
 import { AuthService } from '../../core/services/auth.service';
 import { AssetsService, Asset } from '../../core/services/assets.service';
+import { Router, RouterLink } from '@angular/router';
 
 const WARRANTY_ALERT_DAYS = 30;
 
 @Component({
   selector: 'app-assets',
-  imports: [CurrencyPipe, LucideAngularModule],
+  imports: [CurrencyPipe, LucideAngularModule, RouterLink],
   templateUrl: './assets.html',
   styleUrl: './assets.css',
 })
