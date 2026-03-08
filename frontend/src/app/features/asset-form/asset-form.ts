@@ -131,6 +131,7 @@ export class AssetFormComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.form.markAllAsTouched();
     if (this.form.invalid || this.isSubmitting) return;
     this.isSubmitting = true;
 

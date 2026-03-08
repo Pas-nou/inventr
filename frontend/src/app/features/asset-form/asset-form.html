@@ -78,7 +78,11 @@
         type="text"
         placeholder="Nom du bien"
         class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors"
+        [class.border-error-dim]="form.get('name')?.touched && form.get('name')?.invalid"
       />
+      @if (form.get('name')?.touched && form.get('name')?.errors?.['required']) {
+        <p class="text-error-dim text-xs mt-1">Le nom est requis</p>
+      }
     </fieldset>
 
     <!-- Category -->
@@ -106,6 +110,9 @@
           </button>
         }
       </div>
+      @if (form.get('category')?.touched && form.get('category')?.errors?.['required']) {
+        <p class="text-error-dim text-xs mt-1">La catégorie est requise</p>
+      }
     </fieldset>
 
     <!-- Price & Date -->
@@ -123,11 +130,20 @@
             type="number"
             placeholder="Prix du bien"
             class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors pr-8"
+            [class.border-error-dim]="form.get('purchase_price_cents')?.touched && form.get('purchase_price_cents')?.invalid"
           />
           <span class="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary text-sm">
             €
           </span>
         </div>
+        @if (form.get('purchase_price_cents')?.touched) {
+          @if (form.get('purchase_price_cents')?.errors?.['required']) {
+            <p class="text-error-dim text-xs mt-1">Le prix est requis</p>
+          }
+          @if (form.get('purchase_price_cents')?.errors?.['min']) {
+            <p class="text-error-dim text-xs mt-1">Le prix doit être positif</p>
+          }
+        }
       </fieldset>
       <fieldset>
         <label
@@ -141,7 +157,13 @@
           type="date"
           placeholder="jj/mm/aaaa"
           class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+          [class.border-error-dim]="form.get('purchase_date')?.touched && form.get('purchase_date')?.invalid"
         />
+        @if (
+          form.get('purchase_date')?.touched && form.get('purchase_date')?.errors?.['required']
+        ) {
+          <p class="text-error-dim text-xs mt-1">La date est requise</p>
+        }
       </fieldset>
     </div>
 
