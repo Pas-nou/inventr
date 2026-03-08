@@ -17,6 +17,7 @@ import {
   Package,
 } from 'lucide-angular';
 import { AssetsService } from '../../core/services/assets.service';
+import { ToastService } from '../../core/services/toast.service';
 
 type AssetCategory =
   | 'High-tech'
@@ -89,6 +90,7 @@ export class AssetFormComponent implements OnInit {
     private router: Router,
     private location: Location,
     private assetsService: AssetsService,
+    private toastService: ToastService,
   ) {}
 
   ngOnInit(): void {
@@ -141,20 +143,32 @@ export class AssetFormComponent implements OnInit {
     };
 
     if (this.isEditMode) {
-      this.assetsService.updateAsset(this.assetId, payload).subscribe(() => {
-        void this.router.navigate(['/assets', this.assetId]);
+      this.assetsService.updateAsset(this.assetId, payload).subscribe({
+        next: () => {
+          this.toastService.show('Bien modifié avec succès');
+          void this.router.navigate(['/assets', this.assetId]);
+        },
+        error: () => this.toastService.show('Une erreur est survenue', 'error')
       });
     } else {
-      this.assetsService.createAsset(payload).subscribe(() => {
-        void this.router.navigate(['/home']);
+      this.assetsService.createAsset(payload).subscribe({
+        next: () => {
+          this.toastService.show('Bien ajouté avec succès');
+          void this.router.navigate(['/home']);
+        },
+        error: () => this.toastService.show('Une erreur est survenue', 'error')
       });
     }
   }
 
   deleteAsset(): void {
     if (!this.assetId) return;
-    this.assetsService.deleteAsset(this.assetId).subscribe(() => {
-      void this.router.navigate(['/home']);
+    this.assetsService.deleteAsset(this.assetId).subscribe({
+      next: () => {
+        this.toastService.show('Bien supprimé')
+        void this.router.navigate(['/home']);
+      },
+      error: () =>  this.toastService.show('Une erreur est survenue', 'error')
     });
   }
 

@@ -1,0 +1,33 @@
+@if (toastService.toast()) {
+  <aside
+    class="fixed top-4 left-4 right-4 z-50 flex items-center gap-3 px-4 py-3 rounded-2xl shadow-lg border transition-all"
+    [class.bg-surface]="true"
+    [class.border-primary/40]="toastService.toast()!.type === 'success'"
+    [class.border-error-dim/40]="toastService.toast()!.type === 'error'"
+    [class.bg-error-dim]="toastService.toast()!.type === 'error'"
+    role="alert"
+    aria-live="polite"
+  >
+    @if (toastService.toast()!.type === 'success') {
+      <lucide-angular
+        [img]="circleCheck"
+        [size]="18"
+        class="text-primary shrink-0"
+        aria-hidden="true"
+      />
+    } @else {
+      <lucide-angular
+        [img]="circleX"
+        [size]="18"
+        class="text-error-dim shrink-0"
+        aria-hidden="true"
+      />
+    }
+    <p class="text-sm font-semibold flex-1 text-text-primary">
+      {{ toastService.toast()!.message }}
+    </p>
+    <button (click)="toastService.hide()" aria-label="Fermer">
+      <lucide-angular [img]="x" [size]="16" class="text-text-secondary" aria-hidden="true" />
+    </button>
+  </aside>
+}
