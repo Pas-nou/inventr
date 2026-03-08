@@ -55,6 +55,7 @@ export class AssetFormComponent implements OnInit {
   isEditMode = false;
   assetId = '';
   isSubmitting = false;
+  showDeleteModal = false;
 
   readonly categories: AssetCategory[] = [
     'High-tech',
@@ -148,12 +149,20 @@ export class AssetFormComponent implements OnInit {
         void this.router.navigate(['/home']);
       });
     }
-  }   
+  }
 
   deleteAsset(): void {
     if (!this.assetId) return;
     this.assetsService.deleteAsset(this.assetId).subscribe(() => {
       void this.router.navigate(['/home']);
     });
+  }
+
+  openDeleteModal(): void {
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal(): void {
+    this.showDeleteModal = false;
   }
 }

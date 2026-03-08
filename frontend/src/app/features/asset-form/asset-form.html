@@ -1,3 +1,40 @@
+@if (showDeleteModal) {
+  <div
+    class="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm px-4 pb-8"
+    (click)="closeDeleteModal()"
+    aria-hidden="true"
+  >
+    <dialog
+      open
+      class="w-full bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+      (click)="$event.stopPropagation()"
+      aria-labelledby="delete-modal-title"
+      aria-describedby="delete-modal-desc"
+    >
+      <hgroup>
+        <p id="delete-modal-title" class="text-lg font-bold text-text-primary">
+          Supprimer ce bien ?
+        </p>
+        <p id="delete-modal-desc" class="text-sm text-text-secondary mt-1">
+          Cette action est irréversible. Toute les données associées seront perdues.
+        </p>
+      </hgroup>
+      <button
+        (click)="deleteAsset()"
+        class="w-full bg-error-dim text-white font-semibold rounded-2xl py-4 transition-opacity hover:opacity-80"
+      >
+        Supprimer définitivement
+      </button>
+      <button
+        (click)="closeDeleteModal()"
+        class="w-full text-text-secondary font-semibold rounded-2xl py-4 border border-border transition-colors hover:border-primary"
+      >
+        Annuler
+      </button>
+    </dialog>
+  </div>
+}
+
 <main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6">
   <!-- Back button -->
   <button
@@ -184,7 +221,7 @@
     @if (isEditMode) {
       <button
         type="button"
-        (click)="deleteAsset()"
+        (click)="openDeleteModal()"
         class="w-full text-error-dim font-semibold rounded-2xl py-4 border border-border transition-colors hover:border-error-dim"
       >
         Supprimer ce bien
