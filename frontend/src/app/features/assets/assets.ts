@@ -42,6 +42,7 @@ export class AssetsComponent implements OnInit {
   totalValue = 0;
   activeCategory = 'Tous';
   isDropdownOpen = false;
+  isLoading = true;
 
   // Category config
   readonly categories = [
@@ -86,6 +87,7 @@ export class AssetsComponent implements OnInit {
       this.warrantyAlerts = response.data
         .filter((a) => this.isWarrantyExpiringSoon(a.warranty_end_date))
         .map((a) => a.name);
+        this.isLoading = false;
       this.cdr.detectChanges();
     });
   }

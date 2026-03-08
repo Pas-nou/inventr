@@ -4,155 +4,165 @@
     <h1 class="text-3xl font-bold font-display">{{ firstName }}</h1>
   </header>
 
-  <!-- * Informative cards -->
-  <section class="grid grid-cols-2 gap-3 mb-4">
-    <!-- * Assets card -->
-    <dl class="stat-card rounded-2xl p-4 relative overflow-hidden" aria-label="Nombre de biens">
-      <!-- Ellipse teal droite -->
-      <span
-        class="stat-card-ellipse absolute -right-25 -top-5 -translate-y-1/2 w-52 h-32 rounded-full pointer-events-none"
-      ></span>
-
-      <!-- Ellipse teal bas-gauche -->
-      <span
-        class="stat-card-ellipse absolute -bottom-15 -left-10 w-58 h-18 rounded-full pointer-events-none"
-      ></span>
-
-      <dt class="text-text-secondary text-xs uppercase tracking-widest mb-2">Nombre de biens</dt>
-      <dd class="text-4xl font-bold font-display m-0">{{ assetsCount }}</dd>
-    </dl>
-
-    <!-- * Value card -->
-    <dl
-      class="stat-card rounded-2xl p-4 relative overflow-hidden"
-      aria-label="Valeur totale du patrimoine"
-    >
-      <!-- Ellipse teal gauche -->
-      <span
-        class="stat-card-ellipse absolute -left-25 -top-5 -translate-y-1/2 w-52 h-32 rounded-full pointer-events-none"
-      ></span>
-
-      <!-- Ellipse teal haut-droit -->
-      <span
-        class="stat-card-ellipse absolute -bottom-15 -right-10 w-58 h-18 rounded-full pointer-events-none"
-      ></span>
-
-      <dt class="text-text-secondary text-xs uppercase tracking-widest mb-2">Valeur totale</dt>
-      <dd class="text-3xl font-bold font-display m-0">
-        {{ totalValue | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
-      </dd>
-    </dl>
-  </section>
-
-  <!-- * Alert card -->
-  @if (warrantyAlerts.length > 0) {
-    <section
-      aria-label="Alertes garanties"
-      class="alert-card flex items-center gap-3 rounded-2xl p-4 mb-4"
-    >
-      <!-- Warning icon -->
-      <span class="text-error-dim shrink-0" aria-hidden="true">
-        <lucide-angular [img]="triangleAlert" [size]="22" />
+  @if (isLoading) {
+    <div class="flex justify-center pt-20">
+      <span class="flex items-center gap-1">
+        <span class="h-2 w-2 rounded-full bg-primary dot-1"></span>
+        <span class="h-2 w-2 rounded-full bg-primary dot-2"></span>
+        <span class="h-2 w-2 rounded-full bg-primary dot-3"></span>
       </span>
-
-      <!-- Text -->
-      <hgroup class="flex-1 min-w-0">
-        <p class="text-sm font-semibold text-error-dim">Garanties expirant bientôt</p>
-        <p class="text-xs text-text-secondary truncate">{{ warrantyAlerts.join(', ') }}</p>
-      </hgroup>
-
-      <span
-        class="shrink-0 w-6 h-6 rounded-full bg-error-dim flex items-center justify-center text-xs font-bold text-white"
-        aria-hidden="true"
-      >
-        {{ warrantyAlerts.length }}
-      </span>
-    </section>
-  }
-
-  <!-- * Filters -->
-  <section aria-label="Filtres par catégorie" class="flex items-center justify-between mb-4">
-    <h2 class="text-lg font-bold font-display">Inventaire</h2>
-    <div class="relative">
-      <button
-        (click)="toggleDropdown()"
-        [attr.aria-expanded]="isDropdownOpen"
-        class="flex items-center gap-2 px-4 py-1.5 rounded-full text-sm border transition-colors"
-        [class.bg-primary]="isDropdownOpen"
-        [class.text-background]="isDropdownOpen"
-        [class.border-primary]="isDropdownOpen"
-        [class.text-text-secondary]="!isDropdownOpen"
-        [class.border-border]="!isDropdownOpen"
-      >
-        {{ activeCategory }}
-        <lucide-angular [img]="isDropdownOpen ? chevronUp : chevronDown" [size]="14" />
-      </button>
-
-      @if (isDropdownOpen) {
-        <ul
-          role="listbox"
-          class="absolute right-0 mt-2 w-48 rounded-2xl overflow-hidden z-10 bg-surface-light border border-border"
-        >
-          @for (category of categories; track category) {
-            <li
-              role="option"
-              [attr.aria-selected]="activeCategory === category"
-              (click)="selectCategory(category)"
-              class="px-4 py-2.5 text-sm cursor-pointer transition-colors hover:bg-surface"
-              [class.text-primary]="activeCategory === category"
-              [class.font-semibold]="activeCategory === category"
-              [class.text-text-secondary]="activeCategory !== category"
-            >
-              {{ category }}
-            </li>
-          }
-        </ul>
-      }
     </div>
-  </section>
-
-  <!-- * Assets list -->
-  <ul class="flex flex-col gap-3" aria-label="Liste des biens">
-    @for (asset of filteredAssets; track asset.id) {
-      <li
-        class="animate-fade-in-up flex items-center gap-3 rounded-2xl p-4 bg-surface border border-border opacity-0"
-        [style.animation-delay]="$index * 60 + 'ms'"
-        [routerLink]="['/assets', asset.id]"
-      >
-        <!-- Category icon -->
+  } @else {
+    <!-- * Informative cards -->
+    <section class="grid grid-cols-2 gap-3 mb-4">
+      <!-- * Assets card -->
+      <dl class="stat-card rounded-2xl p-4 relative overflow-hidden" aria-label="Nombre de biens">
+        <!-- Ellipse teal droite -->
         <span
-          class="flex items-center justify-center w-10 h-10 rounded-xl shrink-0 bg-surface-light"
-          aria-hidden="true"
-        >
-          <lucide-angular
-            [img]="getCategoryIcon(asset.category)"
-            [size]="20"
-            class="text-text-secondary"
-          />
+          class="stat-card-ellipse absolute -right-25 -top-5 -translate-y-1/2 w-52 h-32 rounded-full pointer-events-none"
+        ></span>
+
+        <!-- Ellipse teal bas-gauche -->
+        <span
+          class="stat-card-ellipse absolute -bottom-15 -left-10 w-58 h-18 rounded-full pointer-events-none"
+        ></span>
+
+        <dt class="text-text-secondary text-xs uppercase tracking-widest mb-2">Nombre de biens</dt>
+        <dd class="text-4xl font-bold font-display m-0">{{ assetsCount }}</dd>
+      </dl>
+
+      <!-- * Value card -->
+      <dl
+        class="stat-card rounded-2xl p-4 relative overflow-hidden"
+        aria-label="Valeur totale du patrimoine"
+      >
+        <!-- Ellipse teal gauche -->
+        <span
+          class="stat-card-ellipse absolute -left-25 -top-5 -translate-y-1/2 w-52 h-32 rounded-full pointer-events-none"
+        ></span>
+
+        <!-- Ellipse teal haut-droit -->
+        <span
+          class="stat-card-ellipse absolute -bottom-15 -right-10 w-58 h-18 rounded-full pointer-events-none"
+        ></span>
+
+        <dt class="text-text-secondary text-xs uppercase tracking-widest mb-2">Valeur totale</dt>
+        <dd class="text-3xl font-bold font-display m-0">
+          {{ totalValue | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
+        </dd>
+      </dl>
+    </section>
+
+    <!-- * Alert card -->
+    @if (warrantyAlerts.length > 0) {
+      <section
+        aria-label="Alertes garanties"
+        class="alert-card flex items-center gap-3 rounded-2xl p-4 mb-4"
+      >
+        <!-- Warning icon -->
+        <span class="text-error-dim shrink-0" aria-hidden="true">
+          <lucide-angular [img]="triangleAlert" [size]="22" />
         </span>
 
-        <!--  Info -->
-        <hgroup class="flex-1 min-w-0 flex flex-col gap-1">
-          <p class="text-sm font-semibold text-text-primary truncate">{{ asset.name }}</p>
-          <div class="flex items-center gap-2">
-            <p class="text-xs text-text-secondary">{{ asset.category }}</p>
-            @if (isWarrantyExpiringSoon(asset.warranty_end_date)) {
-              <span
-                class="warranty-badge flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-full"
-                aria-label="Garantie expirant bientôt"
-              >
-                <lucide-angular [img]="triangleAlert" [size]="10" aria-hidden="true" />
-                Garantie
-              </span>
-            }
-          </div>
+        <!-- Text -->
+        <hgroup class="flex-1 min-w-0">
+          <p class="text-sm font-semibold text-error-dim">Garanties expirant bientôt</p>
+          <p class="text-xs text-text-secondary truncate">{{ warrantyAlerts.join(', ') }}</p>
         </hgroup>
 
-        <!-- Right side -->
-        <span class="text-sm font-semibold text-primary">
-          {{ asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
+        <span
+          class="shrink-0 w-6 h-6 rounded-full bg-error-dim flex items-center justify-center text-xs font-bold text-white"
+          aria-hidden="true"
+        >
+          {{ warrantyAlerts.length }}
         </span>
-      </li>
+      </section>
     }
-  </ul>
+
+    <!-- * Filters -->
+    <section aria-label="Filtres par catégorie" class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-bold font-display">Inventaire</h2>
+      <div class="relative">
+        <button
+          (click)="toggleDropdown()"
+          [attr.aria-expanded]="isDropdownOpen"
+          class="flex items-center gap-2 px-4 py-1.5 rounded-full text-sm border transition-colors"
+          [class.bg-primary]="isDropdownOpen"
+          [class.text-background]="isDropdownOpen"
+          [class.border-primary]="isDropdownOpen"
+          [class.text-text-secondary]="!isDropdownOpen"
+          [class.border-border]="!isDropdownOpen"
+        >
+          {{ activeCategory }}
+          <lucide-angular [img]="isDropdownOpen ? chevronUp : chevronDown" [size]="14" />
+        </button>
+
+        @if (isDropdownOpen) {
+          <ul
+            role="listbox"
+            class="absolute right-0 mt-2 w-48 rounded-2xl overflow-hidden z-10 bg-surface-light border border-border"
+          >
+            @for (category of categories; track category) {
+              <li
+                role="option"
+                [attr.aria-selected]="activeCategory === category"
+                (click)="selectCategory(category)"
+                class="px-4 py-2.5 text-sm cursor-pointer transition-colors hover:bg-surface"
+                [class.text-primary]="activeCategory === category"
+                [class.font-semibold]="activeCategory === category"
+                [class.text-text-secondary]="activeCategory !== category"
+              >
+                {{ category }}
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    </section>
+
+    <!-- * Assets list -->
+    <ul class="flex flex-col gap-3" aria-label="Liste des biens">
+      @for (asset of filteredAssets; track asset.id) {
+        <li
+          class="animate-fade-in-up flex items-center gap-3 rounded-2xl p-4 bg-surface border border-border opacity-0"
+          [style.animation-delay]="$index * 60 + 'ms'"
+          [routerLink]="['/assets', asset.id]"
+        >
+          <!-- Category icon -->
+          <span
+            class="flex items-center justify-center w-10 h-10 rounded-xl shrink-0 bg-surface-light"
+            aria-hidden="true"
+          >
+            <lucide-angular
+              [img]="getCategoryIcon(asset.category)"
+              [size]="20"
+              class="text-text-secondary"
+            />
+          </span>
+
+          <!--  Info -->
+          <hgroup class="flex-1 min-w-0 flex flex-col gap-1">
+            <p class="text-sm font-semibold text-text-primary truncate">{{ asset.name }}</p>
+            <div class="flex items-center gap-2">
+              <p class="text-xs text-text-secondary">{{ asset.category }}</p>
+              @if (isWarrantyExpiringSoon(asset.warranty_end_date)) {
+                <span
+                  class="warranty-badge flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-full"
+                  aria-label="Garantie expirant bientôt"
+                >
+                  <lucide-angular [img]="triangleAlert" [size]="10" aria-hidden="true" />
+                  Garantie
+                </span>
+              }
+            </div>
+          </hgroup>
+
+          <!-- Right side -->
+          <span class="text-sm font-semibold text-primary">
+            {{ asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
+          </span>
+        </li>
+      }
+    </ul>
+  }
 </main>

@@ -212,9 +212,17 @@
     <button
       type="submit"
       [disabled]="form.invalid || isSubmitting"
-      class="w-full bg-primary text-background font-semibold rounded-2xl py-4 mb-3 transition-opacity disabled:opacity-50"
+      class="w-full bg-primary text-background font-semibold rounded-2xl py-4 mb-3 transition-opacity disabled:opacity-50 flex items-center justify-center min-h-14"
     >
-      {{ isEditMode ? 'Enregistrer les modifications' : 'Enregistrer le bien' }}
+      @if (!isSubmitting) {
+        {{ isEditMode ? 'Enregistrer les modifications' : 'Enregistrer le bien' }}
+      } @else {
+        <span class="flex items-center gap-1">
+          <span class="h-1.5 w-1.5 rounded-full bg-background dot-1"></span>
+          <span class="h-1.5 w-1.5 rounded-full bg-background dot-2"></span>
+          <span class="h-1.5 w-1.5 rounded-full bg-background dot-3"></span>
+        </span>
+      }
     </button>
 
     <!-- Cancel / Delete -->

@@ -56,6 +56,7 @@ export class AssetDetailComponent implements OnInit {
   asset: Asset | null = null;
   documents: Document[] = [];
   maintenanceEvents: MaintenanceEvent[] = []
+  isLoading = true;
 
   // Tabs
   readonly tabs = [
@@ -78,6 +79,7 @@ export class AssetDetailComponent implements OnInit {
 
     this.assetsService.getAssetById(this.assetId).subscribe((asset) => {
       this.asset = asset;
+      this.isLoading = false;
       this.cdr.detectChanges();
     });
 
