@@ -33,6 +33,7 @@ export class AssetsComponent implements OnInit {
   readonly triangleAlert = TriangleAlert;
   readonly chevronDown = ChevronDown;
   readonly chevronUp = ChevronUp;
+  readonly package = Package;
 
   // State
   firstName = '';
@@ -54,7 +55,6 @@ export class AssetsComponent implements OnInit {
     'Sport & Loisirs',
     'Outil',
     'Jardin',
-    'Vêtement & Accessoire',
     'Autre',
   ];
 

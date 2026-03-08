@@ -121,48 +121,66 @@
     </section>
 
     <!-- * Assets list -->
-    <ul class="flex flex-col gap-3" aria-label="Liste des biens">
-      @for (asset of filteredAssets; track asset.id) {
-        <li
-          class="animate-fade-in-up flex items-center gap-3 rounded-2xl p-4 bg-surface border border-border opacity-0"
-          [style.animation-delay]="$index * 60 + 'ms'"
-          [routerLink]="['/assets', asset.id]"
+    @if (filteredAssets.length === 0) {
+      <div class="flex flex-col items-center justify-center pt-20 gap-3">
+        <lucide-angular
+          [img]="package"
+          [size]="48"
+          class="text-text-secondary opacity-50"
+          aria-hidden="true"
+        />
+        <p class="text-text-secondary text-sm">Aucun bien pour le moment</p>
+        <button
+          routerLink="/assets/new"
+          class="px-4 py-2 rounded-full text-sm font-semibold border border-primary text-primary transition-colors hover:bg-primary hover:text-background"
         >
-          <!-- Category icon -->
-          <span
-            class="flex items-center justify-center w-10 h-10 rounded-xl shrink-0 bg-surface-light"
-            aria-hidden="true"
+          Ajouter un bien
+        </button>
+      </div>
+    } @else {
+      <ul class="flex flex-col gap-3" aria-label="Liste des biens">
+        @for (asset of filteredAssets; track asset.id) {
+          <li
+            class="animate-fade-in-up flex items-center gap-3 rounded-2xl p-4 bg-surface border border-border opacity-0"
+            [style.animation-delay]="$index * 60 + 'ms'"
+            [routerLink]="['/assets', asset.id]"
           >
-            <lucide-angular
-              [img]="getCategoryIcon(asset.category)"
-              [size]="20"
-              class="text-text-secondary"
-            />
-          </span>
+            <!-- Category icon -->
+            <span
+              class="flex items-center justify-center w-10 h-10 rounded-xl shrink-0 bg-surface-light"
+              aria-hidden="true"
+            >
+              <lucide-angular
+                [img]="getCategoryIcon(asset.category)"
+                [size]="20"
+                class="text-text-secondary"
+              />
+            </span>
 
-          <!--  Info -->
-          <hgroup class="flex-1 min-w-0 flex flex-col gap-1">
-            <p class="text-sm font-semibold text-text-primary truncate">{{ asset.name }}</p>
-            <div class="flex items-center gap-2">
-              <p class="text-xs text-text-secondary">{{ asset.category }}</p>
-              @if (isWarrantyExpiringSoon(asset.warranty_end_date)) {
-                <span
-                  class="warranty-badge flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-full"
-                  aria-label="Garantie expirant bientôt"
-                >
-                  <lucide-angular [img]="triangleAlert" [size]="10" aria-hidden="true" />
-                  Garantie
-                </span>
-              }
-            </div>
-          </hgroup>
+            <!--  Info -->
+            <hgroup class="flex-1 min-w-0 flex flex-col gap-1">
+              <p class="text-sm font-semibold text-text-primary truncate">{{ asset.name }}</p>
+              <div class="flex items-center gap-2">
+                <p class="text-xs text-text-secondary">{{ asset.category }}</p>
+                @if (isWarrantyExpiringSoon(asset.warranty_end_date)) {
+                  <span
+                    class="warranty-badge flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-full"
+                    aria-label="Garantie expirant bientôt"
+                  >
+                    <lucide-angular [img]="triangleAlert" [size]="10" aria-hidden="true" />
+                    Garantie
+                  </span>
+                }
+              </div>
+            </hgroup>
 
-          <!-- Right side -->
-          <span class="text-sm font-semibold text-primary">
-            {{ asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
-          </span>
-        </li>
-      }
-    </ul>
+            <!-- Right side -->
+            <span class="text-sm font-semibold text-primary">
+              {{ asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
+            </span>
+          </li>
+        }
+      </ul>
+    }
   }
 </main>
