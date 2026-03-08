@@ -48,4 +48,16 @@ export class AssetsService {
       },
     });
   }
+
+  createAsset(payload: Partial<Asset>): Observable<Asset> {
+    return this.http.post<Asset>(this.apiUrl, payload);
+  }
+
+  updateAsset(id: string, payload: Partial<Asset>): Observable<Asset> {
+    return this.http.patch<Asset>(`${this.apiUrl}/${id}`, payload);
+  }
+
+  deleteAsset(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

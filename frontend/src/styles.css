@@ -120,3 +120,11 @@ body {
   background: rgba(239, 68, 68, 0.12);
   border: 1px solid rgba(239, 68, 68, 0.25);
 }
+
+input[type="date"]::-webkit-datetime-edit {
+  color: var(--color-text-secondary);
+}
+
+input[type="date"]:not([value=""])::-webkit-datetime-edit {
+  color: var(--color-text-primary);
+}

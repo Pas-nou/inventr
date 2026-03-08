@@ -1,0 +1,202 @@
+<main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6">
+  <!-- Back button -->
+  <button
+    (click)="goBack()"
+    class="flex items-center gap-2 text-primary text-sm mb-4 hover:text-text-primary transition-colors"
+  >
+    @if (isEditMode) {
+      <lucide-angular [img]="arrowLeft" [size]="16" aria-hidden="true" />
+      Retour
+    } @else {
+      <lucide-angular [img]="x" [size]="16" aria-hidden="true" />
+      Annuler
+    }
+  </button>
+
+  <!-- Header -->
+  <header class="mb-6">
+    <h1 class="text-3xl font-bold font-display">
+      {{ isEditMode ? 'Modifier le bien' : 'Nouveau bien' }}
+    </h1>
+    <p class="text-text-secondary text-sm mt-1">
+      {{
+        isEditMode
+          ? 'Modifiez les informations de votre bien'
+          : 'Renseignez les informations de votre bien'
+      }}
+    </p>
+  </header>
+
+  <form (ngSubmit)="onSubmit()" , [formGroup]="form" novalidate>
+    <!-- Name -->
+    <fieldset class="mb-5">
+      <label
+        class="text-xs uppercase tracking-widest text-text-secondary mb-2 flex items-center gap-1"
+      >
+        NOM
+        <span class="text-primary">•</span>
+      </label>
+      <input
+        formControlName="name"
+        type="text"
+        placeholder="Nom du bien"
+        class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors"
+      />
+    </fieldset>
+
+    <!-- Category -->
+    <fieldset class="mb-5">
+      <label
+        class="text-xs uppercase tracking-widest text-text-secondary mb-2 flex items-center gap-1"
+      >
+        CATÉGORIE
+        <span class="text-primary">•</span>
+      </label>
+      <div class="grid grid-cols-4 gap-2">
+        @for (cat of categories; track cat) {
+          <button
+            type="button"
+            (click)="selectCategory(cat)"
+            class="flex flex-col items-center gap-1 p-2 rounded-xl border transition-colors"
+            [class.border-primary]="form.get('category')?.value === cat"
+            [class.bg-primary-dim]="form.get('category')?.value === cat"
+            [class.text-primary]="form.get('category')?.value === cat"
+            [class.border-border]="form.get('category')?.value !== cat"
+            [class.text-text-secondary]="form.get('category')?.value !== cat"
+          >
+            <lucide-angular [img]="categoryIcons[cat]" [size]="20" aria-hidden="true" />
+            <span class="text-xs">{{ categoryLabels[cat] }}</span>
+          </button>
+        }
+      </div>
+    </fieldset>
+
+    <!-- Price & Date -->
+    <div class="grid grid-cols-2 gap-3 mb-5">
+      <fieldset>
+        <label
+          class="text-xs uppercase tracking-widest text-text-secondary mb-2 flex items-center gap-1"
+        >
+          PRIX D'ACHAT
+          <span class="text-primary">•</span>
+        </label>
+        <div class="relative">
+          <input
+            formControlName="purchase_price_cents"
+            type="number"
+            placeholder="Prix du bien"
+            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors pr-8"
+          />
+          <span class="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary text-sm">
+            €
+          </span>
+        </div>
+      </fieldset>
+      <fieldset>
+        <label
+          class="text-xs uppercase tracking-widest text-text-secondary mb-2 flex items-center gap-1"
+        >
+          DATE D'ACHAT
+          <span class="text-primary">•</span>
+        </label>
+        <input
+          formControlName="purchase_date"
+          type="date"
+          placeholder="jj/mm/aaaa"
+          class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+        />
+      </fieldset>
+    </div>
+
+    <!-- Condition & Warranty -->
+    <div class="grid grid-cols-2 gap-3 mb-5">
+      <fieldset>
+        <label
+          class="text-xs uppercase tracking-widest text-text-secondary mb-2 flex items-center gap-2"
+        >
+          ÉTAT
+          <span
+            class="text-xs normal-case tracking-normal text-text-secondary border border-border rounded-full px-2 py-0.5"
+          >
+            OPTIONNEL</span
+          >
+        </label>
+        <select
+          formControlName="condition"
+          class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors appearance-none"
+        >
+          <option value="" disabled selected>Sélectionner</option>
+          @for (cond of conditions; track cond) {
+            <option [value]="cond">{{ cond }}</option>
+          }
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <label
+          class="text-xs uppercase tracking-widest text-text-secondary mb-2 flex items-center gap-2"
+        >
+          FIN DE GARANTIE
+          <span
+            class="text-xs normal-case tracking-normal text-text-secondary border border-border rounded-full px-2 py-0.5"
+          >
+            OPTIONNEL
+          </span>
+        </label>
+        <input
+          formControlName="warranty_end_date"
+          type="date"
+          class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+        />
+      </fieldset>
+    </div>
+
+    <!-- Notes -->
+    <fieldset class="mb-8">
+      <label
+        class="text-xs uppercase tracking-widest text-text-secondary mb-2 flex items-center gap-2"
+      >
+        NOTES
+        <span
+          class="text-xs normal-case tracking-normal text-text-secondary border border-border rounded-full px-2 py-0.5"
+        >
+          OPTIONNEL
+        </span>
+      </label>
+      <textarea
+        formControlName="notes"
+        placeholder="Ajouter une note..."
+        rows="2"
+        class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors resize-none"
+      ></textarea>
+    </fieldset>
+
+    <!-- Submit -->
+    <button
+      type="submit"
+      [disabled]="form.invalid || isSubmitting"
+      class="w-full bg-primary text-background font-semibold rounded-2xl py-4 mb-3 transition-opacity disabled:opacity-50"
+    >
+      {{ isEditMode ? 'Enregistrer les modifications' : 'Enregistrer le bien' }}
+    </button>
+
+    <!-- Cancel / Delete -->
+    @if (isEditMode) {
+      <button
+        type="button"
+        (click)="deleteAsset()"
+        class="w-full text-error-dim font-semibold rounded-2xl py-4 border border-border transition-colors hover:border-error-dim"
+      >
+        Supprimer ce bien
+      </button>
+    } @else {
+      <button
+        type="button"
+        (click)="goBack()"
+        class="w-full text-text-secondary font-semibold rounded-2xl py-4 border border-border transition-colors hover:border-primary"
+      >
+        Annuler
+      </button>
+    }
+  </form>
+</main>

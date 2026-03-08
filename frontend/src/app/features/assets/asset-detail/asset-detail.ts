@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink} from '@angular/router';
 import { Location, CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 import {
   LucideAngularModule,
@@ -20,7 +20,7 @@ type ActiveTab = 'infos' | 'documents' | 'maintenance';
 
 @Component({
   selector: 'app-asset-detail',
-  imports: [CurrencyPipe, DatePipe, LucideAngularModule, DecimalPipe],
+  imports: [CurrencyPipe, DatePipe, LucideAngularModule, DecimalPipe, RouterLink],
   templateUrl: './asset-detail.html',
   styleUrl: './asset-detail.css',
 })
