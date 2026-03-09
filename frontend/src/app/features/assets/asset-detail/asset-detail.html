@@ -1,3 +1,4 @@
+<!-- * Upload Modal -->
 @if (showUploadModal) {
   <div
     class="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm px-4 pb-8"
@@ -69,6 +70,31 @@
     </dialog>
   </div>
 }
+
+<!-- * Delete Modal -->
+@if (showDeleteDocumentModal) {
+  <div
+    class="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm px-4 pb-8"
+    (click)="closeDeleteDocumentModal()"
+    aria-hidden="true"
+  >
+    <dialog open class="w-full bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4" (click)="$event.stopPropagation()" aria-labelledby="delete-doc-modal-title">
+      <hgroup>
+        <p id="delete-doc-modal-title" class="text-lg font-bold text-text-primary">Supprimer ce document ?</p>
+        <p class="text-sm text-text-secondary mt-1">Cette action est irréversible.</p>
+      </hgroup>
+      <button (click)="confirmDeleteDocument()" class="w-full bg-error-dim text-white font-semibold rounded-2xl py-4 transition-opacity hover:opacity-80">Surpimer définitivement</button>
+      <button
+        (click)="closeDeleteDocumentModal()"
+        class="w-full text-text-secondary font-semibold rounded-2xl py-4 border border-border transition-colors hover:border-primary"
+      >
+        Annuler
+      </button>
+    </dialog>
+  </div>
+}
+
+<!-- * Main -->
 <main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6">
   <!-- Back button -->
   <button
@@ -261,7 +287,7 @@
                 {{ doc.type }}
               </span>
 
-              <button (click)="deleteDocument(doc.id)" aria-label="Supprimer le document">
+              <button (click)="openDeleteDocumentModal(doc.id)" aria-label="Supprimer le document">
                 <lucide-angular
                   [img]="trash"
                   [size]="16"

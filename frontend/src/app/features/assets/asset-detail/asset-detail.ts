@@ -65,6 +65,10 @@ export class AssetDetailComponent implements OnInit {
   maintenanceEvents: MaintenanceEvent[] = [];
   isLoading = true;
 
+  // Modal delete file
+  showDeleteDocumentModal = false;
+  pendingDeleteDocumentId: string | null = null;
+
   // Modal upload
   showUploadModal = false;
   pendingFile: File | null = null;
@@ -177,7 +181,7 @@ export class AssetDetailComponent implements OnInit {
           this.toastService.show('Document ajouté avec succès');
           this.cdr.detectChanges();
         },
-        error: () => this.toastService.show("Erreur lors de l/'upload", 'error'),
+        error: () => this.toastService.show("Erreur lors de l'upload", 'error'),
       });
   }
 
@@ -186,10 +190,25 @@ export class AssetDetailComponent implements OnInit {
     this.pendingFile = null;
   }
 
-  deleteDocument(documentId: string): void {
-    this.documentsService.deleteDocument(this.assetId, documentId).subscribe({
+  openDeleteDocumentModal(documentId: string) {
+    this.pendingDeleteDocumentId = documentId;
+    this.showDeleteDocumentModal = true;
+  }
+
+  closeDeleteDocumentModal(): void {
+    this.showDeleteDocumentModal = false;
+    this.pendingDeleteDocumentId = null;
+  }
+
+  confirmDeleteDocument(): void {
+    if (!this.pendingDeleteDocumentId) return;
+    this.documentsService.deleteDocument(this.assetId, this.pendingDeleteDocumentId).subscribe({
       next: () => {
-        this.documents = this.documents.filter((d: Document) => d.id !== documentId);
+        this.documents = this.documents.filter(
+          (d: Document) => d.id !== this.pendingDeleteDocumentId,
+        );
+        this.showDeleteDocumentModal = false;
+        this.pendingDeleteDocumentId = null;
         this.toastService.show('Document supprimé');
         this.cdr.detectChanges();
       },
