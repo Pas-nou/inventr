@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute, RouterLink} from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Location, CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 import {
   LucideAngularModule,
@@ -16,17 +16,23 @@ import {
   WashingMachine,
   Bike,
   Flower,
+  Trash,
   LucideIconData,
 } from 'lucide-angular';
 import { Asset, AssetsService } from '../../../core/services/assets.service';
 import { Document, DocumentsService } from '../../../core/services/documents.service';
-import { MaintenanceEvent, MaintenanceEventsService } from '../../../core/services/maintenance-events.service';
+import {
+  MaintenanceEvent,
+  MaintenanceEventsService,
+} from '../../../core/services/maintenance-events.service';
+import { ToastService } from '../../../core/services/toast.service';
+import { FormsModule } from '@angular/forms';
 
 type ActiveTab = 'infos' | 'documents' | 'maintenance';
 
 @Component({
   selector: 'app-asset-detail',
-  imports: [CurrencyPipe, DatePipe, LucideAngularModule, DecimalPipe, RouterLink],
+  imports: [CurrencyPipe, DatePipe, LucideAngularModule, DecimalPipe, RouterLink, FormsModule],
   templateUrl: './asset-detail.html',
   styleUrl: './asset-detail.css',
 })
@@ -38,25 +44,34 @@ export class AssetDetailComponent implements OnInit {
   readonly plus = Plus;
   readonly wrench = Wrench;
   readonly calendarClock = CalendarClock;
+  readonly trash = Trash;
 
   private readonly categoryIcons: Record<string, LucideIconData> = {
-  'High-tech': Laptop,
-  'Meuble': Sofa,
-  'Véhicule': Car,
-  'Électroménager': WashingMachine,
-  'Sport & Loisirs': Bike,
-  'Outil': Wrench,
-  'Jardin': Flower,
-  'Autre': Package,
-};
+    'High-tech': Laptop,
+    Meuble: Sofa,
+    Véhicule: Car,
+    Électroménager: WashingMachine,
+    'Sport & Loisirs': Bike,
+    Outil: Wrench,
+    Jardin: Flower,
+    Autre: Package,
+  };
 
   // State
   assetId = '';
   activeTab: ActiveTab = 'infos';
   asset: Asset | null = null;
   documents: Document[] = [];
-  maintenanceEvents: MaintenanceEvent[] = []
+  maintenanceEvents: MaintenanceEvent[] = [];
   isLoading = true;
+
+  // Modal upload
+  showUploadModal = false;
+  pendingFile: File | null = null;
+  uploadName = '';
+  uploadType = '';
+
+  readonly documentTypes = ['Facture', 'Garantie', 'Manuel', 'Certificat', 'Photo', 'Autre'];
 
   // Tabs
   readonly tabs = [
@@ -71,7 +86,8 @@ export class AssetDetailComponent implements OnInit {
     private assetsService: AssetsService,
     private documentsService: DocumentsService,
     private maintenanceEventsService: MaintenanceEventsService,
-    private cdr: ChangeDetectorRef
+    private toastService: ToastService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -117,5 +133,67 @@ export class AssetDetailComponent implements OnInit {
 
   get categoryIcon(): LucideIconData {
     return this.categoryIcons[this.asset?.category ?? ''] ?? Package;
+  }
+
+  openFilePicker(): void {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.pdf, .doc, .docx, .jpg, .jpeg, .png, .webp';
+    input.onchange = (event) => {
+      const file = (event.target as HTMLInputElement).files?.[0];
+      if (file) {
+        this.pendingFile = file;
+        this.uploadName = file.name.replace(/\.[^/.]+$/, '');
+        this.uploadType = '';
+        this.showUploadModal = true;
+        this.cdr.detectChanges();
+      }
+    };
+    input.click();
+  }
+
+  uploadDocument(file: File): void {
+    this.documentsService.uploadDocument(this.assetId, file).subscribe({
+      next: (doc) => {
+        this.documents = [...this.documents, doc];
+        this.showUploadModal = false;
+        this.pendingFile = null;
+        this.toastService.show('Document ajouté avec succès');
+        this.cdr.detectChanges();
+      },
+      error: () => this.toastService.show("Erreur lors de l'upload", 'error'),
+    });
+  }
+
+  confirmUpload(): void {
+    if (!this.pendingFile) return;
+    this.documentsService
+      .uploadDocument(this.assetId, this.pendingFile, this.uploadName, this.uploadType || undefined)
+      .subscribe({
+        next: (doc) => {
+          this.documents = [...this.documents, doc];
+          this.showUploadModal = false;
+          this.pendingFile = null;
+          this.toastService.show('Document ajouté avec succès');
+          this.cdr.detectChanges();
+        },
+        error: () => this.toastService.show("Erreur lors de l/'upload", 'error'),
+      });
+  }
+
+  closeUploadModal(): void {
+    this.showUploadModal = false;
+    this.pendingFile = null;
+  }
+
+  deleteDocument(documentId: string): void {
+    this.documentsService.deleteDocument(this.assetId, documentId).subscribe({
+      next: () => {
+        this.documents = this.documents.filter((d: Document) => d.id !== documentId);
+        this.toastService.show('Document supprimé');
+        this.cdr.detectChanges();
+      },
+      error: () => this.toastService.show('Erreur lors de la suppression', 'error'),
+    });
   }
 }

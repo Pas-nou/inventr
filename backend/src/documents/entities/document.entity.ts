@@ -14,6 +14,9 @@ export class Document {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ nullable: true })
+  name: string;
+
   @Column({
     nullable: true,
     type: 'enum',

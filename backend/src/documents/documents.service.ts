@@ -48,6 +48,7 @@ export class DocumentsService {
       filePath,
     );
     return await this.documentRepository.save({
+      name: createDocumentDto.documentName ?? file.originalname,
       original_filename: file.originalname,
       mime_type: file.mimetype,
       size_bytes: file.size,

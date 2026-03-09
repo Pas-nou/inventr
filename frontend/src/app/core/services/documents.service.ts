@@ -37,4 +37,16 @@ export class DocumentsService {
       },
     });
   }
+
+  uploadDocument(assetId: string, file: File, name?: string, type?: string): Observable<Document> {
+    const formData = new FormData();
+    formData.append('file', file);
+    if (name) formData.append('documentName', name);
+    if (type) formData.append('type', type);
+    return this.http.post<Document>(`${this.apiUrl}/asset/${assetId}`, formData);
+  }
+
+  deleteDocument(assetId: string, documentId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/asset/${assetId}/${documentId}`);
+  }
 }
