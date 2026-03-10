@@ -1,0 +1,32 @@
+<main
+  class="h-dvh bg-background flex flex-col items-center justify-center px-8 relative overflow-hidden"
+>
+  <!-- * Teal blur background -->
+  <span
+    class="absolute top-0 left-0 w-64 h-64 rounded-full opacity-20 blur-3xl pointer-events-none"
+    style="
+      background: radial-gradient(circle, var(--color-primary), transparent 70%);
+      transform: translate(-30%, -30%);
+    "
+  ></span>
+
+  <!-- * Logo -->
+  <header class="mb-12 text-center">
+    <h1 class="text-5xl font-bold text-text-primary font-display">
+      Invent<span class="text-primary">r</span>
+    </h1>
+  </header>
+
+  <!-- * 404 -->
+  <p class="text-8xl font-bold font-display text-primary mb-4">404</p>
+  <h2 class="text-2xl font-bold font-display mb-2">Page introuvable</h2>
+  <p class="text-text-secondary text-sm mb-10 text-center">
+    La page que vous cherchez n'existe pas ou a été déplacée
+  </p>
+  <button
+    routerLink="/home"
+    class="w-full max-w-xs bg-primary text-background font-bold py-3 rounded-xl text-base transition-opacity hover:opacity-90 shadow-[0_4px_20px_var(--color-primary-shadow)]"
+  >
+    Retour à l'inventaire
+  </button>
+</main>
