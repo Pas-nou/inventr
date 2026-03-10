@@ -32,6 +32,9 @@ export class User {
   })
   role: UserRole;
 
+  @Column({ nullable: true, type: 'text' })
+  refresh_token: string | null;
+
   @CreateDateColumn()
   created_at: Date;
 
