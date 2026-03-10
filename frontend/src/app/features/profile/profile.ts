@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { LucideAngularModule, Pencil, Bell, LogOut, ChevronRight } from 'lucide-angular';
 import { AuthService } from '../../core/services/auth.service';
 
@@ -22,7 +21,6 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +35,5 @@ export class ProfileComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
-    void this.router.navigate(['/login']);
   }
 }
