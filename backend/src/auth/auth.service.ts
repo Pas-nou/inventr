@@ -101,4 +101,36 @@ export class AuthService {
     });
     return { access_token, refresh_token };
   }
+
+  async updateProfile(
+    userId: string,
+    data: {
+      first_name?: string;
+      last_name?: string;
+      email?: string;
+      password?: string;
+    },
+  ): Promise<{
+    id: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+  }> {
+    const user = await this.usersRepository.findOneBy({ id: userId });
+    if (!user) throw new Error('User not found');
+
+    if (data.first_name) user.first_name = data.first_name;
+    if (data.last_name) user.last_name = data.last_name;
+    if (data.email) user.email = data.email;
+    if (data.password)
+      user.password_hash = await bcrypt.hash(data.password, 10);
+
+    await this.usersRepository.save(user);
+    return {
+      id: user.id,
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+    };
+  }
 }
