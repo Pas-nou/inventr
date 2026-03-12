@@ -78,15 +78,163 @@
     (click)="closeDeleteDocumentModal()"
     aria-hidden="true"
   >
-    <dialog open class="w-full bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4" (click)="$event.stopPropagation()" aria-labelledby="delete-doc-modal-title">
+    <dialog
+      open
+      class="w-full bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+      (click)="$event.stopPropagation()"
+      aria-labelledby="delete-doc-modal-title"
+    >
       <hgroup>
-        <p id="delete-doc-modal-title" class="text-lg font-bold text-text-primary">Supprimer ce document ?</p>
+        <p id="delete-doc-modal-title" class="text-lg font-bold text-text-primary">
+          Supprimer ce document ?
+        </p>
         <p class="text-sm text-text-secondary mt-1">Cette action est irréversible.</p>
       </hgroup>
-      <button (click)="confirmDeleteDocument()" class="w-full bg-error-dim text-white font-semibold rounded-2xl py-4 transition-opacity hover:opacity-80">Surpimer définitivement</button>
+      <button
+        (click)="confirmDeleteDocument()"
+        class="w-full bg-error-dim text-white font-semibold rounded-2xl py-4 transition-opacity hover:opacity-80"
+      >
+        Supprimer définitivement
+      </button>
       <button
         (click)="closeDeleteDocumentModal()"
         class="w-full text-text-secondary font-semibold rounded-2xl py-4 border border-border transition-colors hover:border-primary"
+      >
+        Annuler
+      </button>
+    </dialog>
+  </div>
+}
+
+<!-- * Event modal -->
+@if (showAddEventModal) {
+  <div
+    class="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm px-4 pb-8"
+    (click)="closeAddEventModal()"
+    aria-hidden="true"
+  >
+    <dialog
+      open
+      class="w-full bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+      (click)="$event.stopPropagation()"
+      aria-labelledby="add-event-modal-title"
+    >
+      <hgroup>
+        <p id="add-event-modal-title" class="text-lg font-bold text-text-primary">
+          Ajouter un événement
+        </p>
+      </hgroup>
+
+      <!-- Name -->
+      <div>
+        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">NOM</label>
+        <input
+          type="text"
+          [(ngModel)]="eventName"
+          placeholder="Ex: Vidange, Réparation écran..."
+          class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+        />
+      </div>
+
+      <!-- Type -->
+      <div>
+        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
+          TYPE
+          <span
+            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
+            >OPTIONNEL</span
+          >
+        </label>
+        <div class="grid grid-cols-3 gap-2">
+          @for (type of eventTypes; track type) {
+            <button
+              type="button"
+              (click)="eventType = eventType === type ? '' : type"
+              class="py-2 px-3 rounded-xl border text-xs transition-colors"
+              [class.border-primary]="eventType === type"
+              [class.bg-primary-dim]="eventType === type"
+              [class.text-primary]="eventType === type"
+              [class.border-border]="eventType !== type"
+              [class.text-text-secondary]="eventType !== type"
+            >
+              {{ type }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Date -->
+      <div>
+        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">DATE</label>
+        <input
+          type="date"
+          [(ngModel)]="eventDate"
+          class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+        />
+      </div>
+
+      <!-- Cost -->
+      <div>
+        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
+          COÛT (€)
+          <span
+            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
+            >OPTIONNEL</span
+          >
+        </label>
+        <input
+          type="number"
+          [(ngModel)]="eventCost"
+          min="0"
+          step="0.01"
+          placeholder="0"
+          class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+        />
+      </div>
+
+      <!-- Next event -->
+      <div>
+        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
+          PROCHAIN ENTRETIEN
+          <span
+            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
+            >OPTIONNEL</span
+          >
+        </label>
+        <input
+          type="date"
+          [(ngModel)]="eventNextDueDate"
+          class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+        />
+      </div>
+
+      <!-- Notes -->
+      <div>
+        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
+          NOTES
+          <span
+            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
+            >OPTIONNEL</span
+          >
+        </label>
+        <textarea
+          [(ngModel)]="eventNotes"
+          rows="2"
+          placeholder="Détails supplémentaires..."
+          class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors resize-none"
+        ></textarea>
+      </div>
+
+      <button
+        (click)="confirmAddEvent()"
+        [disabled]="!eventName || !eventDate"
+        class="w-full bg-primary text-background font-semibold rounded-2xl py-4 transition-opacity disabled:opacity-50"
+      >
+        Ajouter
+      </button>
+      <button
+        (click)="closeAddEventModal()"
+        class="w-full text-text-secondary font-semibold rounded-2xl py-4 border border-border transition-colors"
       >
         Annuler
       </button>
@@ -355,6 +503,7 @@
         </ul>
 
         <button
+          (click)="openAddEventModal()"
           class="w-full flex items-center justify-center gap-2 bg-surface border border-border rounded-2xl p-4 text-sm text-text-secondary transition-colors hover:border-primary hover:text-primary"
         >
           <lucide-angular [img]="plus" [size]="16" aria-hidden="true" />
