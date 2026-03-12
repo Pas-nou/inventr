@@ -59,7 +59,8 @@ export class AuthController {
       first_name?: string;
       last_name?: string;
       email?: string;
-      password?: string;
+      current_password?: string;
+      new_password?: string;
     },
   ) {
     return this.authService.updateProfile(req.user.userId, body);
