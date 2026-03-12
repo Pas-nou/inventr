@@ -12,6 +12,7 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { Throttle } from '@nestjs/throttler';
 
 interface RequestWithUser extends Request {
   user: { userId: string; email: string };
@@ -21,11 +22,13 @@ interface RequestWithUser extends Request {
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Throttle({ default: { ttl: 60, limit: 5 } })
   @HttpCode(HttpStatus.OK)
   @Post('login')
   login(@Body() signInDto: LoginDto) {
     return this.authService.login(signInDto.email, signInDto.password);
   }
+  @Throttle({ default: { ttl: 60, limit: 3 } })
   @Post('register')
   register(@Body() signUpDto: RegisterDto) {
     return this.authService.register(
