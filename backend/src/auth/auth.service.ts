@@ -108,7 +108,8 @@ export class AuthService {
       first_name?: string;
       last_name?: string;
       email?: string;
-      password?: string;
+      current_password?: string;
+      new_password?: string;
     },
   ): Promise<{
     id: string;
@@ -122,9 +123,19 @@ export class AuthService {
     if (data.first_name) user.first_name = data.first_name;
     if (data.last_name) user.last_name = data.last_name;
     if (data.email) user.email = data.email;
-    if (data.password)
-      user.password_hash = await bcrypt.hash(data.password, 10);
-
+    if (data.new_password) {
+      if (!data.current_password) {
+        throw new UnauthorizedException('Mot de passe actuel requis');
+      }
+      const isValid = await bcrypt.compare(
+        data.current_password,
+        user.password_hash,
+      );
+      if (!isValid) {
+        throw new UnauthorizedException('Mot de passe actuel incorrect');
+      }
+      user.password_hash = await bcrypt.hash(data.new_password, 10);
+    }
     await this.usersRepository.save(user);
     return {
       id: user.id,
