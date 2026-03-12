@@ -96,7 +96,8 @@ export class AuthService {
     first_name?: string;
     last_name?: string;
     email?: string;
-    password?: string;
+    current_password?: string;
+    new_password?: string;
   }): Observable<AuthResponse['user']> {
     return this.http.patch<AuthResponse['user']>(`${this.apiUrl}/profile`, data).pipe(
       tap((user) => {
