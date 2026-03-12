@@ -91,4 +91,18 @@ export class AuthService {
     localStorage.setItem('refresh_token', response.refresh_token);
     localStorage.setItem('user', JSON.stringify(response.user));
   }
+
+  updateProfile(data: {
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    password?: string;
+  }): Observable<AuthResponse['user']> {
+    return this.http.patch<AuthResponse['user']>(`${this.apiUrl}/profile`, data).pipe(
+      tap((user) => {
+        const stored = this.getUser();
+        localStorage.setItem('user', JSON.stringify({ ...stored, ...user }));
+      }),
+    );
+  }
 }
