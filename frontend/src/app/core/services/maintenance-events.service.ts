@@ -36,4 +36,18 @@ export class MaintenanceEventsService {
       },
     });
   }
+
+  createMaintenanceEvent(
+    assetId: string,
+    payload: {
+      name: string;
+      type?: string;
+      date: string;
+      cost_cents: number;
+      notes?: string;
+      next_due_date: string;
+    },
+  ): Observable<MaintenanceEvent> {
+    return this.http.post<MaintenanceEvent>(`${this.apiUrl}/asset/${assetId}`, payload);
+  }
 }
