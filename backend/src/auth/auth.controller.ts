@@ -6,6 +6,7 @@ import {
   HttpStatus,
   UseGuards,
   Request,
+  Patch,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -46,5 +47,21 @@ export class AuthController {
   @Post('logout')
   logout(@Request() req: RequestWithUser) {
     return this.authService.logout(req.user.userId);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  @Patch('profile')
+  updateProfile(
+    @Request() req: RequestWithUser,
+    @Body()
+    body: {
+      first_name?: string;
+      last_name?: string;
+      email?: string;
+      password?: string;
+    },
+  ) {
+    return this.authService.updateProfile(req.user.userId, body);
   }
 }
