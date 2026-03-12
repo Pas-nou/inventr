@@ -45,7 +45,7 @@ export class MaintenanceEventsService {
       date: string;
       cost_cents: number;
       notes?: string;
-      next_due_date: string;
+      next_due_date?: string;
     },
   ): Observable<MaintenanceEvent> {
     return this.http.post<MaintenanceEvent>(`${this.apiUrl}/asset/${assetId}`, payload);

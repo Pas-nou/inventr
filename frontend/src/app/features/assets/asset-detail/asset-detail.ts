@@ -77,6 +77,24 @@ export class AssetDetailComponent implements OnInit {
 
   readonly documentTypes = ['Facture', 'Garantie', 'Manuel', 'Certificat', 'Photo', 'Autre'];
 
+  // Event modal
+  showAddEventModal = false;
+  eventName = '';
+  eventType = '';
+  eventDate = '';
+  eventCost = 0;
+  eventNotes = '';
+  eventNextDueDate = '';
+
+  readonly eventTypes = [
+    'Réparation',
+    'Entretien',
+    'Inspection',
+    'Nettoyage',
+    'Amélioration',
+    'Autre',
+  ];
+
   // Tabs
   readonly tabs = [
     { key: 'infos' as const, label: 'Infos' },
@@ -213,6 +231,41 @@ export class AssetDetailComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error: () => this.toastService.show('Erreur lors de la suppression', 'error'),
+    });
+  }
+
+  openAddEventModal(): void {
+    this.showAddEventModal = true;
+    this.eventName = '';
+    this.eventType = '';
+    this.eventDate = new Date().toISOString().slice(0, 10);
+    this.eventCost = 0;
+    this.eventNotes = '';
+    this.eventNextDueDate = '';
+  }
+
+  closeAddEventModal(): void {
+    this.showAddEventModal = false;
+  }
+
+  confirmAddEvent(): void {
+    if (!this.eventName || !this.eventDate) return;
+    const payload = {
+      name: this.eventName,
+      type: this.eventType || undefined,
+      date: this.eventDate,
+      cost_cents: Math.round(this.eventCost * 100),
+      notes: this.eventNotes || undefined,
+      next_due_date: this.eventNextDueDate || undefined,
+    };
+    this.maintenanceEventsService.createMaintenanceEvent(this.assetId, payload).subscribe({
+      next: (event) => {
+        this.maintenanceEvents = [...this.maintenanceEvents, event];
+        this.showAddEventModal = false;
+        this.toastService.show('Événement ajouté avec succès');
+        this.cdr.detectChanges();
+      },
+      error: () => this.toastService.show("Erreur lors de l'ajout", 'error'),
     });
   }
 }
