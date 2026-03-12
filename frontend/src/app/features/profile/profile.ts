@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { LucideAngularModule, Pencil, Bell, LogOut, ChevronRight } from 'lucide-angular';
 import { AuthService } from '../../core/services/auth.service';
 import { FormsModule } from '@angular/forms';
@@ -32,6 +32,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private toastService: ToastService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -80,6 +81,7 @@ export class ProfileComponent implements OnInit {
         this.isSubmitting = false;
         this.showEditModal = false;
         this.toastService.show('Profil mis à jour');
+        this.cdr.detectChanges();
       },
       error: () => {
         this.isSubmitting = false;
