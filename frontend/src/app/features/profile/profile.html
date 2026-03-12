@@ -48,7 +48,11 @@
           type="email"
           [(ngModel)]="editEmail"
           class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+          [class.border-error-dim]="editEmail && !isEmailValid"
         />
+        @if (editEmail && !isEmailValid) {
+          <p class="text-error-dim text-xs mt-1">Email invalide</p>
+        }
       </div>
 
       <!-- Currend password -->
@@ -100,7 +104,14 @@
 
       <button
         (click)="confirmEditProfile()"
-        [disabled]="!editFirstName || !editLastName || !editEmail || isSubmitting || (editNewPassword !== '' && editNewPassword !== editConfirmPassword)"
+        [disabled]="
+          !editFirstName ||
+          !editLastName ||
+          !editEmail ||
+          !isEmailValid ||
+          isSubmitting ||
+          (editNewPassword !== '' && editNewPassword !== editConfirmPassword)
+        "
         class="w-full bg-primary text-background font-semibold rounded-2xl py-4 transition-opacity disabled:opacity-50"
       >
         @if (isSubmitting) {
