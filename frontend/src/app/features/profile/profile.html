@@ -51,26 +51,56 @@
         />
       </div>
 
-      <!-- Password -->
+      <!-- Currend password -->
       <div>
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
-          MOT DE PASSE
-          <span
-            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
-            >OPTIONNEL</span
-          >
+          MOT DE PASSE ACTUEL
         </label>
         <input
           type="password"
-          [(ngModel)]="editPassword"
-          placeholder="Laisser vide pour ne pas changer"
+          [(ngModel)]="editCurrentPassword"
+          placeholder="Votre mot de passe actuel"
           class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
         />
       </div>
 
+      <!-- New password -->
+      <div>
+        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
+          NOUVEAU MOT DE PASSE
+        </label>
+        <input
+          type="password"
+          [(ngModel)]="editNewPassword"
+          placeholder="Nouveau mot de passe"
+          class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+        />
+      </div>
+
+      <!-- Confirm password -->
+      @if (editNewPassword) {
+        <div>
+          <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
+            CONFIRMER LE MOT DE PASSE
+          </label>
+          <input
+            type="password"
+            [(ngModel)]="editConfirmPassword"
+            placeholder="Confirmer le nouveau mot de passe"
+            class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+            [class.border-error-dim]="
+              editConfirmPassword && editNewPassword !== editConfirmPassword
+            "
+          />
+          @if (editConfirmPassword && editNewPassword !== editConfirmPassword) {
+            <p class="text-error-dim text-xs mt-1">Les mots de passe ne correspondent pas</p>
+          }
+        </div>
+      }
+
       <button
         (click)="confirmEditProfile()"
-        [disabled]="!editFirstName || !editLastName || !editEmail || isSubmitting"
+        [disabled]="!editFirstName || !editLastName || !editEmail || isSubmitting || (editNewPassword !== '' && editNewPassword !== editConfirmPassword)"
         class="w-full bg-primary text-background font-semibold rounded-2xl py-4 transition-opacity disabled:opacity-50"
       >
         @if (isSubmitting) {
