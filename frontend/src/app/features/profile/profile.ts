@@ -72,14 +72,19 @@ export class ProfileComponent implements OnInit {
       this.toastService.show('Les mots de passe ne correspondent pas', 'error');
       return;
     }
-    
+
     this.isSubmitting = true;
-    const payload: { first_name?: string; last_name?: string; email?: string; current_password?: string, new_password?: string } =
-      {
-        first_name: this.editFirstName,
-        last_name: this.editLastName,
-        email: this.editEmail,
-      };
+    const payload: {
+      first_name?: string;
+      last_name?: string;
+      email?: string;
+      current_password?: string;
+      new_password?: string;
+    } = {
+      first_name: this.editFirstName,
+      last_name: this.editLastName,
+      email: this.editEmail,
+    };
     if (this.editNewPassword) {
       payload.current_password = this.editCurrentPassword;
       payload.new_password = this.editNewPassword;
@@ -101,5 +106,9 @@ export class ProfileComponent implements OnInit {
         this.toastService.show('Erreur lors de la mise à jour', 'error');
       },
     });
+  }
+
+  get isEmailValid(): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.editEmail);
   }
 }
