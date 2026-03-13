@@ -65,17 +65,23 @@ export class AssetDetailComponent implements OnInit {
   maintenanceEvents: MaintenanceEvent[] = [];
   isLoading = true;
 
-  // Modal delete file
+  // Modal delete document
   showDeleteDocumentModal = false;
   pendingDeleteDocumentId: string | null = null;
 
-  // Modal upload
+  // Modal upload document
   showUploadModal = false;
   pendingFile: File | null = null;
   uploadName = '';
   uploadType = '';
 
   readonly documentTypes = ['Facture', 'Garantie', 'Manuel', 'Certificat', 'Photo', 'Autre'];
+
+  // Modal edit document
+  showEditDocumentModal = false;
+  pendingEditDocumentId: string | null = null;
+  editDocumentName = '';
+  editDocumentType = '';
 
   // Event modal
   showAddEventModal = false;
@@ -267,5 +273,34 @@ export class AssetDetailComponent implements OnInit {
       },
       error: () => this.toastService.show("Erreur lors de l'ajout", 'error'),
     });
+  }
+
+  openEditDocumentModal(doc: Document): void {
+    this.pendingEditDocumentId = doc.id;
+    this.editDocumentName = doc.name;
+    this.editDocumentType = doc.type ?? '';
+    this.showEditDocumentModal = true;
+  }
+
+  closeEditDocumentModal(): void {
+    this.showEditDocumentModal = false;
+    this.pendingEditDocumentId = null;
+  }
+
+  confirmEditDocument(): void {
+    if (!this.pendingEditDocumentId || !this.editDocumentName) return;
+    this.documentsService.updateDocument(this.assetId, this.pendingEditDocumentId, {
+      name: this.editDocumentName,
+      type: this.editDocumentType || undefined,
+    }).subscribe({
+      next: (updateDoc) => {
+        this.documents = this.documents.map(d => d.id === updateDoc.id ? updateDoc : d);
+        this.showEditDocumentModal = false;
+        this.pendingEditDocumentId = null;
+        this.toastService.show('Document mis à jour');
+        this.cdr.detectChanges();
+      },
+      error: () => this.toastService.show('Erreur lors de la mise à jour', 'error')
+    })
   }
 }
