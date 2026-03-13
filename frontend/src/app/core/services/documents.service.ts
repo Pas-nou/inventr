@@ -49,4 +49,8 @@ export class DocumentsService {
   deleteDocument(assetId: string, documentId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/asset/${assetId}/${documentId}`);
   }
+
+  updateDocument(assetId: string, documentId: string, payload: { name?: string; type?: string }): Observable<Document> {
+    return this.http.patch<Document>(`${this.apiUrl}/asset/${assetId}/${documentId}`, payload);
+  }
 }
