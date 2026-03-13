@@ -1,4 +1,12 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateDocumentDto } from './create-document.dto';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { DocumentType } from '../enums/document-type.enum';
 
-export class UpdateDocumentDto extends PartialType(CreateDocumentDto) {}
+export class UpdateDocumentDto {
+  @IsString()
+  @IsOptional()
+  name?: string;
+
+  @IsEnum(DocumentType)
+  @IsOptional()
+  type?: DocumentType;
+}

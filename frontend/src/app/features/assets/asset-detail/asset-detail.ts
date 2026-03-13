@@ -17,6 +17,7 @@ import {
   Bike,
   Flower,
   Trash,
+  Pencil,
   LucideIconData,
 } from 'lucide-angular';
 import { Asset, AssetsService } from '../../../core/services/assets.service';
@@ -45,6 +46,7 @@ export class AssetDetailComponent implements OnInit {
   readonly wrench = Wrench;
   readonly calendarClock = CalendarClock;
   readonly trash = Trash;
+  readonly pencil = Pencil;
 
   private readonly categoryIcons: Record<string, LucideIconData> = {
     'High-tech': Laptop,

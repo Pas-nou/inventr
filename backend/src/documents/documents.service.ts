@@ -102,11 +102,14 @@ export class DocumentsService {
     await this.verifyAssetOwnership(assetId, userId);
     const result = await this.documentRepository.update(
       { id, asset: { id: assetId } },
-      updateDocumentDto,
+      {
+        name: updateDocumentDto.name,
+        type: updateDocumentDto.type,
+      },
     );
     if (result.affected === 0)
       throw new NotFoundException(`Document ${id} introuvable`);
-    return result;
+    return this.findOne(id, assetId, userId);
   }
 
   async remove(id: string, assetId: string, userId: string) {
