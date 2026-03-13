@@ -11,9 +11,10 @@ import { Type } from 'class-transformer';
 import { MaintenanceEventType } from '../enums/maintenance-event-type.enum';
 export class CreateMaintenanceEventDto {
   @IsEnum(MaintenanceEventType)
-  type: MaintenanceEventType;
+  @IsOptional()
+  type?: MaintenanceEventType;
 
-  @IsDate()
+  @IsString()
   name: string;
 
   @IsDate()
@@ -35,5 +36,6 @@ export class CreateMaintenanceEventDto {
   next_due_date?: Date;
 
   @IsUUID()
+  @IsOptional()
   assetId: string;
 }

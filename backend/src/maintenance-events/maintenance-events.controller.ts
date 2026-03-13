@@ -31,14 +31,15 @@ export class MaintenanceEventsController {
     private readonly maintenanceEventsService: MaintenanceEventsService,
   ) {}
 
-  @Post()
+  @Post('asset/:assetId')
   create(
+    @Param('assetId', ParseUUIDPipe) assetId: string,
     @Body() createMaintenanceEventDto: CreateMaintenanceEventDto,
     @Request() req: RequestWithUser,
   ) {
     return this.maintenanceEventsService.create(
       createMaintenanceEventDto,
-      createMaintenanceEventDto.assetId,
+      assetId,
       req.user.userId,
     );
   }
