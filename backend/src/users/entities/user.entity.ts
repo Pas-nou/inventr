@@ -35,6 +35,15 @@ export class User {
   @Column({ nullable: true, type: 'text' })
   refresh_token: string | null;
 
+  @Column({ default: false })
+  email_verified: boolean;
+
+  @Column({ nullable: true, type: 'text' })
+  verification_token: string | null;
+
+  @Column({ nullable: true, type: 'timestamptz' })
+  verification_token_expires_at: Date | null;
+
   @CreateDateColumn()
   created_at: Date;
 
