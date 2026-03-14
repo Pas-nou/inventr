@@ -44,10 +44,20 @@ export class AuthService {
       .pipe(tap((response) => this.storeTokens(response)));
   }
 
-  register(dto: RegisterDto): Observable<AuthResponse> {
-    return this.http
-      .post<AuthResponse>(`${this.apiUrl}/register`, dto)
-      .pipe(tap((response) => this.storeTokens(response)));
+  register(dto: RegisterDto): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/register`, dto);
+  }
+
+  verifyEmail(token: string): Observable<void> {
+    return this.http.get<void>(`${this.apiUrl}/verify-email`, {
+      params: { token },
+    });
+  }
+
+  resendVerification(email: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/resend-verification`, {
+      email,
+    });
   }
 
   refreshToken(): Observable<{ access_token: string; refresh_token: string }> {
