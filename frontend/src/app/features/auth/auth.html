@@ -119,7 +119,22 @@
 
         <!-- * Fixed area at the bottom of the page -->
         <div class="mt-auto">
-          <!-- * Error message -->
+          <!-- Email not verified -->
+          @if (showEmailNotVerified) {
+            <div
+              class="mb-2 rounded-xl p-3 text-xs"
+              style="
+                background-color: rgba(239, 68, 68, 0.08);
+                border: 1px solid rgba(239, 68, 68, 0.2);
+              "
+            >
+              <p class="text-error mb-1">Votre email n'a pas encore été vérifié.</p>
+              <button type="button" (click)="resendVerification()" class="text-primary underline">
+                Renvoyer l'email de confirmation
+              </button>
+            </div>
+          }
+          <!-- Error message -->
           @if (errorMessage) {
             <p class="text-error text-xs text-center mb-2">{{ errorMessage }}</p>
           }
@@ -158,188 +173,221 @@
         </div>
       </form>
     } @else {
-      <!-- * Register Form -->
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-col flex-1">
-        <!-- * Email -->
-        <div class="mb-4">
-          <label
-            for="email"
-            class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
+      @if (registerSuccess) {
+        <!-- * Registration success -->
+        <div
+          class="flex flex-col flex-1 items-center justify-center text-center gap-4 animate-fade-in-up"
+        >
+          <span
+            class="w-16 h-16 rounded-full flex items-center justify-center bg-primary-dim"
+            aria-hidden="true"
           >
-            EMAIL
-          </label>
-          <input
-            required
-            type="email"
-            id="email"
-            formControlName="email"
-            placeholder="example@mail.com"
-            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
-          />
-          @if (registerForm.get('email')?.touched) {
-            @if (registerForm.get('email')?.errors?.['required']) {
-              <p class="text-error text-xs mt-1">L'email est requis</p>
-            }
-            @if (registerForm.get('email')?.errors?.['email']) {
-              <p class="text-error text-xs mt-1">Format d'email invalide</p>
-            }
-          }
-        </div>
-
-        <!-- * Password -->
-        <div class="mb-4">
-          <label
-            for="password"
-            class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
-          >
-            MOT DE PASSE
-          </label>
-          <input
-            required
-            type="password"
-            id="password"
-            formControlName="password"
-            placeholder="••••••••"
-            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
-          />
-          @if (registerForm.get('password')?.touched) {
-            @if (registerForm.get('password')?.errors?.['required']) {
-              <p class="text-error text-xs mt-1">Le mot de passe est requis</p>
-            }
-            @if (registerForm.get('password')?.errors?.['minlength']) {
-              <p class="text-error text-xs mt-1">
-                Le mot de passe doit comporter 8 caractères minimum
-              </p>
-            }
-          }
-        </div>
-
-        <!-- * Confirm password -->
-        <div class="mb-4">
-          <label
-            for="confirmPassword"
-            class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
-          >
-            CONFIRMEZ VOTRE MOT DE PASSE
-          </label>
-          <input
-            required
-            type="password"
-            id="confirmPassword"
-            formControlName="confirmPassword"
-            placeholder="••••••••"
-            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
-          />
-          @if (registerForm.get('confirmPassword')?.touched) {
-            @if (registerForm.get('confirmPassword')?.errors?.['required']) {
-              <p class="text-error text-xs mt-1">Le mot de passe est requis</p>
-            }
-            @if (registerForm.get('confirmPassword')?.errors?.['minlength']) {
-              <p class="text-error text-xs mt-1">
-                Le mot de passe doit comporter 8 caractères minimum
-              </p>
-            }
-          }
-          @if (
-            registerForm.errors?.['passwordMismatch'] &&
-            registerForm.get('confirmPassword')?.touched
-          ) {
-            <p class="text-error text-xs mt-1">Les mots de passe ne sont pas identiques</p>
-          }
-        </div>
-
-        <!-- * Firstname -->
-        <div class="mb-4">
-          <label
-            for="firstname"
-            class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
-          >
-            PRÉNOM
-          </label>
-          <input
-            required
-            type="text"
-            id="firstname"
-            formControlName="first_name"
-            placeholder="Minimum 2 caractères"
-            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
-          />
-          @if (registerForm.get('first_name')?.touched) {
-            @if (registerForm.get('first_name')?.errors?.['required']) {
-              <p class="text-error text-xs mt-1">Le prénom est requis</p>
-            }
-            @if (registerForm.get('first_name')?.errors?.['minlength']) {
-              <p class="text-error text-xs mt-1">Le prénom doit comporter 2 caractères minimum</p>
-            }
-          }
-        </div>
-
-        <!-- * Lastname -->
-        <div class="mb-8">
-          <label
-            for="lastname"
-            class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
-          >
-            NOM
-          </label>
-          <input
-            required
-            type="text"
-            id="lastname"
-            formControlName="last_name"
-            placeholder="Minimum 2 caractères"
-            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
-          />
-          @if (registerForm.get('last_name')?.touched) {
-            @if (registerForm.get('last_name')?.errors?.['required']) {
-              <p class="text-error text-xs mt-1">Le nom est requis</p>
-            }
-            @if (registerForm.get('last_name')?.errors?.['minlength']) {
-              <p class="text-error text-xs mt-1">Le nom doit comporter 2 caractères minimum</p>
-            }
-          }
-        </div>
-
-        <!-- * Fixed area at the bottom of the page -->
-        <div class="mt-auto">
-          <!-- * Error message -->
-          @if (errorMessage) {
-            <p class="text-error text-xs text-center mb-2">{{ errorMessage }}</p>
-          }
-
-          <!-- * Submit button -->
-          <button
-            type="submit"
-            [disabled]="isLoading"
-            class="w-full bg-primary text-background font-bold py-3 min-h-13 rounded-xl text-base transition-opacity hover:opacity-90 shadow-[0_4px_20px_var(--color-primary-shadow)] flex items-center justify-center"
-          >
-            @if (!isLoading) {
-              Créer mon compte
-            } @else {
-              <span class="flex items-center gap-1">
-                <span class="h-1.5 w-1.5 rounded-full bg-background dot-1"></span>
-                <span class="h-1.5 w-1.5 rounded-full bg-background dot-2"></span>
-                <span class="h-1.5 w-1.5 rounded-full bg-background dot-3"></span>
-              </span>
-            }
-          </button>
-
-          <!-- * Separator -->
-          <div class="flex items-center gap-3 my-6">
-            <hr class="flex-1 border-border" />
-            <span class="text-text-secondary text-xs">ou</span>
-            <hr class="flex-1 border-border" />
-          </div>
-
-          <!-- * Login link -->
-          <p class="text-center text-text-secondary text-sm">
-            Déjà un compte ?
-            <button type="button" (click)="setLogin()" class="text-primary font-medium">
-              Se connecter
-            </button>
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--color-primary)"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </span>
+          <h2 class="text-xl font-semibold text-text-primary">Vérifiez votre email</h2>
+          <p class="text-text-secondary text-sm">
+            Un email de confirmation a été envoyé à<br />
+            <span class="text-primary font-medium">{{ registrationEmail }}</span>
+          </p>
+          <p class="text-text-secondary text-xs">
+            Cliquez sur le lien dans l'email pour activer votre compte.
           </p>
         </div>
-      </form>
+      } @else {
+        <!-- * Register Form -->
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-col flex-1">
+          <!-- * Email -->
+          <div class="mb-4">
+            <label
+              for="email"
+              class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
+            >
+              EMAIL
+            </label>
+            <input
+              required
+              type="email"
+              id="email"
+              formControlName="email"
+              placeholder="example@mail.com"
+              class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
+            />
+            @if (registerForm.get('email')?.touched) {
+              @if (registerForm.get('email')?.errors?.['required']) {
+                <p class="text-error text-xs mt-1">L'email est requis</p>
+              }
+              @if (registerForm.get('email')?.errors?.['email']) {
+                <p class="text-error text-xs mt-1">Format d'email invalide</p>
+              }
+            }
+          </div>
+
+          <!-- * Password -->
+          <div class="mb-4">
+            <label
+              for="password"
+              class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
+            >
+              MOT DE PASSE
+            </label>
+            <input
+              required
+              type="password"
+              id="password"
+              formControlName="password"
+              placeholder="••••••••"
+              class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
+            />
+            @if (registerForm.get('password')?.touched) {
+              @if (registerForm.get('password')?.errors?.['required']) {
+                <p class="text-error text-xs mt-1">Le mot de passe est requis</p>
+              }
+              @if (registerForm.get('password')?.errors?.['minlength']) {
+                <p class="text-error text-xs mt-1">
+                  Le mot de passe doit comporter 8 caractères minimum
+                </p>
+              }
+            }
+          </div>
+
+          <!-- * Confirm password -->
+          <div class="mb-4">
+            <label
+              for="confirmPassword"
+              class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
+            >
+              CONFIRMEZ VOTRE MOT DE PASSE
+            </label>
+            <input
+              required
+              type="password"
+              id="confirmPassword"
+              formControlName="confirmPassword"
+              placeholder="••••••••"
+              class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
+            />
+            @if (registerForm.get('confirmPassword')?.touched) {
+              @if (registerForm.get('confirmPassword')?.errors?.['required']) {
+                <p class="text-error text-xs mt-1">Le mot de passe est requis</p>
+              }
+              @if (registerForm.get('confirmPassword')?.errors?.['minlength']) {
+                <p class="text-error text-xs mt-1">
+                  Le mot de passe doit comporter 8 caractères minimum
+                </p>
+              }
+            }
+            @if (
+              registerForm.errors?.['passwordMismatch'] &&
+              registerForm.get('confirmPassword')?.touched
+            ) {
+              <p class="text-error text-xs mt-1">Les mots de passe ne sont pas identiques</p>
+            }
+          </div>
+
+          <!-- * Firstname -->
+          <div class="mb-4">
+            <label
+              for="firstname"
+              class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
+            >
+              PRÉNOM
+            </label>
+            <input
+              required
+              type="text"
+              id="firstname"
+              formControlName="first_name"
+              placeholder="Minimum 2 caractères"
+              class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
+            />
+            @if (registerForm.get('first_name')?.touched) {
+              @if (registerForm.get('first_name')?.errors?.['required']) {
+                <p class="text-error text-xs mt-1">Le prénom est requis</p>
+              }
+              @if (registerForm.get('first_name')?.errors?.['minlength']) {
+                <p class="text-error text-xs mt-1">Le prénom doit comporter 2 caractères minimum</p>
+              }
+            }
+          </div>
+
+          <!-- * Lastname -->
+          <div class="mb-8">
+            <label
+              for="lastname"
+              class="block text-xs font-medium text-text-secondary tracking-wider mb-2"
+            >
+              NOM
+            </label>
+            <input
+              required
+              type="text"
+              id="lastname"
+              formControlName="last_name"
+              placeholder="Minimum 2 caractères"
+              class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-secondary/50 focus:outline-none focus:border-primary focus:bg-surface-dark transition-colors"
+            />
+            @if (registerForm.get('last_name')?.touched) {
+              @if (registerForm.get('last_name')?.errors?.['required']) {
+                <p class="text-error text-xs mt-1">Le nom est requis</p>
+              }
+              @if (registerForm.get('last_name')?.errors?.['minlength']) {
+                <p class="text-error text-xs mt-1">Le nom doit comporter 2 caractères minimum</p>
+              }
+            }
+          </div>
+
+          <!-- * Fixed area at the bottom of the page -->
+          <div class="mt-auto">
+            <!-- * Error message -->
+            @if (errorMessage) {
+              <p class="text-error text-xs text-center mb-2">{{ errorMessage }}</p>
+            }
+
+            <!-- * Submit button -->
+            <button
+              type="submit"
+              [disabled]="isLoading"
+              class="w-full bg-primary text-background font-bold py-3 min-h-13 rounded-xl text-base transition-opacity hover:opacity-90 shadow-[0_4px_20px_var(--color-primary-shadow)] flex items-center justify-center"
+            >
+              @if (!isLoading) {
+                Créer mon compte
+              } @else {
+                <span class="flex items-center gap-1">
+                  <span class="h-1.5 w-1.5 rounded-full bg-background dot-1"></span>
+                  <span class="h-1.5 w-1.5 rounded-full bg-background dot-2"></span>
+                  <span class="h-1.5 w-1.5 rounded-full bg-background dot-3"></span>
+                </span>
+              }
+            </button>
+
+            <!-- * Separator -->
+            <div class="flex items-center gap-3 my-6">
+              <hr class="flex-1 border-border" />
+              <span class="text-text-secondary text-xs">ou</span>
+              <hr class="flex-1 border-border" />
+            </div>
+
+            <!-- * Login link -->
+            <p class="text-center text-text-secondary text-sm">
+              Déjà un compte ?
+              <button type="button" (click)="setLogin()" class="text-primary font-medium">
+                Se connecter
+              </button>
+            </p>
+          </div>
+        </form>
+      }
     }
   </section>
 </main>
