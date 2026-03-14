@@ -1,0 +1,169 @@
+<main class="min-h-screen flex items-center justify-center px-4 bg-background">
+  <span
+    class="absolute top-0 left-0 w-64 h-64 rounded-full opacity-20 blur-3xl pointer-events-none"
+    style="
+      background: radial-gradient(circle, var(--color-primary), transparent 70%);
+      transform: translate(-30%, -30%);
+    "
+  ></span>
+  <section class="w-full max-w-md text-center">
+    <!-- Logo -->
+    <header class="mb-12">
+      <span class="text-5xl font-bold text-text-primary font-display">
+        Invent<span class="text-primary">r</span>
+      </span>
+    </header>
+
+    <!-- Loading -->
+    @if (state === 'loading') {
+      <div
+        aria-live="polite"
+        aria-label="Vérification en cours"
+        class="flex flex-col items-center gap-4"
+      >
+        <span class="flex gap-1" role="status">
+          <span class="dot-1 w-2 h-2 rounded-full bg-primary"></span>
+          <span class="dot-2 w-2 h-2 rounded-full bg-primary"></span>
+          <span class="dot-3 w-2 h-2 rounded-full bg-primary"></span>
+        </span>
+        <p class="text-text-secondary">Vérification en cours…</p>
+      </div>
+    }
+
+    <!-- Success -->
+    @if (state === 'success') {
+      <div
+        aria-live="polite"
+        class="rounded-2xl p-8 bg-surface border border-border animate-fade-in-up"
+      >
+        <span
+          class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 bg-primary-dim"
+          aria-hidden="true"
+        >
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="var(--color-primary)"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </span>
+        <h1 class="text-xl font-semibold mb-2 text-text-primary">Email confirmé !</h1>
+        <p class="mb-6 text-text-secondary">
+          Votre adresse email a bien été vérifiée. Vous pouvez maintenant vous connecter.
+        </p>
+        <a
+          routerLink="/login"
+          class="block w-full py-3 rounded-xl font-semibold text-sm transition-opacity hover:opacity-90 bg-primary"
+          style="color: var(--color-background)"
+        >
+          Se connecter
+        </a>
+      </div>
+    }
+
+    <!-- Token expiré -->
+    @if (state === 'expired') {
+      <div
+        aria-live="polite"
+        class="rounded-2xl p-8 bg-surface border border-border animate-fade-in-up"
+      >
+        <span
+          class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 bg-error-dim"
+          aria-hidden="true"
+        >
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="var(--color-error)"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+        </span>
+        <h1 class="text-xl font-semibold mb-2 text-text-primary">Lien expiré</h1>
+        <p class="mb-6 text-text-secondary">
+          Ce lien de vérification a expiré. Entrez votre email pour en recevoir un nouveau.
+        </p>
+
+        @if (!resendSuccess) {
+          <label for="email" class="sr-only">Adresse email</label>
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="email"
+            placeholder="votre@email.com"
+            autocomplete="email"
+            class="w-full px-4 py-3 rounded-xl text-base mb-3 outline-none bg-surface-light border border-border text-text-primary placeholder:text-text-secondary"
+          />
+          <button
+            (click)="resend()"
+            [disabled]="isResending || !email"
+            class="w-full py-3 rounded-xl font-semibold text-sm transition-opacity hover:opacity-90 disabled:opacity-50 bg-primary"
+            style="color: var(--color-background)"
+          >
+            @if (isResending) {
+              Envoi…
+            } @else {
+              Renvoyer l'email
+            }
+          </button>
+        } @else {
+          <p class="text-sm text-primary" role="status">
+            ✓ Email envoyé ! Vérifiez votre boîte de réception.
+          </p>
+        }
+      </div>
+    }
+
+    <!-- Error -->
+    @if (state === 'error') {
+      <div
+        aria-live="polite"
+        class="rounded-2xl p-8 bg-surface border border-border animate-fade-in-up"
+      >
+        <span
+          class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 bg-error-dim"
+          aria-hidden="true"
+        >
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="var(--color-error)"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="15" y1="9" x2="9" y2="15" />
+            <line x1="9" y1="9" x2="15" y2="15" />
+          </svg>
+        </span>
+        <h1 class="text-xl font-semibold mb-2 text-text-primary">Lien invalide</h1>
+        <p class="mb-6 text-text-secondary">
+          Ce lien de vérification est invalide ou a déjà été utilisé.
+        </p>
+        <a
+          routerLink="/login"
+          class="block w-full py-3 rounded-xl font-semibold text-sm transition-opacity hover:opacity-90 bg-primary"
+          style="color: var(--color-background)"
+        >
+          Retour à la connexion
+        </a>
+      </div>
+    }
+  </section>
+</main>
