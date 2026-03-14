@@ -12,6 +12,7 @@ import { StorageModule } from './storage/storage.module';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { envValidationSchema } from './config/env.validation';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { envValidationSchema } from './config/env.validation';
     MaintenanceEventsModule,
     AuthModule,
     StorageModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: ThrottlerGuard }],

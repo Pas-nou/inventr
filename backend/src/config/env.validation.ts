@@ -11,9 +11,13 @@ export const envValidationSchema = Joi.object({
 
   JWT_SECRET: Joi.string().min(32).required(),
   JWT_EXPIRATION: Joi.string().required(),
+  JWT_REFRESH_SECRET: Joi.string().min(32).required(),
+  JWT_REFRESH_EXPIRATION: Joi.string().required(),
 
   SUPABASE_URL: Joi.string().required(),
   SUPABASE_SERVICE_ROLE_KEY: Joi.string().required(),
 
+  RESEND_API_KEY: Joi.string().required(),
+  EMAIL_FROM: Joi.string().email().required(),
   FRONTEND_URL: Joi.string().uri().default('http://localhost:4200'),
 });
