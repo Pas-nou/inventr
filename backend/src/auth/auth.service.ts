@@ -8,7 +8,9 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
+import { randomUUID } from 'crypto';
 import { User } from '../users/entities/user.entity';
+import { EmailService } from '../email/email.service';
 import type { StringValue } from 'ms';
 
 @Injectable()
@@ -18,6 +20,7 @@ export class AuthService {
     private usersRepository: Repository<User>,
     private jwtService: JwtService,
     private configService: ConfigService,
+    private emailService: EmailService,
   ) {}
 
   async register(
@@ -33,14 +36,29 @@ export class AuthService {
       throw new ConflictException('Email already in use');
     }
     const hashedPassword = await bcrypt.hash(password, 10);
+    const verificationToken = randomUUID();
+    const verificationTokenExpiresAt = new Date(
+      Date.now() + 48 * 60 * 60 * 1000,
+    );
     const newUser = this.usersRepository.create({
       email,
       password_hash: hashedPassword,
       first_name: firstName,
       last_name: lastName,
+      verification_token: verificationToken,
+      verification_token_expires_at: verificationTokenExpiresAt,
     });
-    const { password_hash: _password_hash, ...result } =
-      await this.usersRepository.save(newUser);
+
+    const savedUser = await this.usersRepository.save(newUser);
+
+    await this.emailService.sendVerificationEmail(
+      savedUser.email,
+      savedUser.first_name,
+      verificationToken,
+    );
+
+    const { password_hash: _password_hash, ...result } = savedUser;
+
     return result;
   }
 
@@ -54,6 +72,10 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
+    if (!user.email_verified) {
+      throw new UnauthorizedException('EMAIL_NOT_VERIFIED');
+    }
+
     const tokens = await this.generateTokens(user);
     return {
       ...tokens,
@@ -64,6 +86,53 @@ export class AuthService {
         last_name: user.last_name,
       },
     };
+  }
+
+  async verifyEmail(token: string) {
+    const user = await this.usersRepository.findOne({
+      where: { verification_token: token },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Token invalide');
+    }
+
+    if (
+      !user.verification_token_expires_at ||
+      user.verification_token_expires_at < new Date()
+    ) {
+      throw new UnauthorizedException('TOKEN_EXPIRED');
+    }
+
+    await this.usersRepository.update(user.id, {
+      email_verified: true,
+      verification_token: null,
+      verification_token_expires_at: null,
+    });
+  }
+
+  async resendVerificationEmail(email: string): Promise<void> {
+    const user = await this.usersRepository.findOne({ where: { email } });
+
+    if (!user || user.email_verified) {
+      return;
+    }
+
+    const verificationToken = randomUUID();
+    const verificationTokenExpiresAt = new Date(
+      Date.now() + 48 * 60 * 60 * 1000,
+    );
+
+    await this.usersRepository.update(user.id, {
+      verification_token: verificationToken,
+      verification_token_expires_at: verificationTokenExpiresAt,
+    });
+
+    await this.emailService.sendVerificationEmail(
+      user.email,
+      user.first_name,
+      verificationToken,
+    );
   }
 
   async refresh(userId: string, refreshToken: string) {
