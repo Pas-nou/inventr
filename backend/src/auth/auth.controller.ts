@@ -7,6 +7,8 @@ import {
   UseGuards,
   Request,
   Patch,
+  Get,
+  Query,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -37,6 +39,19 @@ export class AuthController {
       signUpDto.first_name,
       signUpDto.last_name,
     );
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Get('verify-email')
+  verifyEmail(@Query('token') token: string) {
+    return this.authService.verifyEmail(token);
+  }
+
+  @Throttle({ default: { ttl: 60, limit: 3 } })
+  @HttpCode(HttpStatus.OK)
+  @Post('resend-verification')
+  resendVerification(@Body() body: { email: string }) {
+    return this.authService.resendVerificationEmail(body.email);
   }
 
   @HttpCode(HttpStatus.OK)
