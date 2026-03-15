@@ -130,4 +130,17 @@ export class DocumentsService {
       asset: { id: assetId },
     });
   }
+
+  async getSignedUrl(
+    id: string,
+    assetId: string,
+    userId: string,
+  ): Promise<{ url: string }> {
+    const document = await this.findOne(id, assetId, userId);
+    const url = await this.storageService.getSignedUrl(
+      'documents',
+      document.storage_key,
+    );
+    return { url };
+  }
 }

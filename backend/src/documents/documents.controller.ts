@@ -85,6 +85,15 @@ export class DocumentsController {
     return this.documentsService.findAll(assetId, req.user.userId, page, limit);
   }
 
+  @Get('asset/:assetId/:id/url')
+  getSignedUrl(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('assetId', ParseUUIDPipe) assetId: string,
+    @Request() req: RequestWithUser,
+  ) {
+    return this.documentsService.getSignedUrl(id, assetId, req.user.userId);
+  }
+
   @Get('asset/:assetId/:id')
   findOne(
     @Param('id', ParseUUIDPipe) id: string,
