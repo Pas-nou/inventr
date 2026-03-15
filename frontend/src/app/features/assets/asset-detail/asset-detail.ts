@@ -18,6 +18,8 @@ import {
   Flower,
   Trash,
   Pencil,
+  Eye,
+  Download,
   LucideIconData,
 } from 'lucide-angular';
 import { Asset, AssetsService } from '../../../core/services/assets.service';
@@ -47,6 +49,8 @@ export class AssetDetailComponent implements OnInit {
   readonly calendarClock = CalendarClock;
   readonly trash = Trash;
   readonly pencil = Pencil;
+  readonly eye = Eye;
+  readonly download = Download;
 
   private readonly categoryIcons: Record<string, LucideIconData> = {
     'High-tech': Laptop,
@@ -291,18 +295,34 @@ export class AssetDetailComponent implements OnInit {
 
   confirmEditDocument(): void {
     if (!this.pendingEditDocumentId || !this.editDocumentName) return;
-    this.documentsService.updateDocument(this.assetId, this.pendingEditDocumentId, {
-      name: this.editDocumentName,
-      type: this.editDocumentType || undefined,
-    }).subscribe({
-      next: (updateDoc) => {
-        this.documents = this.documents.map(d => d.id === updateDoc.id ? updateDoc : d);
-        this.showEditDocumentModal = false;
-        this.pendingEditDocumentId = null;
-        this.toastService.show('Document mis à jour');
-        this.cdr.detectChanges();
+    this.documentsService
+      .updateDocument(this.assetId, this.pendingEditDocumentId, {
+        name: this.editDocumentName,
+        type: this.editDocumentType || undefined,
+      })
+      .subscribe({
+        next: (updateDoc) => {
+          this.documents = this.documents.map((d) => (d.id === updateDoc.id ? updateDoc : d));
+          this.showEditDocumentModal = false;
+          this.pendingEditDocumentId = null;
+          this.toastService.show('Document mis à jour');
+          this.cdr.detectChanges();
+        },
+        error: () => this.toastService.show('Erreur lors de la mise à jour', 'error'),
+      });
+  }
+
+  openDocument(documentId: string, download = false): void {
+    this.documentsService.getSignedUrl(this.assetId, documentId).subscribe({
+      next: ({ url }) => {
+        const a = document.createElement('a');
+        a.href = url;
+        if (download) a.download = '';
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.click();
       },
-      error: () => this.toastService.show('Erreur lors de la mise à jour', 'error')
-    })
+      error: () => this.toastService.show("Erreur lors de l'ouverture du document", 'error'),
+    });
   }
 }
