@@ -107,6 +107,20 @@ export class AssetDetailComponent implements OnInit {
     'Autre',
   ];
 
+  // Update event modal
+  showEditEventModal = false;
+  pendingEditEventId: string | null = null;
+  editEventName = '';
+  editEventType = '';
+  editEventDate = '';
+  editEventCost = 0;
+  editEventNotes = '';
+  editEventNextDueDate = '';
+
+  // Delete event modal
+  showDeleteEventModal = false;
+  pendingDeleteEventId: string | null = null;
+
   // Tabs
   readonly tabs = [
     { key: 'infos' as const, label: 'Infos' },
@@ -279,6 +293,76 @@ export class AssetDetailComponent implements OnInit {
       },
       error: () => this.toastService.show("Erreur lors de l'ajout", 'error'),
     });
+  }
+
+  openEditEventModal(event: MaintenanceEvent): void {
+    this.pendingEditEventId = event.id;
+    this.editEventName = event.name;
+    this.editEventType = event.type ?? '';
+    this.editEventDate = event.date.slice(0, 10);
+    this.editEventCost = event.cost_cents / 100;
+    this.editEventNotes = event.notes ?? '';
+    this.editEventNextDueDate = event.next_due_date?.slice(0, 10) ?? '';
+    this.showEditEventModal = true;
+  }
+
+  closeEditEventModal(): void {
+    this.showEditEventModal = false;
+    this.pendingEditEventId = null;
+  }
+
+  confirmEditEvent(): void {
+    if (!this.pendingEditEventId || !this.editEventName || !this.editEventDate) return;
+    const payload = {
+      name: this.editEventName,
+      type: this.editEventType || undefined,
+      date: this.editEventDate,
+      cost_cents: Math.round(this.editEventCost * 100),
+      notes: this.editEventNotes || undefined,
+      next_due_date: this.editEventNextDueDate || undefined,
+    };
+    this.maintenanceEventsService
+      .updateMaintenanceEvent(this.assetId, this.pendingEditEventId, payload)
+      .subscribe({
+        next: (updated) => {
+          this.maintenanceEvents = this.maintenanceEvents.map((e) =>
+            e.id === updated.id ? updated : e,
+          );
+          this.showEditEventModal = false;
+          this.pendingEditEventId = null;
+          this.toastService.show('Événement mis à jour');
+          this.cdr.detectChanges();
+        },
+        error: () => this.toastService.show('Erreur lors de la mise à jour', 'error'),
+      });
+  }
+
+  openDeleteEventModal(eventId: string): void {
+    this.pendingDeleteEventId = eventId;
+    this.showDeleteEventModal = true;
+  }
+
+  closeDeleteEventModal(): void {
+    this.showDeleteEventModal = false;
+    this.pendingDeleteEventId = null;
+  }
+
+  confirmDeleteEvent(): void {
+    if (!this.pendingDeleteEventId) return;
+    this.maintenanceEventsService
+      .deleteMaintenanceEvent(this.assetId, this.pendingDeleteEventId)
+      .subscribe({
+        next: () => {
+          this.maintenanceEvents = this.maintenanceEvents.filter(
+            (e) => e.id !== this.pendingDeleteEventId,
+          );
+          this.showDeleteEventModal = false;
+          this.pendingDeleteEventId = null;
+          this.toastService.show('Événement supprimé');
+          this.cdr.detectChanges();
+        },
+        error: () => this.toastService.show('Erreur lors de la suppression', 'error'),
+      });
   }
 
   openEditDocumentModal(doc: Document): void {
