@@ -60,6 +60,17 @@ export class AuthService {
     });
   }
 
+  forgotPassword(email: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, newPassword: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/reset-password`, {
+      token,
+      new_password: newPassword,
+    });
+  }
+
   refreshToken(): Observable<{ access_token: string; refresh_token: string }> {
     const userId = this.getUser()?.id;
     const refresh_token = localStorage.getItem('refresh_token');
