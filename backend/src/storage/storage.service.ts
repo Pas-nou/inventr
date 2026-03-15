@@ -37,4 +37,18 @@ export class StorageService {
       throw new InternalServerErrorException('File deletion failed');
     }
   }
+
+  async getSignedUrl(
+    bucket: string,
+    path: string,
+    expiresIn = 60,
+  ): Promise<string> {
+    const { data, error } = await this.supabase.storage
+      .from(bucket)
+      .createSignedUrl(path, expiresIn);
+    if (error || !data?.signedUrl) {
+      throw new InternalServerErrorException('Could not generate signed URL');
+    }
+    return data.signedUrl;
+  }
 }
