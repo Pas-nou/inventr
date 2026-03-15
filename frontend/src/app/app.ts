@@ -13,7 +13,7 @@ export class App {
   constructor(public router: Router) {}
 
   get showNavbar(): boolean {
-    const hiddenRoutes = ['/login', '/assets/new', '/verify-email']
+    const hiddenRoutes = ['/login', '/assets/new', '/verify-email', '/forgot-password', '/reset-password']
     return !hiddenRoutes.includes(this.router.url) && !this.router.url.endsWith('/edit');
   }
 }
