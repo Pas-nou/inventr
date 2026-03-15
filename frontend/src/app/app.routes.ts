@@ -18,6 +18,16 @@ export const routes: Routes = [
       import('./features/auth/verify-email/verify-email').then((m) => m.VerifyEmailComponent),
   },
   {
+    path: 'forgot-password',
+    loadComponent: () => 
+      import('./features/auth/forgot-password/forgot-password').then((m) => m.ForgotPasswordComponent)
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () => 
+      import('./features/auth/reset-password/reset-password').then((m) => m.ResetPasswordComponent)
+  },
+  {
     path: 'home',
     canActivate: [AuthGuard],
     loadComponent: () => import('./features/assets/assets').then((m) => m.AssetsComponent),
