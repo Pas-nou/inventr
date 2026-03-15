@@ -54,6 +54,20 @@ export class AuthController {
     return this.authService.resendVerificationEmail(body.email);
   }
 
+  @Throttle({ default: { ttl: 3, limit: 3 } })
+  @HttpCode(HttpStatus.OK)
+  @Post('forgot-password')
+  forgotPassword(@Body() body: { email: string }) {
+    return this.authService.forgotPassword(body.email);
+  }
+
+  @Throttle({ default: { ttl: 60, limit: 5 } })
+  @HttpCode(HttpStatus.OK)
+  @Post('reset-password')
+  resetPassword(@Body() body: { token: string; new_password: string }) {
+    return this.authService.resetPassword(body.token, body.new_password);
+  }
+
   @HttpCode(HttpStatus.OK)
   @Post('refresh')
   refresh(@Body() body: { userId: string; refresh_token: string }) {
