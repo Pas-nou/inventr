@@ -29,6 +29,22 @@ export class EmailService {
     });
   }
 
+  async sendResetPasswordEmail(
+    toEmail: string,
+    firstName: string,
+    token: string,
+  ): Promise<void> {
+    const frontendUrl = this.configService.getOrThrow<string>('FRONTEND_URL');
+    const resetUrl = `${frontendUrl}/reset-password?token=${token}`;
+
+    await this.resend.emails.send({
+      from: this.fromAddress,
+      to: toEmail,
+      subject: 'Réinitialisation de votre mot de passe - Inventr',
+      html: this.buildResetPasswordEmailHtml(firstName, resetUrl),
+    });
+  }
+
   private buildVerificationEmailHtml(
     firstName: string,
     verificationUrl: string,
@@ -83,6 +99,63 @@ export class EmailService {
                 </table>
             </body>
         </html>
+    `;
+  }
+
+  private buildResetPasswordEmailHtml(
+    firstName: string,
+    resetUrl: string,
+  ): string {
+    return `
+    <!DOCTYPE html>
+    <html lang="fr">
+      <body style="margin:0;padding:0;background-color:#0A0F1A;font-family:Inter,sans-serif;color:#F1F5F9;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 20px;">
+          <tr>
+            <td align="center">
+              <table width="560" cellpadding="0" cellspacing="0" style="background-color:#111827;border-radius:12px;padding:40px;border:1px solid rgba(255,255,255,0.08);">
+                <tr>
+                  <td style="padding-bottom:32px;">
+                    <span style="font-family:Inter,sans-serif;font-size:24px;font-weight:700;color:#F1F5F9;">
+                      Invent<span style="color:#00BFA6;">r</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-bottom:16px;font-size:18px;font-weight:600;color:#F1F5F9;">
+                    Bonjour ${firstName},
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-bottom:32px;font-size:15px;line-height:1.6;color:#94A3B8;">
+                    Vous avez demandé la réinitialisation de votre mot de passe. Cliquez sur le bouton ci-dessous pour en choisir un nouveau. Ce lien est valable <strong style="color:#F1F5F9;">1 heure</strong>.
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding-bottom:32px;">
+                    <a href="${resetUrl}"
+                      style="display:inline-block;background-color:#00BFA6;color:#0A0F1A;font-weight:700;font-size:15px;padding:14px 32px;border-radius:8px;text-decoration:none;">
+                      Réinitialiser mon mot de passe
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="font-size:13px;color:#64748B;line-height:1.6;">
+                    Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur :<br/>
+                    <a href="${resetUrl}" style="color:#00BFA6;word-break:break-all;">${resetUrl}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top:32px;font-size:12px;color:#475569;border-top:1px solid rgba(255,255,255,0.08);">
+                    Si vous n'avez pas demandé de réinitialisation, ignorez cet email. Votre mot de passe ne sera pas modifié.
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </body>
+    </html>
     `;
   }
 }
