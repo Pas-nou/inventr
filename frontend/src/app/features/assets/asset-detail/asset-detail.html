@@ -517,6 +517,30 @@
                   aria-hidden="true"
                 />
               </button>
+              <button
+                (click)="openDocument(doc.id)"
+                aria-label="Visualiser le document"
+                class="p-1"
+              >
+                <lucide-angular
+                  [img]="eye"
+                  [size]="16"
+                  class="text-text-secondary"
+                  aria-hidden="true"
+                />
+              </button>
+              <button
+                (click)="openDocument(doc.id, true)"
+                aria-label="Télécharger le document"
+                class="p-1"
+              >
+                <lucide-angular
+                  [img]="download"
+                  [size]="16"
+                  class="text-text-secondary"
+                  aria-hidden="true"
+                />
+              </button>
               <button (click)="openDeleteDocumentModal(doc.id)" aria-label="Supprimer le document">
                 <lucide-angular
                   [img]="trash"
