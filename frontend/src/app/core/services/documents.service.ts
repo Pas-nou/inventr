@@ -10,7 +10,7 @@ export interface Document {
   original_filename: string;
   mime_type: string;
   size_bytes: number;
-  storage_key: string,
+  storage_key: string;
   created_at: string;
 }
 
@@ -50,7 +50,15 @@ export class DocumentsService {
     return this.http.delete<void>(`${this.apiUrl}/asset/${assetId}/${documentId}`);
   }
 
-  updateDocument(assetId: string, documentId: string, payload: { name?: string; type?: string }): Observable<Document> {
+  updateDocument(
+    assetId: string,
+    documentId: string,
+    payload: { name?: string; type?: string },
+  ): Observable<Document> {
     return this.http.patch<Document>(`${this.apiUrl}/asset/${assetId}/${documentId}`, payload);
+  }
+
+  getSignedUrl(assetId: string, documentId: string): Observable<{ url: string }> {
+    return this.http.get<{ url: string }>(`${this.apiUrl}/asset/${assetId}/${documentId}/url`);
   }
 }
