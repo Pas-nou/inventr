@@ -2,6 +2,7 @@ import {
   Injectable,
   UnauthorizedException,
   ConflictException,
+  BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -133,6 +134,53 @@ export class AuthService {
       user.first_name,
       verificationToken,
     );
+  }
+
+  async forgotPassword(email: string): Promise<void> {
+    const user = await this.usersRepository.findOne({ where: { email } });
+
+    if (!user || !user.email_verified) {
+      return;
+    }
+
+    const resetToken = randomUUID();
+    const resetTokenExpiresAt = new Date(Date.now() + 60 * 60 * 1000);
+
+    await this.usersRepository.update(user.id, {
+      reset_password_token: resetToken,
+      reset_password_token_expires_at: resetTokenExpiresAt,
+    });
+
+    await this.emailService.sendResetPasswordEmail(
+      user.email,
+      user.first_name,
+      resetToken,
+    );
+  }
+
+  async resetPassword(token: string, newPassword: string): Promise<void> {
+    const user = await this.usersRepository.findOne({
+      where: { reset_password_token: token },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Token invalide');
+    }
+
+    if (
+      !user.reset_password_token_expires_at ||
+      user.reset_password_token_expires_at < new Date()
+    ) {
+      throw new BadRequestException('TOKEN_EXPIRED');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await this.usersRepository.update(user.id, {
+      password_hash: hashedPassword,
+      reset_password_token: null,
+      reset_password_token_expires_at: null,
+    });
   }
 
   async refresh(userId: string, refreshToken: string) {
