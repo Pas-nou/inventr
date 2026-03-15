@@ -50,4 +50,23 @@ export class MaintenanceEventsService {
   ): Observable<MaintenanceEvent> {
     return this.http.post<MaintenanceEvent>(`${this.apiUrl}/asset/${assetId}`, payload);
   }
+
+  updateMaintenanceEvent(
+    assetId: string,
+    eventId: string,
+    payload: {
+      name?: string;
+      type?: string;
+      date?: string;
+      cost_cents?: number;
+      notes?: string;
+      next_due_date?: string;
+    },
+  ): Observable<MaintenanceEvent> {
+    return this.http.patch<MaintenanceEvent>(`${this.apiUrl}/asset/${assetId}/${eventId}`, payload);
+  }
+
+  deleteMaintenanceEvent(assetId: string, eventId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/asset/${assetId}/${eventId}`);
+  }
 }
