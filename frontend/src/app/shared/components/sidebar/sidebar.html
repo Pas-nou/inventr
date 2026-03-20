@@ -1,1 +1,69 @@
-<p>sidebar works!</p>
+<aside class="hidden lg:flex flex-col w-60 min-h-screen bg-surface border-r border-border fixed top-0 left-0 z-40">
+
+    <!-- Logo -->
+  <div class="px-6 py-6 border-b border-border">
+    <span class="text-2xl font-bold text-text-primary font-display">
+      Invent<span class="text-primary">r</span>
+    </span>
+    <p class="text-xs text-text-secondary mt-1">Gestion de patrimoine</p>
+  </div>
+
+  <!-- Nav -->
+  <nav class="flex flex-col py-4 flex-1">
+    <a
+      routerLink="/home"
+      class="flex items-center gap-3 px-6 py-2.5 text-sm font-medium transition-colors border-l-2"
+      [class.text-primary]="isActive('/home')"
+      [class.border-primary]="isActive('/home')"
+      [class.bg-primary-dim]="isActive('/home')"
+      [class.text-text-secondary]="!isActive('/home')"
+      [class.border-transparent]="!isActive('/home')"
+    >
+      <lucide-angular [img]="package" [size]="16" aria-hidden="true" />
+      Inventaire
+    </a>
+
+    <a
+      routerLink="/assets/new"
+      class="flex items-center gap-3 px-6 py-2.5 text-sm font-medium transition-colors border-l-2"
+      [class.text-primary]="isActive('/assets/new')"
+      [class.border-primary]="isActive('/assets/new')"
+      [class.bg-primary-dim]="isActive('/assets/new')"
+      [class.text-text-secondary]="!isActive('/assets/new')"
+      [class.border-transparent]="!isActive('/assets/new')"
+    >
+      <lucide-angular [img]="plus" [size]="16" aria-hidden="true" />
+      Ajouter un bien
+    </a>
+
+    <a
+      routerLink="/profile"
+      class="flex items-center gap-3 px-6 py-2.5 text-sm font-medium transition-colors border-l-2"
+      [class.text-primary]="isActive('/profile')"
+      [class.border-primary]="isActive('/profile')"
+      [class.bg-primary-dim]="isActive('/profile')"
+      [class.text-text-secondary]="!isActive('/profile')"
+      [class.border-transparent]="!isActive('/profile')"
+    >
+      <lucide-angular [img]="user" [size]="16" aria-hidden="true" />
+      Profil
+    </a>
+  </nav>
+
+  <!-- User card -->
+  <div class="p-4 border-t border-border">
+    <div class="flex items-center gap-3 p-3 rounded-xl bg-surface-light border border-border">
+      <span class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-sm font-bold shrink-0"
+        style="color: var(--color-background);">
+        {{ userInitial }}
+      </span>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-semibold text-text-primary truncate">{{ userName }}</p>
+        <p class="text-xs text-text-secondary truncate">{{ userEmail }}</p>
+      </div>
+      <button (click)="logout()" aria-label="Se déconnecter" class="shrink-0 text-text-secondary hover:text-error transition-colors">
+        <lucide-angular [img]="logOut" [size]="16" aria-hidden="true" />
+      </button>
+    </div>
+  </div>
+</aside>

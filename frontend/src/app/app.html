@@ -1,7 +1,13 @@
 <app-toast />
 
+@if (showSidebar) {
+  <app-sidebar />
+}
+
 @if (showNavbar) {
   <app-navbar />
 }
 
-<router-outlet />
+<div [class.lg:ml-60]="showSidebar">
+  <router-outlet />
+</div>
