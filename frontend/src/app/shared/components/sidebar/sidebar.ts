@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
+import { AlertsStateService } from '../../../core/services/alerts-state.service';
 import { LucideAngularModule, Package, Plus, User, LogOut, Bell } from 'lucide-angular';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink, LucideAngularModule],
+  imports: [RouterLink, LucideAngularModule, AsyncPipe],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })
@@ -20,6 +22,7 @@ export class SidebarComponent {
   constructor(
     public router: Router,
     private authService: AuthService,
+    public alertsStateService: AlertsStateService,
   ) {}
 
   get userInitial(): string {

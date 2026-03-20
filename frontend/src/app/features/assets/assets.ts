@@ -20,6 +20,7 @@ import {
 import { AuthService } from '../../core/services/auth.service';
 import { AssetsService, Asset } from '../../core/services/assets.service';
 import { Router, RouterLink } from '@angular/router';
+import { AlertsStateService } from '../../core/services/alerts-state.service';
 
 const WARRANTY_ALERT_DAYS = 30;
 
@@ -77,6 +78,7 @@ export class AssetsComponent implements OnInit {
     private authService: AuthService,
     private assetsService: AssetsService,
     private cdr: ChangeDetectorRef,
+    private alertsStateService: AlertsStateService,
   ) {}
 
   ngOnInit(): void {
@@ -90,14 +92,15 @@ export class AssetsComponent implements OnInit {
       this.warrantyAlerts = response.data
         .filter((a) => this.isWarrantyExpiringSoon(a.warranty_end_date))
         .map((a) => a.name);
-        this.isLoading = false;
+      this.isLoading = false;
+      this.alertsStateService.setCount(this.warrantyAlerts.length);
       this.cdr.detectChanges();
     });
 
     this.assetsService.getStats().subscribe((stats) => {
       this.documentsCount = stats.documentsCount;
       this.cdr.detectChanges();
-    })
+    });
   }
 
   get filteredAssets(): Asset[] {
