@@ -41,6 +41,7 @@ export class AssetsComponent implements OnInit {
   warrantyAlerts: string[] = [];
   assetsCount = 0;
   totalValue = 0;
+  documentsCount: number | null = null;
   activeCategory = 'Tous';
   isDropdownOpen = false;
   isLoading = true;

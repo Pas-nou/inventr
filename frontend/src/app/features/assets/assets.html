@@ -1,7 +1,16 @@
-<main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6">
-  <header class="mb-6">
-    <p class="text-text-secondary text-sm">Bonjour 👋</p>
-    <h1 class="text-3xl font-bold font-display">{{ firstName }}</h1>
+<main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6 lg:px-8 lg:py-8 lg:pb-8">
+  <header class="mb-6 lg:flex lg:items-center lg:justify-between">
+    <div>
+      <p class="text-text-secondary text-sm">Bonjour 👋</p>
+      <h1 class="text-3xl font-bold font-display">{{ firstName }}</h1>
+    </div>
+    <button
+      routerLink="/assets/new"
+      class="hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-sm font-semibold transition-opacity hover:opacity-90 cursor-pointer"
+      style="color: var(--color-background)"
+    >
+      Ajouter un bien
+    </button>
   </header>
 
   @if (isLoading) {
@@ -13,8 +22,8 @@
       </span>
     </div>
   } @else {
-    <!-- * Informative cards -->
-    <section class="grid grid-cols-2 gap-3 mb-4">
+    <!-- * Informative cards (2 mobile - 4 desktop) -->
+    <section class="grid grid-cols-2 gap-3 mb-4 lg:grid-cols-4">
       <!-- * Assets card -->
       <dl class="stat-card rounded-2xl p-4 relative overflow-hidden" aria-label="Nombre de biens">
         <!-- Ellipse teal droite -->
@@ -51,13 +60,53 @@
           {{ totalValue | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
         </dd>
       </dl>
+
+      <!-- * Document card - Only on desktop-->
+      <dl
+        class="stat-card rounded-2xl p-4 relative overflow-hidden hidden lg:block"
+        aria-label="Nombre de documents"
+      >
+        <!-- Ellipse teal droite -->
+        <span
+          class="stat-card-ellipse absolute -right-25 -top-5 -translate-y-1/2 w-52 h-32 rounded-full pointer-events-none"
+        ></span>
+
+        <!-- Ellipse teal bas-gauche -->
+        <span
+          class="stat-card-ellipse absolute -bottom-15 -left-10 w-58 h-18 rounded-full pointer-events-none"
+        ></span>
+
+        <dt class="text-text-secondary text-xs uppercase tracking-widest mb-2">Documents</dt>
+        <dd class="text-4xl font-bold font-display m-0">{{ documentsCount ?? '—' }}</dd>
+      </dl>
+
+      <!-- * Alert card - Only on desktop -->
+      <dl
+        class="stat-card rounded-2xl p-4 relative overflow-hidden hidden lg:block"
+        aria-label="Alertes actives"
+      >
+        <!-- Ellipse teal gauche -->
+        <span
+          class="stat-card-ellipse absolute -left-25 -top-5 -translate-y-1/2 w-52 h-32 rounded-full pointer-events-none"
+        ></span>
+
+        <!-- Ellipse teal haut-droit -->
+        <span
+          class="stat-card-ellipse absolute -bottom-15 -right-10 w-58 h-18 rounded-full pointer-events-none"
+        ></span>
+
+        <dt class="text-text-secondary text-xs uppercase tracking-widest mb-2">Alertes</dt>
+        <dd class="text-3xl font-bold font-display m-0" [class.text-error-dim]="warrantyAlerts.length > 0">
+          {{ warrantyAlerts.length }}
+        </dd>
+      </dl>
     </section>
 
-    <!-- * Alert card -->
+    <!-- * Alert card - Only on mobile -->
     @if (warrantyAlerts.length > 0) {
       <section
         aria-label="Alertes garanties"
-        class="alert-card flex items-center gap-3 rounded-2xl p-4 mb-4"
+        class="alert-card flex items-center gap-3 rounded-2xl p-4 mb-4 lg:hidden"
       >
         <!-- Warning icon -->
         <span class="text-error-dim shrink-0" aria-hidden="true">
