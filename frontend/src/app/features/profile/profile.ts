@@ -3,6 +3,7 @@ import { LucideAngularModule, Pencil, Bell, LogOut, ChevronRight } from 'lucide-
 import { AuthService } from '../../core/services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../core/services/toast.service';
+import { AssetsService } from '../../core/services/assets.service';
 
 @Component({
   selector: 'app-profile',
@@ -20,6 +21,9 @@ export class ProfileComponent implements OnInit {
   lastName = '';
   email = '';
   initials = '';
+  assetsCount = 0;
+  documentsCount = 0;
+  memberSince = '';
 
   // Update Profile modal
   showEditModal = false;
@@ -33,11 +37,18 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private assetsService: AssetsService,
     private toastService: ToastService,
     private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
+    this.assetsService.getStats().subscribe((stats) => {
+      this.assetsCount = stats.assetsCount;
+      this.documentsCount = stats.documentsCount;
+      this.cdr.detectChanges();
+    });
+
     const user = this.authService.getUser();
     if (user) {
       this.firstName = user.first_name;
