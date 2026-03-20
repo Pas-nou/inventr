@@ -33,6 +33,12 @@ export const routes: Routes = [
     loadComponent: () => import('./features/assets/assets').then((m) => m.AssetsComponent),
   },
   {
+    path: 'alerts',
+    canActivate: [AuthGuard],
+    loadComponent: () =>
+      import('./features/alerts/alerts').then((m) => m.AlertsComponent),
+  },
+  {
     path: 'assets/new',
     canActivate: [AuthGuard],
     loadComponent: () =>

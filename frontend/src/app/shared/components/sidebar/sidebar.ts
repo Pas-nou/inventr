@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { LucideAngularModule, Package, Plus, User, LogOut } from 'lucide-angular';
+import { LucideAngularModule, Package, Plus, User, LogOut, Bell } from 'lucide-angular';
 
 @Component({
   selector: 'app-sidebar',
@@ -15,6 +15,7 @@ export class SidebarComponent {
   readonly plus = Plus;
   readonly user = User;
   readonly logOut = LogOut;
+  readonly bell = Bell;
 
   constructor(
     public router: Router,

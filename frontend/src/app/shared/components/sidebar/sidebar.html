@@ -24,6 +24,19 @@
     </a>
 
     <a
+      routerLink="/alerts"
+      class="flex items-center gap-3 px-6 py-2.5 text-sm font-medium transition-colors border-l-2"
+      [class.text-primary]="isActive('/alerts')"
+      [class.border-primary]="isActive('/alerts')"
+      [class.bg-primary-dim]="isActive('/alerts')"
+      [class.text-text-secondary]="!isActive('/alerts')"
+      [class.border-transparent]="!isActive('/alerts')"
+    >
+      <lucide-angular [img]="bell" [size]="16" aria-hidden="true" />
+      Alertes
+    </a>
+
+    <a
       routerLink="/assets/new"
       class="flex items-center gap-3 px-6 py-2.5 text-sm font-medium transition-colors border-l-2"
       [class.text-primary]="isActive('/assets/new')"

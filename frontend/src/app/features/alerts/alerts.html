@@ -1,1 +1,138 @@
-<p>alerts works!</p>
+<main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6 lg:px-8 lg:py-8 lg:pb-8">
+  <header class="mb-6">
+    <h1 class="text-3xl font-bold font-display">Alertes</h1>
+    <p class="text-text-secondary text-sm mt-1">Garanties expirant dans les 90 prochains jours</p>
+  </header>
+
+  @if (isLoading) {
+    <div class="flex justify-center pt-20">
+      <span class="flex items-center gap-1">
+        <span class="h-2 w-2 rounded-full bg-primary dot-1"></span>
+        <span class="h-2 w-2 rounded-full bg-primary dot-2"></span>
+        <span class="h-2 w-2 rounded-full bg-primary dot-3"></span>
+      </span>
+    </div>
+  } @else if (expiringAssets.length === 0) {
+    <!-- Aucune alerte -->
+    <div class="flex flex-col items-center justify-center pt-20 gap-3">
+      <span
+        class="w-16 h-16 rounded-full flex items-center justify-center bg-primary-dim"
+        aria-hidden="true"
+      >
+        <lucide-angular [img]="shieldCheck" [size]="32" class="text-primary" />
+      </span>
+      <p class="text-text-primary font-semibold">Tout est en ordre</p>
+      <p class="text-text-secondary text-sm">
+        Aucune garantie n'expire dans les 90 prochains jours.
+      </p>
+    </div>
+  } @else {
+    <!-- Mobile : cartes -->
+    <ul class="flex flex-col gap-3 lg:hidden" aria-label="Liste des alertes">
+      @for (asset of expiringAssets; track asset.id) {
+        <li
+          class="flex items-center gap-3 rounded-2xl p-4 bg-surface border border-border cursor-pointer hover:border-primary transition-colors"
+          [routerLink]="['/assets', asset.id]"
+        >
+          <span
+            class="flex items-center justify-center w-10 h-10 rounded-xl shrink-0 bg-surface-light"
+            aria-hidden="true"
+          >
+            <lucide-angular
+              [img]="getCategoryIcon(asset.category)"
+              [size]="20"
+              class="text-text-secondary"
+            />
+          </span>
+          <hgroup class="flex-1 min-w-0">
+            <p class="text-sm font-semibold text-text-primary truncate">{{ asset.name }}</p>
+            <p class="text-xs text-text-secondary">{{ asset.category }}</p>
+          </hgroup>
+          <div class="text-right shrink-0">
+            <span
+              class="warranty-badge inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full"
+            >
+              <lucide-angular [img]="triangleAlert" [size]="10" aria-hidden="true" />
+              {{ warrantyDaysLeft(asset.warranty_end_date!) }}j
+            </span>
+            <p class="text-xs text-text-secondary mt-1">
+              {{ asset.warranty_end_date | date: 'dd MMM yyyy' : '' : 'fr' }}
+            </p>
+          </div>
+        </li>
+      }
+    </ul>
+
+    <!-- Desktop : tableau dans une card -->
+    <div class="hidden lg:block bg-surface border border-border rounded-2xl overflow-hidden">
+      <div class="px-5 py-4 border-b border-border">
+        <h2 class="text-base font-bold font-display text-text-primary">
+          {{ expiringAssets.length }} garantie{{ expiringAssets.length > 1 ? 's' : '' }} à
+          surveiller
+        </h2>
+      </div>
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-border">
+            <th
+              class="text-left px-5 py-3 text-xs uppercase tracking-widest text-text-secondary font-medium"
+            >
+              Bien
+            </th>
+            <th
+              class="text-left px-5 py-3 text-xs uppercase tracking-widest text-text-secondary font-medium"
+            >
+              Catégorie
+            </th>
+            <th
+              class="text-left px-5 py-3 text-xs uppercase tracking-widest text-text-secondary font-medium"
+            >
+              Expiration
+            </th>
+            <th
+              class="text-left px-5 py-3 text-xs uppercase tracking-widest text-text-secondary font-medium"
+            >
+              Jours restants
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (asset of expiringAssets; track asset.id) {
+            <tr
+              class="border-b border-border last:border-0 hover:bg-surface-light transition-colors cursor-pointer"
+              [routerLink]="['/assets', asset.id]"
+            >
+              <td class="px-5 py-4">
+                <div class="flex items-center gap-3">
+                  <span
+                    class="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 bg-surface-light"
+                    aria-hidden="true"
+                  >
+                    <lucide-angular
+                      [img]="getCategoryIcon(asset.category)"
+                      [size]="16"
+                      class="text-text-secondary"
+                    />
+                  </span>
+                  <p class="text-sm font-semibold text-text-primary">{{ asset.name }}</p>
+                </div>
+              </td>
+              <td class="px-5 py-4 text-sm text-text-secondary">{{ asset.category }}</td>
+              <td class="px-5 py-4 text-sm text-text-secondary">
+                {{ asset.warranty_end_date | date: 'dd MMM yyyy' : '' : 'fr' }}
+              </td>
+              <td class="px-5 py-4">
+                <span
+                  class="warranty-badge inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full"
+                >
+                  <lucide-angular [img]="triangleAlert" [size]="10" aria-hidden="true" />
+                  {{ warrantyDaysLeft(asset.warranty_end_date!) }}j
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</main>
