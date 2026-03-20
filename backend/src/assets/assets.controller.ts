@@ -45,6 +45,11 @@ export class AssetsController {
     return this.assetsService.findAll(req.user.userId, page, limit);
   }
 
+  @Get('stats')
+  getStats(@Request() req: RequestWithUser) {
+    return this.assetsService.getStats(req.user.userId);
+  }
+
   @Get(':id')
   findOne(
     @Param('id', ParseUUIDPipe) id: string,

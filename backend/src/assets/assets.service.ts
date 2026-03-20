@@ -4,13 +4,33 @@ import { UpdateAssetDto } from './dto/update-asset.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Asset } from './entities/asset.entity';
+import { Document } from 'src/documents/entities/document.entity';
 
 @Injectable()
 export class AssetsService {
   constructor(
     @InjectRepository(Asset)
     private assetsRepository: Repository<Asset>,
+    @InjectRepository(Document)
+    private documentsRepository: Repository<Document>,
   ) {}
+
+  async getStats(
+    userId: string,
+  ): Promise<{ assetsCount: number; documentsCount: number }> {
+    const assetsCount = await this.assetsRepository.count({
+      where: { user: { id: userId } },
+    });
+
+    const documentsCount = await this.documentsRepository
+      .createQueryBuilder('document')
+      .innerJoin('document.asset', 'asset')
+      .innerJoin('asset.user', 'user')
+      .where('user.id = :userId', { userId })
+      .getCount();
+
+    return { assetsCount, documentsCount };
+  }
 
   async create(createAssetDto: CreateAssetDto, userId: string) {
     return await this.assetsRepository.save({
