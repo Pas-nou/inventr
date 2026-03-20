@@ -25,6 +25,11 @@ export interface AssetsResponse {
   };
 }
 
+export interface AssetsStats {
+  assetsCount: number;
+  documentsCount: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -59,5 +64,9 @@ export class AssetsService {
 
   deleteAsset(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getStats(): Observable<AssetsStats> {
+    return this.http.get<AssetsStats>(`${this.apiUrl}/stats`);
   }
 }
