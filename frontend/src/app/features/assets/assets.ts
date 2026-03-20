@@ -15,6 +15,7 @@ import {
   Flower,
   Shirt,
   Package,
+  Plus,
 } from 'lucide-angular';
 import { AuthService } from '../../core/services/auth.service';
 import { AssetsService, Asset } from '../../core/services/assets.service';
@@ -34,6 +35,7 @@ export class AssetsComponent implements OnInit {
   readonly chevronDown = ChevronDown;
   readonly chevronUp = ChevronUp;
   readonly package = Package;
+  readonly plus = Plus;
 
   // State
   firstName = '';
@@ -91,6 +93,11 @@ export class AssetsComponent implements OnInit {
         this.isLoading = false;
       this.cdr.detectChanges();
     });
+
+    this.assetsService.getStats().subscribe((stats) => {
+      this.documentsCount = stats.documentsCount;
+      this.cdr.detectChanges();
+    })
   }
 
   get filteredAssets(): Asset[] {
