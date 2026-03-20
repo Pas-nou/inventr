@@ -335,7 +335,7 @@
                   {{ asset.purchase_date | date: 'dd MMM yyyy' : '' : 'fr' }}
                 </td>
                 <td class="px-5 py-4">
-                  @if (asset.warranty_end_date) {
+                  @if (asset.warranty_end_date && warrantyDaysLeft(asset.warranty_end_date) > 0) {
                     <span
                       class="text-xs font-medium px-2 py-1 rounded-full"
                       [class.warranty-badge]="isWarrantyExpiringSoon(asset.warranty_end_date)"
@@ -350,7 +350,7 @@
                           class="inline mr-1"
                         />
                       }
-                      {{ warrantyDaysLeft(asset.warranty_end_date) }}j
+                      {{ warrantyDaysLeft(asset.warranty_end_date) }}
                     </span>
                   } @else {
                     <span class="text-text-secondary text-sm">—</span>
