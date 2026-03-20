@@ -131,7 +131,9 @@
     <!-- * Filters -->
     <section aria-label="Filtres par catégorie" class="flex items-center justify-between mb-4">
       <h2 class="text-lg font-bold font-display">Inventaire</h2>
-      <div class="relative">
+
+      <!-- Mobile : dropdown -->
+      <div class="relative lg:hidden">
         <button
           (click)="toggleDropdown()"
           [attr.aria-expanded]="isDropdownOpen"
@@ -167,6 +169,23 @@
           </ul>
         }
       </div>
+
+      <!-- Desktop : chips inline -->
+       <div class="hidden lg:flex items-center gap-2 flex-wrap">
+        @for (category of categories; track category) {
+      <button
+        (click)="selectCategory(category)"
+        class="px-3 py-1.5 rounded-full text-xs font-medium border transition-colors"
+        [class.bg-primary]="activeCategory === category"
+        [class.text-background]="activeCategory === category"
+        [class.border-primary]="activeCategory === category"
+        [class.text-text-secondary]="activeCategory !== category"
+        [class.border-border]="activeCategory !== category"
+      >
+        {{ category }}
+      </button>
+    }
+       </div>
     </section>
 
     <!-- * Assets list -->
@@ -187,7 +206,7 @@
         </button>
       </div>
     } @else {
-      <ul class="flex flex-col gap-3" aria-label="Liste des biens">
+      <ul class="flex flex-col gap-3 cursor-pointer" aria-label="Liste des biens">
         @for (asset of filteredAssets; track asset.id) {
           <li
             class="animate-fade-in-up flex items-center gap-3 rounded-2xl p-4 bg-surface border border-border opacity-0"
