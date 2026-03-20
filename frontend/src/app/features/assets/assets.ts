@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   LucideAngularModule,
   LucideIconData,
@@ -25,7 +25,7 @@ const WARRANTY_ALERT_DAYS = 30;
 
 @Component({
   selector: 'app-assets',
-  imports: [CurrencyPipe, LucideAngularModule, RouterLink],
+  imports: [CurrencyPipe, LucideAngularModule, RouterLink, DatePipe],
   templateUrl: './assets.html',
   styleUrl: './assets.css',
 })
@@ -122,5 +122,9 @@ export class AssetsComponent implements OnInit {
     if (!date) return false;
     const diff = new Date(date).getTime() - Date.now();
     return diff > 0 && diff < WARRANTY_ALERT_DAYS * 24 * 60 * 60 * 1000;
+  }
+
+  warrantyDaysLeft(date: string): number {
+    return Math.ceil((new Date(date).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
   }
 }
