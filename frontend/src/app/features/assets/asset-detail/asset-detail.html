@@ -17,8 +17,6 @@
         </p>
         <p class="text-sm text-text-secondary mt-1">{{ pendingFile?.name }}</p>
       </hgroup>
-
-      <!-- Name -->
       <div>
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">NOM</label>
         <input
@@ -27,15 +25,10 @@
           class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
         />
       </div>
-
-      <!-- Type -->
       <div>
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
           TYPE
-          <span
-            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
-            >OPTIONNEL</span
-          >
+          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
         </label>
         <div class="grid grid-cols-3 gap-2">
           @for (type of documentTypes; track type) {
@@ -89,8 +82,6 @@
           Modifier le document
         </p>
       </hgroup>
-
-      <!-- Name -->
       <div>
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">NOM</label>
         <input
@@ -99,15 +90,10 @@
           class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
         />
       </div>
-
-      <!-- Type -->
       <div>
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
           TYPE
-          <span
-            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
-            >OPTIONNEL</span
-          >
+          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
         </label>
         <div class="grid grid-cols-3 gap-2">
           @for (type of documentTypes; track type) {
@@ -126,7 +112,6 @@
           }
         </div>
       </div>
-
       <button
         (click)="confirmEditDocument()"
         [disabled]="!editDocumentName"
@@ -197,8 +182,6 @@
           Ajouter un événement
         </p>
       </hgroup>
-
-      <!-- Name -->
       <div>
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">NOM</label>
         <input
@@ -208,15 +191,10 @@
           class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
         />
       </div>
-
-      <!-- Type -->
       <div>
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
           TYPE
-          <span
-            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
-            >OPTIONNEL</span
-          >
+          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
         </label>
         <div class="grid grid-cols-3 gap-2">
           @for (type of eventTypes; track type) {
@@ -235,8 +213,6 @@
           }
         </div>
       </div>
-
-      <!-- Date -->
       <div>
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">DATE</label>
         <input
@@ -245,17 +221,12 @@
           class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
         />
       </div>
-
-      <!-- Cost -->
       <div class="relative">
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
           COÛT (€)
-          <span
-            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
-            >OPTIONNEL</span
-          >
+          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
         </label>
-        <span class="absolute right-3 bottom-3.5 text-text-secondary text-sm"> € </span>
+        <span class="absolute right-3 bottom-3.5 text-text-secondary text-sm">€</span>
         <input
           type="number"
           [(ngModel)]="eventCost"
@@ -265,15 +236,10 @@
           class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 pr-8 text-text-primary focus:outline-none focus:border-primary transition-colors"
         />
       </div>
-
-      <!-- Next event -->
       <div>
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
           PROCHAIN ENTRETIEN
-          <span
-            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
-            >OPTIONNEL</span
-          >
+          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
         </label>
         <input
           type="date"
@@ -281,15 +247,10 @@
           class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
         />
       </div>
-
-      <!-- Notes -->
       <div>
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
           NOTES
-          <span
-            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
-            >OPTIONNEL</span
-          >
+          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
         </label>
         <textarea
           [(ngModel)]="eventNotes"
@@ -298,7 +259,6 @@
           class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors resize-none"
         ></textarea>
       </div>
-
       <button
         (click)="confirmAddEvent()"
         [disabled]="!eventName || !eventDate"
@@ -334,7 +294,6 @@
           Modifier l'événement
         </p>
       </hgroup>
-
       <div>
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">NOM</label>
         <input
@@ -343,14 +302,10 @@
           class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
         />
       </div>
-
       <div>
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
           TYPE
-          <span
-            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
-            >OPTIONNEL</span
-          >
+          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
         </label>
         <div class="grid grid-cols-3 gap-2">
           @for (type of eventTypes; track type) {
@@ -369,7 +324,6 @@
           }
         </div>
       </div>
-
       <div>
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">DATE</label>
         <input
@@ -378,14 +332,10 @@
           class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
         />
       </div>
-
       <div class="relative">
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
           COÛT (€)
-          <span
-            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
-            >OPTIONNEL</span
-          >
+          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
         </label>
         <span class="absolute right-3 bottom-3.5 text-text-secondary text-sm">€</span>
         <input
@@ -396,14 +346,10 @@
           class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 pr-8 text-text-primary focus:outline-none focus:border-primary transition-colors"
         />
       </div>
-
       <div>
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
           PROCHAIN ENTRETIEN
-          <span
-            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
-            >OPTIONNEL</span
-          >
+          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
         </label>
         <input
           type="date"
@@ -411,14 +357,10 @@
           class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
         />
       </div>
-
       <div>
         <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
           NOTES
-          <span
-            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
-            >OPTIONNEL</span
-          >
+          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
         </label>
         <textarea
           [(ngModel)]="editEventNotes"
@@ -426,7 +368,6 @@
           class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors resize-none"
         ></textarea>
       </div>
-
       <button
         (click)="confirmEditEvent()"
         [disabled]="!editEventName || !editEventDate"
@@ -480,15 +421,35 @@
 }
 
 <!-- * Main -->
-<main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6">
-  <!-- Back button -->
-  <button
-    routerLink="/home"
-    class="flex items-center gap-2 text-primary text-sm mb-4 hover:text-text-primary transition-colors"
-  >
-    <lucide-angular [img]="arrowLeft" [size]="16" aria-hidden="true" />
-    Inventaire
-  </button>
+<main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6 lg:px-8 lg:py-8 lg:pb-8">
+
+  <!-- Header — mobile: bouton retour seul / desktop: retour + nom + boutons -->
+  <div class="flex items-center justify-between mb-4 lg:mb-6">
+    <button
+      routerLink="/home"
+      class="flex items-center gap-2 text-primary text-sm hover:text-text-primary transition-colors"
+    >
+      <lucide-angular [img]="arrowLeft" [size]="16" aria-hidden="true" />
+      Inventaire
+    </button>
+    @if (asset) {
+      <div class="hidden lg:flex items-center gap-3">
+        <button
+          [routerLink]="['/assets', asset.id, 'edit']"
+          class="px-4 py-2 rounded-xl text-sm font-semibold border border-primary text-primary transition-colors hover:bg-primary hover:text-background"
+        >
+          Modifier
+        </button>
+        <button
+          (click)="openAddEventModal()"
+          class="px-4 py-2 rounded-xl text-sm font-semibold bg-primary transition-opacity hover:opacity-90"
+          style="color: var(--color-background)"
+        >
+          + Événement
+        </button>
+      </div>
+    }
+  </div>
 
   @if (isLoading) {
     <div class="flex justify-center pt-20">
@@ -499,316 +460,307 @@
       </span>
     </div>
   } @else if (asset) {
-    <!-- Hero card -->
-    <section
-      aria-label="Informations du bien"
-      class="stat-card rounded-2xl p-4 mb-4 relative overflow-hidden"
-    >
-      <!-- Right teal ellipse -->
-      <span
-        class="stat-card-ellipse absolute -right-10 -top-10 w-40 h-40 rounded-full pointer-events-none"
-      ></span>
 
-      <!-- Left teal ellipse -->
-      <span
-        class="stat-card-ellipse absolute -bottom-10 -left-10 w-40 h-40 rounded-full pointer-events-none"
-      ></span>
+    <!-- Layout : mobile = colonne unique / desktop = 2 colonnes -->
+    <div class="lg:grid lg:grid-cols-[300px_1fr] lg:gap-6 lg:items-start">
 
-      <!-- Header -->
-      <header class="flex items-center gap-3 mb-4">
-        <span
-          class="flex items-center justify-center w-12 h-12 rounded-xl bg-surface-light shrink-0"
-          aria-hidden="true"
+      <!-- ======== COLONNE GAUCHE (desktop) / haut de page (mobile) ======== -->
+      <div>
+        <!-- Hero card — identique mobile et desktop -->
+        <section
+          aria-label="Informations du bien"
+          class="stat-card rounded-2xl p-4 mb-4 relative overflow-hidden"
         >
-          <lucide-angular [img]="categoryIcon" [size]="22" class="text-text-secondary" />
-        </span>
-        <hgroup class="flex-1">
-          <p class="font-bold text-lg text-text-primary">{{ asset.name }}</p>
-          <p class="text-sm text-text-secondary">{{ asset.category }} · {{ asset.condition }}</p>
-        </hgroup>
-        <button
-          [routerLink]="['/assets', asset.id, 'edit']"
-          class="px-3 py-1.5 rounded-full text-sm font-semibold border border-primary text-primary transition-colors hover:bg-primary hover:text-background"
-        >
-          Modifier
-        </button>
-      </header>
+          <span class="stat-card-ellipse absolute -right-10 -top-10 w-40 h-40 rounded-full pointer-events-none"></span>
+          <span class="stat-card-ellipse absolute -bottom-10 -left-10 w-40 h-40 rounded-full pointer-events-none"></span>
 
-      <!-- Stats -->
-      <div class="grid grid-cols-3 gap-2">
-        <dl class="flex flex-col items-center gap-1">
-          <dt class="text-xs uppercase tracking-widest text-text-secondary">Prix d'achat</dt>
-          <dd class="text-sm font-bold text-primary">
-            {{ asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.2-2' : 'fr' }}
-          </dd>
-        </dl>
-        <dl class="flex flex-col items-center gap-1">
-          <dt class="text-xs uppercase tracking-widest text-text-secondary">Acheté le</dt>
-          <dd class="text-sm font-bold text-primary">
-            {{ asset.purchase_date | date: 'MMM yyyy' : '' : 'fr' }}
-          </dd>
-        </dl>
-        <dl class="flex flex-col items-center gap-1">
-          <dt class="text-xs uppercase tracking-widest text-text-secondary">Garantie</dt>
-          <dd
-            class="text-sm font-bold"
-            [class.text-error-dim]="isWarrantyExpiringSoon(asset.warranty_end_date)"
-            [class.text-text-primary]="!isWarrantyExpiringSoon(asset.warranty_end_date)"
-          >
-            @if (asset.warranty_end_date) {
-              <span class="flex items-center gap-1">
-                @if (isWarrantyExpiringSoon(asset.warranty_end_date)) {
-                  <lucide-angular [img]="triangleAlert" [size]="12" aria-hidden="true" />
-                }
-                {{ warrantyDaysLeft }}j
-              </span>
-            } @else {
-              —
-            }
-          </dd>
-        </dl>
-      </div>
-    </section>
-
-    <!-- Tabs -->
-    <nav aria-label="Sections" class="flex gap-2 mb-4 rounded-xl p-1">
-      @for (tab of tabs; track tab.key) {
-        <button
-          (click)="setTab(tab.key)"
-          [attr.aria-pressed]="activeTab === tab.key"
-          class="flex-1 px-4 py-1.5 rounded-lg text-sm border transition-colors"
-          [class.bg-primary]="activeTab === tab.key"
-          [class.text-background]="activeTab === tab.key"
-          [class.border-primary]="activeTab === tab.key"
-          [class.font-semibold]="activeTab === tab.key"
-          [class.text-text-secondary]="activeTab !== tab.key"
-          [class.border-border]="activeTab !== tab.key"
-        >
-          {{ tab.label }}
-        </button>
-      }
-    </nav>
-
-    <!-- Tab content -->
-    <!-- Info tab -->
-    @if (activeTab === 'infos') {
-      <section aria-label="Informations détaillées">
-        <ul class="flex flex-col">
-          <li class="flex items-center justify-between py-3 border-b border-border">
-            <span class="text-sm text-text-secondary">Nom</span>
-            <span class="text-sm font-semibold text-text-primary">{{ asset.name }}</span>
-          </li>
-          <li class="flex items-center justify-between py-3 border-b border-border">
-            <span class="text-sm text-text-secondary">Catégorie</span>
-            <span class="text-sm font-semibold text-text-primary">{{ asset.category }}</span>
-          </li>
-          <li class="flex items-center justify-between py-3 border-b border-border">
-            <span class="text-sm text-text-secondary">Prix d'achat</span>
-            <span class="text-sm font-semibold text-text-primary">{{
-              asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr'
-            }}</span>
-          </li>
-          <li class="flex items-center justify-between py-3 border-b border-border">
-            <span class="text-sm text-text-secondary">Date d'achat</span>
-            <span class="text-sm font-semibold text-text-primary">{{
-              asset.purchase_date | date: 'dd MMM yyyy' : '' : 'fr'
-            }}</span>
-          </li>
-          <li class="flex items-center justify-between py-3 border-b border-border">
-            <span class="text-sm text-text-secondary">Fin de garantie</span>
+          <header class="flex items-center gap-3 mb-4">
             <span
-              class="text-sm font-semibold text-text-primary"
-              [class.text-error-dim]="isWarrantyExpiringSoon(asset.warranty_end_date)"
-              [class.text-text-primary]="!isWarrantyExpiringSoon(asset.warranty_end_date)"
+              class="flex items-center justify-center w-12 h-12 rounded-xl bg-surface-light shrink-0"
+              aria-hidden="true"
             >
-              @if (asset.warranty_end_date) {
-                {{ asset.warranty_end_date | date: 'dd MMM yyyy' : '' : 'fr' }}
-              } @else {
-                —
-              }
+              <lucide-angular [img]="categoryIcon" [size]="22" class="text-text-secondary" />
             </span>
-          </li>
-          <li class="flex items-center justify-between py-3 border-b border-border">
-            <span class="text-sm text-text-secondary">État</span>
-            <span
-              class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary"
-              >{{ asset.condition }}</span
+            <hgroup class="flex-1">
+              <p class="font-bold text-lg text-text-primary">{{ asset.name }}</p>
+              <p class="text-sm text-text-secondary">{{ asset.category }} · {{ asset.condition }}</p>
+            </hgroup>
+            <!-- Bouton Modifier — mobile uniquement -->
+            <button
+              [routerLink]="['/assets', asset.id, 'edit']"
+              class="lg:hidden px-3 py-1.5 rounded-full text-sm font-semibold border border-primary text-primary transition-colors hover:bg-primary hover:text-background"
             >
-          </li>
-          @if (asset.notes) {
-            <li class="flex items-center justify-between py-3 border-b border-border">
-              <span class="text-sm text-text-secondary">Notes</span>
-              <span class="text-sm text-text-secondary text-right max-w-48">{{ asset.notes }}</span>
-            </li>
-          }
-        </ul>
-      </section>
-    }
+              Modifier
+            </button>
+          </header>
 
-    <!-- Doc tab -->
-    @if (activeTab === 'documents') {
-      <section aria-label="Documents">
-        <ul class="flex flex-col gap-3 mb-4">
-          @for (doc of documents; track doc.id) {
-            <li class="flex items-center gap-3 py-3 border-b border-border">
-              <span
-                class="flex items-center justify-center w-10 h-10 rounded-xl bg-surface-light shrink-0"
-                aria-hidden="true"
+          <div class="grid grid-cols-3 gap-2">
+            <dl class="flex flex-col items-center gap-1">
+              <dt class="text-xs uppercase tracking-widest text-text-secondary">Prix d'achat</dt>
+              <dd class="text-sm font-bold text-primary">
+                {{ asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.2-2' : 'fr' }}
+              </dd>
+            </dl>
+            <dl class="flex flex-col items-center gap-1">
+              <dt class="text-xs uppercase tracking-widest text-text-secondary">Acheté le</dt>
+              <dd class="text-sm font-bold text-primary">
+                {{ asset.purchase_date | date: 'MMM yyyy' : '' : 'fr' }}
+              </dd>
+            </dl>
+            <dl class="flex flex-col items-center gap-1">
+              <dt class="text-xs uppercase tracking-widest text-text-secondary">Garantie</dt>
+              <dd
+                class="text-sm font-bold"
+                [class.text-error-dim]="isWarrantyExpiringSoon(asset.warranty_end_date)"
+                [class.text-text-primary]="!isWarrantyExpiringSoon(asset.warranty_end_date)"
               >
-                <lucide-angular [img]="fileText" [size]="18" class="text-text-secondary" />
-              </span>
-
-              <hgroup class="flex-1 min-w-0">
-                <p class="text-sm font-semibold text-text-primary truncate">{{ doc.name }}</p>
-                <p class="text-xs text-text-secondary">
-                  {{ doc.size_bytes | number }} octets ·
-                  {{ doc.created_at | date: 'dd MMM yyyy' : '' : 'fr' }}
-                </p>
-              </hgroup>
-
-              <span
-                class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary shrink-0"
-              >
-                {{ doc.type }}
-              </span>
-
-              <button (click)="openEditDocumentModal(doc)" aria-label="Modifier le document">
-                <lucide-angular
-                  [img]="pencil"
-                  [size]="16"
-                  class="text-text-secondary"
-                  aria-hidden="true"
-                />
-              </button>
-              <button
-                (click)="openDocument(doc.id)"
-                aria-label="Visualiser le document"
-                class="p-1"
-              >
-                <lucide-angular
-                  [img]="eye"
-                  [size]="16"
-                  class="text-text-secondary"
-                  aria-hidden="true"
-                />
-              </button>
-              <button
-                (click)="openDocument(doc.id, true)"
-                aria-label="Télécharger le document"
-                class="p-1"
-              >
-                <lucide-angular
-                  [img]="download"
-                  [size]="16"
-                  class="text-text-secondary"
-                  aria-hidden="true"
-                />
-              </button>
-              <button (click)="openDeleteDocumentModal(doc.id)" aria-label="Supprimer le document">
-                <lucide-angular
-                  [img]="trash"
-                  [size]="16"
-                  class="text-error-dim"
-                  aria-hidden="true"
-                />
-              </button>
-            </li>
-          }
-        </ul>
-
-        <button
-          (click)="openFilePicker()"
-          class="w-full flex items-center justify-center gap-2 bg-surface border border-border rounded-2xl p-4 text-sm text-text-secondary transition-colors hover:border-primary hover:text-primary"
-        >
-          <lucide-angular [img]="plus" [size]="16" aria-hidden="true" />
-          Ajouter un document
-        </button>
-      </section>
-    }
-
-    <!-- Event tab -->
-    @if (activeTab === 'maintenance') {
-      <section aria-label="Maintenance">
-        <ul class="flex flex-col gap-3 mb-4">
-          @for (event of maintenanceEvents; track event.id) {
-            <li class="flex items-start gap-3 py-3 border-b border-border">
-              <div class="flex-1">
-                <header class="flex items-center justify-between mb-2">
-                  <hgroup class="flex items-center gap-2">
-                    <lucide-angular
-                      [img]="wrench"
-                      [size]="14"
-                      class="text-primary"
-                      aria-hidden="true"
-                    />
-                    <p class="text-sm font-semibold text-text-primary">{{ event.name }}</p>
-                  </hgroup>
-                  @if (event.cost_cents > 0) {
-                    <span class="text-sm font-bold text-primary">
-                      {{ event.cost_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
-                    </span>
-                  } @else {
-                    <span class="text-sm font-bold text-text-secondary">0 €</span>
-                  }
-                </header>
-
-                <p class="text-xs text-text-secondary mb-2">
-                  {{ event.type }} · {{ event.date | date: 'dd MMM yyyy' : '' : 'fr' }}
-                </p>
-
-                @if (event.notes) {
-                  <p class="text-xs text-text-secondary mb-2">{{ event.notes }}</p>
-                }
-
-                @if (event.next_due_date) {
-                  <span
-                    class="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-primary-dim text-primary"
-                  >
-                    <lucide-angular [img]="calendarClock" [size]="10" aria-hidden="true" />
-                    Prochain : {{ event.next_due_date | date: 'MMM yyyy' : '' : 'fr' }}
+                @if (asset.warranty_end_date && warrantyDaysLeft > 0) {
+                  <span class="flex items-center gap-1">
+                    @if (isWarrantyExpiringSoon(asset.warranty_end_date)) {
+                      <lucide-angular [img]="triangleAlert" [size]="12" aria-hidden="true" />
+                    }
+                    {{ warrantyDaysLeft }}j
                   </span>
+                } @else {
+                  —
                 }
-              </div>
+              </dd>
+            </dl>
+          </div>
+        </section>
 
-              <div class="flex gap-2 shrink-0 items-center">
-                <button
-                  (click)="openEditEventModal(event)"
-                  aria-label="Modifier l'événement"
-                  class="p-1"
-                >
-                  <lucide-angular
-                    [img]="pencil"
-                    [size]="16"
-                    class="text-text-secondary"
-                    aria-hidden="true"
-                  />
-                </button>
-                <button
-                  (click)="openDeleteEventModal(event.id)"
-                  aria-label="Supprimer l'événement"
-                  class="p-1"
-                >
-                  <lucide-angular
-                    [img]="trash"
-                    [size]="16"
-                    class="text-error-dim"
-                    aria-hidden="true"
-                  />
-                </button>
-              </div>
+        <!-- Infos détaillées — desktop uniquement dans colonne gauche -->
+        <section aria-label="Informations détaillées" class="hidden lg:block bg-surface border border-border rounded-2xl overflow-hidden">
+          <ul class="flex flex-col">
+            <li class="flex items-center justify-between px-4 py-3 border-b border-border">
+              <span class="text-sm text-text-secondary">Nom</span>
+              <span class="text-sm font-semibold text-text-primary">{{ asset.name }}</span>
             </li>
-          }
-        </ul>
+            <li class="flex items-center justify-between px-4 py-3 border-b border-border">
+              <span class="text-sm text-text-secondary">Catégorie</span>
+              <span class="text-sm font-semibold text-text-primary">{{ asset.category }}</span>
+            </li>
+            <li class="flex items-center justify-between px-4 py-3 border-b border-border">
+              <span class="text-sm text-text-secondary">Prix d'achat</span>
+              <span class="text-sm font-semibold text-text-primary">{{
+                asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr'
+              }}</span>
+            </li>
+            <li class="flex items-center justify-between px-4 py-3 border-b border-border">
+              <span class="text-sm text-text-secondary">Date d'achat</span>
+              <span class="text-sm font-semibold text-text-primary">{{
+                asset.purchase_date | date: 'dd MMM yyyy' : '' : 'fr'
+              }}</span>
+            </li>
+            <li class="flex items-center justify-between px-4 py-3 border-b border-border">
+              <span class="text-sm text-text-secondary">Fin de garantie</span>
+              <span
+                class="text-sm font-semibold"
+                [class.text-error-dim]="isWarrantyExpiringSoon(asset.warranty_end_date)"
+                [class.text-text-primary]="!isWarrantyExpiringSoon(asset.warranty_end_date)"
+              >
+                @if (asset.warranty_end_date) {
+                  {{ asset.warranty_end_date | date: 'dd MMM yyyy' : '' : 'fr' }}
+                } @else {
+                  —
+                }
+              </span>
+            </li>
+            <li class="flex items-center justify-between px-4 py-3 border-b border-border">
+              <span class="text-sm text-text-secondary">État</span>
+              <span class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary">
+                {{ asset.condition }}
+              </span>
+            </li>
+            @if (asset.notes) {
+              <li class="flex items-center justify-between px-4 py-3">
+                <span class="text-sm text-text-secondary">Notes</span>
+                <span class="text-sm text-text-secondary text-right max-w-48">{{ asset.notes }}</span>
+              </li>
+            }
+          </ul>
+        </section>
+      </div>
 
-        <button
-          (click)="openAddEventModal()"
-          class="w-full flex items-center justify-center gap-2 bg-surface border border-border rounded-2xl p-4 text-sm text-text-secondary transition-colors hover:border-primary hover:text-primary"
-        >
-          <lucide-angular [img]="plus" [size]="16" aria-hidden="true" />
-          Ajouter un événement
-        </button>
-      </section>
-    }
+      <!-- ======== COLONNE DROITE (desktop) / suite (mobile) ======== -->
+      <div>
+        <!-- Tabs — mobile: 3 tabs / desktop: 2 tabs (sans Infos) -->
+        <nav aria-label="Sections" class="flex gap-2 mb-4 rounded-xl p-1">
+          @for (tab of tabs; track tab.key) {
+            <button
+              (click)="setTab(tab.key)"
+              [attr.aria-pressed]="activeTab === tab.key"
+              class="flex-1 px-4 py-1.5 rounded-lg text-sm border transition-colors"
+              [class.lg:hidden]="tab.key === 'infos'"
+              [class.bg-primary]="activeTab === tab.key"
+              [class.text-background]="activeTab === tab.key"
+              [class.border-primary]="activeTab === tab.key"
+              [class.font-semibold]="activeTab === tab.key"
+              [class.text-text-secondary]="activeTab !== tab.key"
+              [class.border-border]="activeTab !== tab.key"
+            >
+              {{ tab.label }}
+            </button>
+          }
+        </nav>
+
+        <!-- Info tab — mobile uniquement -->
+        @if (activeTab === 'infos') {
+          <section aria-label="Informations détaillées" class="lg:hidden">
+            <ul class="flex flex-col">
+              <li class="flex items-center justify-between py-3 border-b border-border">
+                <span class="text-sm text-text-secondary">Nom</span>
+                <span class="text-sm font-semibold text-text-primary">{{ asset.name }}</span>
+              </li>
+              <li class="flex items-center justify-between py-3 border-b border-border">
+                <span class="text-sm text-text-secondary">Catégorie</span>
+                <span class="text-sm font-semibold text-text-primary">{{ asset.category }}</span>
+              </li>
+              <li class="flex items-center justify-between py-3 border-b border-border">
+                <span class="text-sm text-text-secondary">Prix d'achat</span>
+                <span class="text-sm font-semibold text-text-primary">{{
+                  asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr'
+                }}</span>
+              </li>
+              <li class="flex items-center justify-between py-3 border-b border-border">
+                <span class="text-sm text-text-secondary">Date d'achat</span>
+                <span class="text-sm font-semibold text-text-primary">{{
+                  asset.purchase_date | date: 'dd MMM yyyy' : '' : 'fr'
+                }}</span>
+              </li>
+              <li class="flex items-center justify-between py-3 border-b border-border">
+                <span class="text-sm text-text-secondary">Fin de garantie</span>
+                <span
+                  class="text-sm font-semibold text-text-primary"
+                  [class.text-error-dim]="isWarrantyExpiringSoon(asset.warranty_end_date)"
+                  [class.text-text-primary]="!isWarrantyExpiringSoon(asset.warranty_end_date)"
+                >
+                  @if (asset.warranty_end_date) {
+                    {{ asset.warranty_end_date | date: 'dd MMM yyyy' : '' : 'fr' }}
+                  } @else {
+                    —
+                  }
+                </span>
+              </li>
+              <li class="flex items-center justify-between py-3 border-b border-border">
+                <span class="text-sm text-text-secondary">État</span>
+                <span class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary">
+                  {{ asset.condition }}
+                </span>
+              </li>
+              @if (asset.notes) {
+                <li class="flex items-center justify-between py-3 border-b border-border">
+                  <span class="text-sm text-text-secondary">Notes</span>
+                  <span class="text-sm text-text-secondary text-right max-w-48">{{ asset.notes }}</span>
+                </li>
+              }
+            </ul>
+          </section>
+        }
+
+        <!-- Doc tab -->
+        @if (activeTab === 'documents') {
+          <section aria-label="Documents">
+            <ul class="flex flex-col gap-3 mb-4">
+              @for (doc of documents; track doc.id) {
+                <li class="flex items-center gap-3 py-3 border-b border-border">
+                  <span
+                    class="flex items-center justify-center w-10 h-10 rounded-xl bg-surface-light shrink-0"
+                    aria-hidden="true"
+                  >
+                    <lucide-angular [img]="fileText" [size]="18" class="text-text-secondary" />
+                  </span>
+                  <hgroup class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-text-primary truncate">{{ doc.name }}</p>
+                    <p class="text-xs text-text-secondary">
+                      {{ doc.size_bytes | number }} octets ·
+                      {{ doc.created_at | date: 'dd MMM yyyy' : '' : 'fr' }}
+                    </p>
+                  </hgroup>
+                  <span class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary shrink-0">
+                    {{ doc.type }}
+                  </span>
+                  <button (click)="openEditDocumentModal(doc)" aria-label="Modifier le document">
+                    <lucide-angular [img]="pencil" [size]="16" class="text-text-secondary" aria-hidden="true" />
+                  </button>
+                  <button (click)="openDocument(doc.id)" aria-label="Visualiser le document" class="p-1">
+                    <lucide-angular [img]="eye" [size]="16" class="text-text-secondary" aria-hidden="true" />
+                  </button>
+                  <button (click)="openDocument(doc.id, true)" aria-label="Télécharger le document" class="p-1">
+                    <lucide-angular [img]="download" [size]="16" class="text-text-secondary" aria-hidden="true" />
+                  </button>
+                  <button (click)="openDeleteDocumentModal(doc.id)" aria-label="Supprimer le document">
+                    <lucide-angular [img]="trash" [size]="16" class="text-error-dim" aria-hidden="true" />
+                  </button>
+                </li>
+              }
+            </ul>
+            <button
+              (click)="openFilePicker()"
+              class="w-full flex items-center justify-center gap-2 bg-surface border border-border rounded-2xl p-4 text-sm text-text-secondary transition-colors hover:border-primary hover:text-primary"
+            >
+              <lucide-angular [img]="plus" [size]="16" aria-hidden="true" />
+              Ajouter un document
+            </button>
+          </section>
+        }
+
+        <!-- Event tab -->
+        @if (activeTab === 'maintenance') {
+          <section aria-label="Maintenance">
+            <ul class="flex flex-col gap-3 mb-4">
+              @for (event of maintenanceEvents; track event.id) {
+                <li class="flex items-start gap-3 py-3 border-b border-border">
+                  <div class="flex-1">
+                    <header class="flex items-center justify-between mb-2">
+                      <hgroup class="flex items-center gap-2">
+                        <lucide-angular [img]="wrench" [size]="14" class="text-primary" aria-hidden="true" />
+                        <p class="text-sm font-semibold text-text-primary">{{ event.name }}</p>
+                      </hgroup>
+                      @if (event.cost_cents > 0) {
+                        <span class="text-sm font-bold text-primary">
+                          {{ event.cost_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
+                        </span>
+                      } @else {
+                        <span class="text-sm font-bold text-text-secondary">0 €</span>
+                      }
+                    </header>
+                    <p class="text-xs text-text-secondary mb-2">
+                      {{ event.type }} · {{ event.date | date: 'dd MMM yyyy' : '' : 'fr' }}
+                    </p>
+                    @if (event.notes) {
+                      <p class="text-xs text-text-secondary mb-2">{{ event.notes }}</p>
+                    }
+                    @if (event.next_due_date) {
+                      <span class="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-primary-dim text-primary">
+                        <lucide-angular [img]="calendarClock" [size]="10" aria-hidden="true" />
+                        Prochain : {{ event.next_due_date | date: 'MMM yyyy' : '' : 'fr' }}
+                      </span>
+                    }
+                  </div>
+                  <div class="flex gap-2 shrink-0 items-center">
+                    <button (click)="openEditEventModal(event)" aria-label="Modifier l'événement" class="p-1">
+                      <lucide-angular [img]="pencil" [size]="16" class="text-text-secondary" aria-hidden="true" />
+                    </button>
+                    <button (click)="openDeleteEventModal(event.id)" aria-label="Supprimer l'événement" class="p-1">
+                      <lucide-angular [img]="trash" [size]="16" class="text-error-dim" aria-hidden="true" />
+                    </button>
+                  </div>
+                </li>
+              }
+            </ul>
+            <button
+              (click)="openAddEventModal()"
+              class="w-full flex items-center justify-center gap-2 bg-surface border border-border rounded-2xl p-4 text-sm text-text-secondary transition-colors hover:border-primary hover:text-primary"
+            >
+              <lucide-angular [img]="plus" [size]="16" aria-hidden="true" />
+              Ajouter un événement
+            </button>
+          </section>
+        }
+      </div>
+    </div>
+
   } @else {
     <div class="flex items-center justify-center pt-20">
       <p class="text-text-secondary text-sm">Chargement...</p>
