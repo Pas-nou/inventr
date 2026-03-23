@@ -139,6 +139,8 @@ export class AssetDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.activeTab = window.innerWidth >= 1024 ? 'documents' : 'infos';
+
     this.assetId = this.route.snapshot.paramMap.get('id') ?? '';
 
     this.assetsService.getAssetById(this.assetId).subscribe((asset) => {
