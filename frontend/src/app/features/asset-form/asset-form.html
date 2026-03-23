@@ -35,7 +35,7 @@
   </div>
 }
 
-<main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6">
+<main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6 lg:px-8 lg:py-8 lg:pb-8">
   <!-- Back button -->
   <button
     (click)="goBack()"
@@ -64,7 +64,7 @@
     </p>
   </header>
 
-  <form (ngSubmit)="onSubmit()" , [formGroup]="form" novalidate>
+  <form (ngSubmit)="onSubmit()" , [formGroup]="form" novalidate class="lg:max-w-2xl">
     <!-- Name -->
     <fieldset class="mb-5">
       <label
@@ -130,7 +130,9 @@
             type="number"
             placeholder="Prix du bien"
             class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors pr-8"
-            [class.border-error-dim]="form.get('purchase_price_cents')?.touched && form.get('purchase_price_cents')?.invalid"
+            [class.border-error-dim]="
+              form.get('purchase_price_cents')?.touched && form.get('purchase_price_cents')?.invalid
+            "
           />
           <span class="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary text-sm">
             €
@@ -157,7 +159,9 @@
           type="date"
           placeholder="jj/mm/aaaa"
           class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
-          [class.border-error-dim]="form.get('purchase_date')?.touched && form.get('purchase_date')?.invalid"
+          [class.border-error-dim]="
+            form.get('purchase_date')?.touched && form.get('purchase_date')?.invalid
+          "
         />
         @if (
           form.get('purchase_date')?.touched && form.get('purchase_date')?.errors?.['required']
@@ -229,41 +233,42 @@
         class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors resize-none"
       ></textarea>
     </fieldset>
+    <div class="lg:flex lg:gap-3 lg:flex">
+      <!-- Submit -->
+      <button
+        type="submit"
+        [disabled]="form.invalid || isSubmitting"
+        class="w-full lg:flex-1 bg-primary text-background font-semibold rounded-2xl py-4 mb-3 transition-opacity disabled:opacity-50 flex items-center justify-center min-h-14"
+      >
+        @if (!isSubmitting) {
+          {{ isEditMode ? 'Enregistrer les modifications' : 'Enregistrer le bien' }}
+        } @else {
+          <span class="flex items-center gap-1">
+            <span class="h-1.5 w-1.5 rounded-full bg-background dot-1"></span>
+            <span class="h-1.5 w-1.5 rounded-full bg-background dot-2"></span>
+            <span class="h-1.5 w-1.5 rounded-full bg-background dot-3"></span>
+          </span>
+        }
+      </button>
 
-    <!-- Submit -->
-    <button
-      type="submit"
-      [disabled]="form.invalid || isSubmitting"
-      class="w-full bg-primary text-background font-semibold rounded-2xl py-4 mb-3 transition-opacity disabled:opacity-50 flex items-center justify-center min-h-14"
-    >
-      @if (!isSubmitting) {
-        {{ isEditMode ? 'Enregistrer les modifications' : 'Enregistrer le bien' }}
+      <!-- Cancel / Delete -->
+      @if (isEditMode) {
+        <button
+          type="button"
+          (click)="openDeleteModal()"
+          class="w-full lg:flex-1 text-error-dim font-semibold rounded-2xl py-4 mb-3 border border-border transition-colors hover:border-error-dim"
+        >
+          Supprimer ce bien
+        </button>
       } @else {
-        <span class="flex items-center gap-1">
-          <span class="h-1.5 w-1.5 rounded-full bg-background dot-1"></span>
-          <span class="h-1.5 w-1.5 rounded-full bg-background dot-2"></span>
-          <span class="h-1.5 w-1.5 rounded-full bg-background dot-3"></span>
-        </span>
+        <button
+          type="button"
+          (click)="goBack()"
+          class="w-full lg:flex-1 text-text-secondary font-semibold rounded-2xl py-4 mb-3 border border-border transition-colors hover:border-primary"
+        >
+          Annuler
+        </button>
       }
-    </button>
-
-    <!-- Cancel / Delete -->
-    @if (isEditMode) {
-      <button
-        type="button"
-        (click)="openDeleteModal()"
-        class="w-full text-error-dim font-semibold rounded-2xl py-4 border border-border transition-colors hover:border-error-dim"
-      >
-        Supprimer ce bien
-      </button>
-    } @else {
-      <button
-        type="button"
-        (click)="goBack()"
-        class="w-full text-text-secondary font-semibold rounded-2xl py-4 border border-border transition-colors hover:border-primary"
-      >
-        Annuler
-      </button>
-    }
+    </div>
   </form>
 </main>
