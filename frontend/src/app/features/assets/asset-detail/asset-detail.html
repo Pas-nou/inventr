@@ -1,13 +1,13 @@
 <!-- * Upload Document Modal -->
 @if (showUploadModal) {
   <div
-    class="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm px-4 pb-8"
+    class="fixed inset-0 z-50 flex items-end lg:items-center justify-center bg-black/60 backdrop-blur-sm px-4 pb-8 lg:pb-0"
     (click)="closeUploadModal()"
     aria-hidden="true"
   >
     <dialog
       open
-      class="w-full bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+      class="w-full lg:max-w-lg mx-auto bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
       (click)="$event.stopPropagation()"
       aria-labelledby="upload-modal-title"
     >
@@ -67,13 +67,13 @@
 <!-- * Edit Document Modal -->
 @if (showEditDocumentModal) {
   <div
-    class="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm px-4 pb-8"
+    class="fixed inset-0 z-50 flex items-end lg:items-center justify-center bg-black/60 backdrop-blur-sm px-4 pb-8 lg:pb-0"
     (click)="closeEditDocumentModal()"
     aria-hidden="true"
   >
     <dialog
       open
-      class="w-full bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+      class="w-full lg:max-w-lg mx-auto bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
       (click)="$event.stopPropagation()"
       aria-labelledby="edit-doc-modal-title"
     >
@@ -132,13 +132,13 @@
 <!-- * Delete document modal -->
 @if (showDeleteDocumentModal) {
   <div
-    class="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm px-4 pb-8"
+    class="fixed inset-0 z-50 flex items-end lg:items-center justify-center bg-black/60 backdrop-blur-sm px-4 pb-8 lg:pb-0"
     (click)="closeDeleteDocumentModal()"
     aria-hidden="true"
   >
     <dialog
       open
-      class="w-full bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+      class="w-full lg:max-w-lg mx-auto bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
       (click)="$event.stopPropagation()"
       aria-labelledby="delete-doc-modal-title"
     >
@@ -167,13 +167,13 @@
 <!-- * Add event modal -->
 @if (showAddEventModal) {
   <div
-    class="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm px-4 pb-8"
+    class="fixed inset-0 z-50 flex items-end lg:items-center justify-center bg-black/60 backdrop-blur-sm px-4 pb-8 lg:pb-0"
     (click)="closeAddEventModal()"
     aria-hidden="true"
   >
     <dialog
       open
-      class="w-full bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+      class="w-full lg:max-w-lg mx-auto bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
       (click)="$event.stopPropagation()"
       aria-labelledby="add-event-modal-title"
     >
@@ -279,13 +279,13 @@
 <!-- * Edit event modal -->
 @if (showEditEventModal) {
   <div
-    class="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm px-4 pb-8"
+    class="fixed inset-0 z-50 flex items-end lg:items-center justify-center bg-black/60 backdrop-blur-sm px-4 pb-8 lg:pb-0"
     (click)="closeEditEventModal()"
     aria-hidden="true"
   >
     <dialog
       open
-      class="w-full bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+      class="w-full lg:max-w-lg mx-auto bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
       (click)="$event.stopPropagation()"
       aria-labelledby="edit-event-modal-title"
     >
@@ -388,13 +388,13 @@
 <!-- * Delete event modal -->
 @if (showDeleteEventModal) {
   <div
-    class="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm px-4 pb-8"
+    class="fixed inset-0 z-50 flex items-end lg:items-center justify-center bg-black/60 backdrop-blur-sm px-4 pb-8 lg:pb-0"
     (click)="closeDeleteEventModal()"
     aria-hidden="true"
   >
     <dialog
       open
-      class="w-full bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+      class="w-full lg:max-w-lg mx-auto bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
       (click)="$event.stopPropagation()"
       aria-labelledby="delete-event-modal-title"
     >

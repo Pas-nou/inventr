@@ -1,12 +1,12 @@
 @if (showDeleteModal) {
   <div
-    class="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm px-4 pb-8"
+    class="fixed inset-0 z-50 flex items-end lg:items-center justify-center bg-black/60 backdrop-blur-sm px-4 pb-8 lg:pb-0"
     (click)="closeDeleteModal()"
     aria-hidden="true"
   >
     <dialog
       open
-      class="w-full bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+      class="w-full lg:max-w-lg mx-auto bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
       (click)="$event.stopPropagation()"
       aria-labelledby="delete-modal-title"
       aria-describedby="delete-modal-desc"
@@ -233,7 +233,7 @@
         class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors resize-none"
       ></textarea>
     </fieldset>
-    <div class="lg:flex lg:gap-3 lg:flex">
+    <div class="lg:flex lg:gap-3">
       <!-- Submit -->
       <button
         type="submit"
