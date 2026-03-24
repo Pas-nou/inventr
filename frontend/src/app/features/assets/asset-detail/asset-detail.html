@@ -543,7 +543,7 @@
             <li class="flex items-center justify-between px-4 py-3 border-b border-border">
               <span class="text-sm text-text-secondary">Prix d'achat</span>
               <span class="text-sm font-semibold text-text-primary">{{
-                asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr'
+                asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-2' : 'fr'
               }}</span>
             </li>
             <li class="flex items-center justify-between px-4 py-3 border-b border-border">
@@ -619,7 +619,7 @@
               <li class="flex items-center justify-between py-3 border-b border-border">
                 <span class="text-sm text-text-secondary">Prix d'achat</span>
                 <span class="text-sm font-semibold text-text-primary">{{
-                  asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr'
+                  asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-2' : 'fr'
                 }}</span>
               </li>
               <li class="flex items-center justify-between py-3 border-b border-border">
@@ -719,7 +719,7 @@
                       </hgroup>
                       @if (event.cost_cents > 0) {
                         <span class="text-sm font-bold text-primary">
-                          {{ event.cost_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
+                          {{ event.cost_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-2' : 'fr' }}
                         </span>
                       } @else {
                         <span class="text-sm font-bold text-text-secondary">0 €</span>

@@ -57,7 +57,7 @@
 
         <dt class="text-text-secondary text-xs uppercase tracking-widest mb-2">Valeur totale</dt>
         <dd class="text-3xl font-bold font-display m-0">
-          {{ totalValue | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
+          {{ totalValue | currency: 'EUR' : 'symbol' : '1.0-2' : 'fr' }}
         </dd>
       </dl>
 
@@ -231,7 +231,7 @@
 
             <!-- Right side -->
             <span class="text-sm font-semibold text-primary">
-              {{ asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr' }}
+              {{ asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-2' : 'fr' }}
             </span>
           </li>
         }
@@ -358,7 +358,7 @@
                 </td>
                 <td class="px-5 py-4 text-sm font-semibold text-primary text-right">
                   {{
-                    asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-0' : 'fr'
+                    asset.purchase_price_cents / 100 | currency: 'EUR' : 'symbol' : '1.0-2' : 'fr'
                   }}
                 </td>
               </tr>
