@@ -1,0 +1,259 @@
+<!-- * Teal blur background -->
+<span
+  class="absolute top-10 left-10 w-164 h-164 rounded-full opacity-20 blur-3xl pointer-events-none"
+  style="
+    background: radial-gradient(circle, var(--color-primary), transparent 70%);
+    transform: translate(-30%, -30%);
+  "
+></span>
+
+<!-- Navbar -->
+<nav
+  class="fixed top-0 left-0 right-0 z-50 px-4 lg:px-8 bg-background/80 backdrop-blur-md border-b border-border"
+>
+  <div class="max-w-6xl mx-auto h-16 flex items-center justify-between">
+    <span class="text-3xl font-bold font-display text-text-primary">
+      Invent<span class="text-primary">r</span>
+    </span>
+    <div class="flex items-center gap-3">
+      <a
+        routerLink="/login"
+        class="hidden lg:block text-text-secondary text-sm font-medium px-4 py-2 rounded-xl border border-border hover:border-primary transition-colors"
+      >
+        Se connecter
+      </a>
+      <a
+        routerLink="/login"
+        class="bg-primary text-sm font-bold px-4 py-2 rounded-xl transition-opacity hover:opacity-90"
+        style="color: var(--color-background)"
+      >
+        Commencer
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <!-- Hero -->
+  <section class="min-h-screen flex items-center pt-16 px-4 lg:px-8">
+    <div
+      class="max-w-6xl mx-auto w-full py-20 lg:py-28 flex flex-col lg:flex-row lg:items-center gap-12"
+    >
+      <!-- Left -->
+      <div class="flex-1 flex flex-col gap-6">
+        <span
+          class="inline-flex items-center gap-2 bg-primary-dim border border-primary/25 text-primary text-xs font-semibold px-4 py-1.5 rounded-full w-fit tracking-widest uppercase"
+        >
+          ✦ Gestion de patrimoine simplifiée
+        </span>
+
+        <h1 class="text-5xl lg:text-7xl font-bold font-display leading-tight tracking-tight">
+          Votre patrimoine,<br />
+          <span class="text-primary">enfin organisé</span>
+        </h1>
+
+        <p class="text-text-secondary text-lg leading-relaxed max-w-lg">
+          Inventr centralise tous vos biens, documents et garanties en un seul endroit. Ne perdez
+          plus jamais une facture, ne laissez plus expirer une garantie.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a
+            routerLink="/login"
+            class="bg-primary font-bold text-base px-6 py-3.5 rounded-xl transition-opacity hover:opacity-90 text-center"
+            style="color: var(--color-background)"
+          >
+            Créer mon inventaire gratuitement
+          </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="flex gap-8 pt-2">
+          <div class="flex flex-col gap-1">
+            <span class="text-3xl font-bold text-primary">100%</span>
+            <span class="text-xs text-text-secondary uppercase tracking-widest">Gratuit</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-3xl font-bold text-primary">∞</span>
+            <span class="text-xs text-text-secondary uppercase tracking-widest">Biens</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-3xl font-bold text-primary">Disponible</span>
+            <span class="text-xs text-text-secondary uppercase tracking-widest"
+              >Sur tous vos appareils</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Right : app mockup -->
+      <div class="flex-1 hidden lg:block relative">
+        <div class="bg-surface border border-border rounded-2xl overflow-hidden shadow-2xl">
+          <!-- Browser bar -->
+          <div class="bg-background px-4 py-2.5 flex items-center gap-2 border-b border-border">
+            <span class="w-3 h-3 rounded-full bg-error-dim"></span>
+            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+            <span class="ml-2 text-xs text-text-secondary font-mono">inventr.fr/app</span>
+          </div>
+          <!-- App screen -->
+          <div class="flex h-80">
+            <!-- Sidebar -->
+            <div class="w-36 bg-background border-r border-border p-3 flex flex-col gap-1">
+              <div class="text-base font-bold font-display text-text-primary mb-3 px-2">
+                Invent<span class="text-primary">r</span>
+              </div>
+              @for (item of ['Inventaire', 'Alertes', 'Profil']; track item; let i = $index) {
+                <div
+                  class="text-xs px-2 py-1.5 rounded-lg border-l-2 transition-colors"
+                  [class.text-primary]="i === 0"
+                  [class.border-primary]="i === 0"
+                  [class.bg-primary-dim]="i === 0"
+                  [class.text-text-secondary]="i !== 0"
+                  [class.border-transparent]="i !== 0"
+                >
+                  {{ item }}
+                </div>
+              }
+            </div>
+            <!-- Main -->
+            <div class="flex-1 p-3 flex flex-col gap-3 overflow-hidden">
+              <div>
+                <div class="text-xs text-text-secondary">Bonjour 👋</div>
+                <div class="text-base font-bold text-text-primary">John</div>
+              </div>
+              <!-- Stats cards -->
+              <div class="grid grid-cols-4 gap-1.5">
+                @for (
+                  card of [
+                    { l: 'Biens', v: '9' },
+                    { l: 'Valeur', v: '43 954 €' },
+                    { l: 'Documents', v: '3' },
+                    { l: 'Alertes', v: '2', a: true },
+                  ];
+                  track card.l
+                ) {
+                  <div class="bg-surface-light border border-border rounded-lg p-1.5">
+                    <div class="text-[9px] text-text-secondary uppercase mb-0.5">{{ card.l }}</div>
+                    <div
+                      class="text-xs font-bold"
+                      [class.text-primary]="!card['a']"
+                      [class.text-error-dim]="card['a']"
+                    >
+                      {{ card.v }}
+                    </div>
+                  </div>
+                }
+              </div>
+              <!-- Table rows -->
+              <div class="flex flex-col gap-1">
+                @for (
+                  name of ['MacBook Pro', 'Renault Clio', 'Samsung Galaxy S25', 'Vélo Trek'];
+                  track name
+                ) {
+                  <div
+                    class="flex items-center gap-2 px-2 py-1.5 bg-surface-light border border-border rounded-lg"
+                  >
+                    <div class="w-4 h-4 rounded bg-surface shrink-0"></div>
+                    <div class="text-[10px] text-text-primary flex-1 truncate">{{ name }}</div>
+                    <div class="text-[10px] text-primary">—</div>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Glow -->
+        <div
+          class="absolute -bottom-8 left-1/4 right-1/4 h-16 bg-primary/20 blur-2xl rounded-full"
+        ></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="px-4 lg:px-8 py-20">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12 flex flex-col items-center gap-4">
+        <span
+          class="bg-primary-dim border border-primary/25 text-primary text-xs font-semibold px-4 py-1.5 rounded-full tracking-widest uppercase"
+        >
+          Fonctionnalités
+        </span>
+        <h2 class="text-4xl lg:text-5xl font-bold font-display tracking-tight">
+          Tout ce dont vous avez besoin
+        </h2>
+        <p class="text-text-secondary text-lg max-w-lg leading-relaxed">
+          Une application pensée pour les particuliers qui veulent garder le contrôle sur leur
+          patrimoine.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        @for (feature of features; track feature.title) {
+          <div
+            class="bg-surface border border-border rounded-2xl p-8 relative overflow-hidden hover:border-primary transition-colors"
+          >
+            <lucide-angular [img]="feature.icon" [size]="32" class="text-primary mb-4 block" aria-hidden="true" />
+            <h3 class="text-xl font-bold text-text-primary mb-3">{{ feature.title }}</h3>
+            <p class="text-text-secondary leading-relaxed">{{ feature.desc }}</p>
+            <!-- Corner glow -->
+            <div
+              class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-xl"
+            ></div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Final -->
+  <section class="px-4 lg:px-8 py-20">
+    <div class="max-w-6xl mx-auto">
+      <div
+        class="bg-primary-dim border border-primary/20 rounded-3xl p-12 text-center relative overflow-hidden"
+      >
+        <div
+          class="absolute top-0 left-0 w-64 h-64 bg-primary/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"
+        ></div>
+        <div
+          class="absolute bottom-0 right-0 w-64 h-64 bg-primary/10 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"
+        ></div>
+        <h2 class="text-4xl lg:text-5xl font-bold font-display tracking-tight mb-4 relative">
+          Prêt à organiser votre patrimoine ?
+        </h2>
+        <p class="text-text-secondary text-lg mb-8 relative">
+          Gratuit, sans carte bancaire. Commencez en moins de 2 minutes.
+        </p>
+        <a
+          routerLink="/login"
+          class="bg-primary font-bold text-lg px-8 py-4 rounded-xl transition-opacity hover:opacity-90 inline-block relative"
+          style="color: var(--color-background)"
+        >
+          Créer mon compte gratuitement →
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="border-t border-border px-4 lg:px-8 py-8">
+  <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
+    <span class="text-xl font-bold font-display text-text-primary">
+      Invent<span class="text-primary">r</span>
+    </span>
+    <div class="flex gap-6 flex-wrap justify-center">
+      <a href="#" class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+        >Mentions légales</a
+      >
+      <a href="#" class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+        >Politique de confidentialité</a
+      >
+      <a href="#" class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+        >Contact</a
+      >
+    </div>
+    <span class="text-text-secondary text-xs">© 2026 Inventr. Tous droits réservés.</span>
+  </div>
+</footer>
