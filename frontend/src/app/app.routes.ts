@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { NotFoundComponent } from './features/not-found/not-found';
+import { GuestGuard } from './core/guards/guest.guard';
 
 export const routes: Routes = [
   {
@@ -10,20 +11,24 @@ export const routes: Routes = [
   },
   {
     path: 'login',
+    canActivate: [GuestGuard],
     loadComponent: () => import('./features/auth/auth').then((m) => m.AuthComponent),
   },
   {
     path: 'verify-email',
+    canActivate: [GuestGuard],
     loadComponent: () =>
       import('./features/auth/verify-email/verify-email').then((m) => m.VerifyEmailComponent),
   },
   {
     path: 'forgot-password',
+    canActivate: [GuestGuard],
     loadComponent: () => 
       import('./features/auth/forgot-password/forgot-password').then((m) => m.ForgotPasswordComponent)
   },
   {
     path: 'reset-password',
+    canActivate: [GuestGuard],
     loadComponent: () => 
       import('./features/auth/reset-password/reset-password').then((m) => m.ResetPasswordComponent)
   },
