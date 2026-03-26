@@ -41,7 +41,11 @@ export class DocumentsService {
     userId: string,
   ) {
     await this.verifyAssetOwnership(assetId, userId);
-    const filePath = `${uuidv4()}-${file.originalname}`;
+    const sanitizeName = file.originalname
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-zA-Z0-9._-]/g, '_');
+    const filePath = `${uuidv4()}-${sanitizeName}`;
     const storageKey = await this.storageService.uploadFile(
       file,
       'documents',

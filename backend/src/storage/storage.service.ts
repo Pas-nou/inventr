@@ -26,6 +26,7 @@ export class StorageService {
       .from(bucket)
       .upload(path, blob);
     if (error) {
+      console.error('Supabase upload error:', error);
       throw new InternalServerErrorException('File upload failed');
     }
     return data.path;
