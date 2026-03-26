@@ -15,6 +15,7 @@ export class App {
 
   get showNavbar(): boolean {
     const hiddenRoutes = [
+      '/',
       '/login',
       '/assets/new',
       '/verify-email',
@@ -25,7 +26,7 @@ export class App {
   }
 
   get showSidebar(): boolean {
-    const hiddenRoutes = ['/login', '/verify-email', '/forgot-password', '/reset-password'];
+    const hiddenRoutes = ['/', '/login', '/verify-email', '/forgot-password', '/reset-password'];
     return !hiddenRoutes.includes(this.router.url);
   }
 }

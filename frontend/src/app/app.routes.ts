@@ -6,8 +6,7 @@ import { GuestGuard } from './core/guards/guest.guard';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
+    loadComponent: () => import('./features/landing/landing').then((m) => m.LandingComponent),
   },
   {
     path: 'login',
@@ -33,7 +32,7 @@ export const routes: Routes = [
       import('./features/auth/reset-password/reset-password').then((m) => m.ResetPasswordComponent)
   },
   {
-    path: 'home',
+    path: 'app',
     canActivate: [AuthGuard],
     loadComponent: () => import('./features/assets/assets').then((m) => m.AssetsComponent),
   },

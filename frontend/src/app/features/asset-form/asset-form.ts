@@ -155,7 +155,7 @@ export class AssetFormComponent implements OnInit {
       this.assetsService.createAsset(payload).subscribe({
         next: () => {
           this.toastService.show('Bien ajouté avec succès');
-          void this.router.navigate(['/home']);
+          void this.router.navigate(['/app']);
         },
         error: () => this.toastService.show('Une erreur est survenue', 'error')
       });
@@ -167,7 +167,7 @@ export class AssetFormComponent implements OnInit {
     this.assetsService.deleteAsset(this.assetId).subscribe({
       next: () => {
         this.toastService.show('Bien supprimé')
-        void this.router.navigate(['/home']);
+        void this.router.navigate(['/app']);
       },
       error: () =>  this.toastService.show('Une erreur est survenue', 'error')
     });

@@ -88,7 +88,7 @@ export class AuthComponent {
       this.isLoading = true;
       this.showEmailNotVerified = false;
       this.authService.login(this.loginForm.value).subscribe({
-        next: () => void this.router.navigate(['/home']),
+        next: () => void this.router.navigate(['/app']),
         error: (err) => {
           const message = err?.error?.message as string;
           if (message === 'EMAIL_NOT_VERIFIED') {
