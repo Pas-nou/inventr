@@ -35,7 +35,7 @@
 
 <main>
   <!-- Hero -->
-  <section class="min-h-screen flex items-center pt-16 px-4 lg:px-8">
+  <section class="min-h-screen flex flex-col justify-between pt-16 px-4 lg:px-8">
     <div
       class="max-w-6xl mx-auto w-full py-20 lg:py-28 flex flex-col lg:flex-row lg:items-center gap-12"
     >
@@ -169,10 +169,19 @@
         ></div>
       </div>
     </div>
+
+    <!-- Scroll indicator -->
+    <button
+  (click)="scrollToFeatures()"
+  class="flex flex-col items-center gap-2 animate-bounce w-fit mx-auto pb-8 lg:pb-0 cursor-pointer"
+>
+  <span class="text-xs text-text-secondary uppercase tracking-widest">Découvrir</span>
+  <lucide-angular [img]="chevronDown" [size]="20" class="text-primary" aria-hidden="true" />
+</button>
   </section>
 
   <!-- Features -->
-  <section class="px-4 lg:px-8 py-20">
+  <section id="features" class="px-4 lg:px-8 py-20">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-12 flex flex-col items-center gap-4">
         <span
@@ -194,7 +203,12 @@
           <div
             class="bg-surface border border-border rounded-2xl p-8 relative overflow-hidden hover:border-primary transition-colors"
           >
-            <lucide-angular [img]="feature.icon" [size]="32" class="text-primary mb-4 block" aria-hidden="true" />
+            <lucide-angular
+              [img]="feature.icon"
+              [size]="32"
+              class="text-primary mb-4 block"
+              aria-hidden="true"
+            />
             <h3 class="text-xl font-bold text-text-primary mb-3">{{ feature.title }}</h3>
             <p class="text-text-secondary leading-relaxed">{{ feature.desc }}</p>
             <!-- Corner glow -->

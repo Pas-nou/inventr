@@ -59,6 +59,10 @@ button, a {
    ANIMATIONS
    ============================================================ */
 
+html {
+  scroll-behavior: smooth;
+}
+
 @keyframes bounce-high {
   0%,
   100% {

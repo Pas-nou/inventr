@@ -6,6 +6,7 @@ import {
   Shield,
   FileText,
   Wrench,
+  ChevronDown,
 } from 'lucide-angular';
 
 @Component({
@@ -15,6 +16,7 @@ import {
   styleUrl: './landing.css',
 })
 export class LandingComponent {
+  readonly chevronDown = ChevronDown;
   readonly features = [
     {
     icon: Package,
@@ -37,4 +39,8 @@ export class LandingComponent {
     desc: 'Gardez une trace de chaque réparation, entretien et inspection. Un historique complet pour chaque bien de votre patrimoine.',
   },
   ]
+
+  scrollToFeatures(): void {
+  document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+}
 }
