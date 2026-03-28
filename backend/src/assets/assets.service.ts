@@ -4,7 +4,7 @@ import { UpdateAssetDto } from './dto/update-asset.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Asset } from './entities/asset.entity';
-import { Document } from 'src/documents/entities/document.entity';
+import { Document } from '../documents/entities/document.entity';
 
 @Injectable()
 export class AssetsService {

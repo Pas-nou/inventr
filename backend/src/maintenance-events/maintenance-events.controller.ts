@@ -14,7 +14,7 @@ import {
 import { MaintenanceEventsService } from './maintenance-events.service';
 import { CreateMaintenanceEventDto } from './dto/create-maintenance-event.dto';
 import { UpdateMaintenanceEventDto } from './dto/update-maintenance-event.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
 
 interface RequestWithUser extends Request {

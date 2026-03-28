@@ -9,9 +9,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Document } from './entities/document.entity';
 import { Asset } from '../assets/entities/asset.entity';
-import { StorageService } from 'src/storage/storage.service';
+import { StorageService } from '../storage/storage.service';
 import { v4 as uuidv4 } from 'uuid';
-import { MulterFile } from 'src/common/interfaces/multer-file.interface';
+import { MulterFile } from '../common/interfaces/multer-file.interface';
 
 @Injectable()
 export class DocumentsService {

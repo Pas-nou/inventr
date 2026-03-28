@@ -13,6 +13,11 @@ import {
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
+jest.mock('bcrypt', () => ({
+  compare: jest.fn(),
+  hash: jest.fn(),
+}));
+
 // Global mockups
 const mockUser = {
   id: 'uuid-1',
@@ -129,10 +134,8 @@ describe('AuthService', () => {
   describe('login', () => {
     it('devrait retourner les tokens si credentials valides', async () => {
       mockUsersRepository.findOne.mockResolvedValue(mockUser);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
-      jest
-        .spyOn(bcrypt, 'hash')
-        .mockResolvedValue('new_hashed_refresh' as never);
+      (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+      (bcrypt.hash as jest.Mock).mockResolvedValue('new_hashed_refresh');
       mockUsersRepository.update.mockResolvedValue(undefined);
 
       const result = await service.login('john@inventr.app', 'password123');
@@ -152,7 +155,7 @@ describe('AuthService', () => {
 
     it('devrait lever UnauthorizedException si mot de passe incorrect', async () => {
       mockUsersRepository.findOne.mockResolvedValue(mockUser);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(false as never);
+      (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
       await expect(
         service.login('john@inventr.app', 'wrong_password'),
@@ -164,7 +167,7 @@ describe('AuthService', () => {
         ...mockUser,
         email_verified: false,
       });
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
+      (bcrypt.compare as jest.Mock).mockResolvedValue(true);
 
       await expect(
         service.login('john@inventr.app', 'password123'),
@@ -220,10 +223,8 @@ describe('AuthService', () => {
   describe('refresh', () => {
     it('devrait retourner de nouveaux tokens si refresh token valide', async () => {
       mockUsersRepository.findOne.mockResolvedValue(mockUser);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
-      jest
-        .spyOn(bcrypt, 'hash')
-        .mockResolvedValue('new_hashed_refresh' as never);
+      (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+      (bcrypt.hash as jest.Mock).mockResolvedValue('new_hashed_refresh');
       mockUsersRepository.update.mockResolvedValue(undefined);
 
       const result = await service.refresh('uuid-1', 'valid_refresh_token');
@@ -242,7 +243,7 @@ describe('AuthService', () => {
 
     it('devrait lever UnauthorizedException si refresh token invalide', async () => {
       mockUsersRepository.findOne.mockResolvedValue(mockUser);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(false as never);
+      (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
       await expect(service.refresh('uuid-1', 'wrong_token')).rejects.toThrow(
         UnauthorizedException,
@@ -313,9 +314,7 @@ describe('AuthService', () => {
         reset_password_token: 'valid_token',
         reset_password_token_expires_at: futureDate,
       });
-      jest
-        .spyOn(bcrypt, 'hash')
-        .mockResolvedValue('new_hashed_password' as never);
+      (bcrypt.hash as jest.Mock).mockResolvedValue('new_hashed_password');
       mockUsersRepository.update.mockResolvedValue(undefined);
 
       await expect(
@@ -372,8 +371,8 @@ describe('AuthService', () => {
 
     it('devrait changer le mot de passe si current_password correct', async () => {
       mockUsersRepository.findOneBy.mockResolvedValue({ ...mockUser });
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
-      jest.spyOn(bcrypt, 'hash').mockResolvedValue('new_hash' as never);
+      (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+      (bcrypt.hash as jest.Mock).mockResolvedValue('new_hash');
       mockUsersRepository.save.mockResolvedValue(mockUser);
 
       await expect(
@@ -386,7 +385,7 @@ describe('AuthService', () => {
 
     it('devrait lever UnauthorizedException si current_password incorrect', async () => {
       mockUsersRepository.findOneBy.mockResolvedValue({ ...mockUser });
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(false as never);
+      (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
       await expect(
         service.updateProfile('uuid-1', {
@@ -476,7 +475,7 @@ describe('AuthService', () => {
         ],
       };
       mockUsersRepository.findOne.mockResolvedValue(userWithAssets);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
+      (bcrypt.compare as jest.Mock).mockResolvedValue(true);
       mockUsersRepository.remove.mockResolvedValue(undefined);
 
       await service.deleteAccount('uuid-1', 'password123');
@@ -502,7 +501,7 @@ describe('AuthService', () => {
         ...mockUser,
         assets: [],
       });
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(false as never);
+      (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
       await expect(
         service.deleteAccount('uuid-1', 'wrong_password'),
@@ -517,7 +516,7 @@ describe('AuthService', () => {
         assets: [{ documents: [{ storage_key: 'documents/file1.pdf' }] }],
       };
       mockUsersRepository.findOne.mockResolvedValue(userWithAssets);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
+      (bcrypt.compare as jest.Mock).mockResolvedValue(true);
       mockStorageService.deleteFile.mockRejectedValueOnce(
         new Error('Storage error'),
       );

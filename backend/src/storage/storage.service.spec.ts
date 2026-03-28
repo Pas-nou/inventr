@@ -12,7 +12,9 @@ describe('StorageService', () => {
         {
           provide: ConfigService,
           useValue: {
-            get: jest.fn().mockReturnValue('mock_value'),
+            get: jest
+              .fn<string, [string]>()
+              .mockReturnValue('https://mock.supabase.co'),
           },
         },
       ],
