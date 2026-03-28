@@ -172,26 +172,29 @@ describe('MaintenanceEventsService', () => {
   });
 
   // -------------------------
-  // findOne
+  // update
   // -------------------------
-  describe('findOne', () => {
-    it('devrait retourner un événement existant', async () => {
+  describe('update', () => {
+    it('devrait mettre à jour un événement existant', async () => {
       mockAssetRepository.findOne.mockResolvedValue(mockAsset);
-      mockMaintenanceEventsRepository.findOne.mockResolvedValue(
-        mockMaintenanceEvent,
+      mockMaintenanceEventsRepository.update.mockResolvedValue({ affected: 1 });
+
+      const result = await service.update(
+        'event-1',
+        { name: 'Vidange modifiée' },
+        'asset-1',
+        'user-1',
       );
 
-      const result = await service.findOne('event-1', 'asset-1', 'user-1');
-
-      expect(result).toEqual(mockMaintenanceEvent);
+      expect((result as { affected: number }).affected).toBe(1);
     });
 
     it('devrait lever NotFoundException si événement introuvable', async () => {
       mockAssetRepository.findOne.mockResolvedValue(mockAsset);
-      mockMaintenanceEventsRepository.findOne.mockResolvedValue(null);
+      mockMaintenanceEventsRepository.update.mockResolvedValue({ affected: 0 });
 
       await expect(
-        service.findOne('event-inexistant', 'asset-1', 'user-1'),
+        service.update('event-inexistant', {}, 'asset-1', 'user-1'),
       ).rejects.toThrow(NotFoundException);
     });
 
@@ -199,32 +202,30 @@ describe('MaintenanceEventsService', () => {
       mockAssetRepository.findOne.mockResolvedValue(null);
 
       await expect(
-        service.findOne('event-1', 'asset-1', 'user-2'),
+        service.update('event-1', {}, 'asset-1', 'user-2'),
       ).rejects.toThrow(ForbiddenException);
     });
   });
 
   // -------------------------
-  // findOne
+  // remove
   // -------------------------
-  describe('findOne', () => {
-    it('devrait retourner un événement existant', async () => {
+  describe('remove', () => {
+    it('devrait supprimer un événement existant', async () => {
       mockAssetRepository.findOne.mockResolvedValue(mockAsset);
-      mockMaintenanceEventsRepository.findOne.mockResolvedValue(
-        mockMaintenanceEvent,
-      );
+      mockMaintenanceEventsRepository.delete.mockResolvedValue({ affected: 1 });
 
-      const result = await service.findOne('event-1', 'asset-1', 'user-1');
+      const result = await service.remove('event-1', 'asset-1', 'user-1');
 
-      expect(result).toEqual(mockMaintenanceEvent);
+      expect((result as { affected: number }).affected).toBe(1);
     });
 
     it('devrait lever NotFoundException si événement introuvable', async () => {
       mockAssetRepository.findOne.mockResolvedValue(mockAsset);
-      mockMaintenanceEventsRepository.findOne.mockResolvedValue(null);
+      mockMaintenanceEventsRepository.delete.mockResolvedValue({ affected: 0 });
 
       await expect(
-        service.findOne('event-inexistant', 'asset-1', 'user-1'),
+        service.remove('event-inexistant', 'asset-1', 'user-1'),
       ).rejects.toThrow(NotFoundException);
     });
 
@@ -232,7 +233,7 @@ describe('MaintenanceEventsService', () => {
       mockAssetRepository.findOne.mockResolvedValue(null);
 
       await expect(
-        service.findOne('event-1', 'asset-1', 'user-2'),
+        service.remove('event-1', 'asset-1', 'user-2'),
       ).rejects.toThrow(ForbiddenException);
     });
   });
