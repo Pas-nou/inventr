@@ -1,10 +1,6 @@
 <!-- * Teal blur background -->
 <span
-  class="fixed top-10 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
-  style="
-    background: radial-gradient(circle, var(--color-primary), transparent 70%);
-    transform: translate(-30%, -30%);
-  "
+  class="blob-teal fixed top-10 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
 ></span>
 
 <!-- Navbar -->
@@ -24,8 +20,7 @@
       </a>
       <a
         routerLink="/login"
-        class="bg-primary text-sm font-bold px-4 py-2 rounded-xl transition-opacity hover:opacity-90"
-        style="color: var(--color-background)"
+        class="bg-primary text-background text-sm font-bold px-4 py-2 rounded-xl transition-opacity hover:opacity-90"
       >
         Commencer
       </a>
@@ -60,8 +55,7 @@
         <div class="flex flex-col sm:flex-row gap-3">
           <a
             routerLink="/login"
-            class="bg-primary font-bold text-base px-6 py-3.5 rounded-xl transition-opacity hover:opacity-90 text-center"
-            style="color: var(--color-background)"
+            class="bg-primary text-background font-bold text-base px-6 py-3.5 rounded-xl transition-opacity hover:opacity-90 text-center"
           >
             Créer mon inventaire gratuitement
           </a>
@@ -241,8 +235,7 @@
         </p>
         <a
           routerLink="/login"
-          class="bg-primary font-bold text-lg px-8 py-4 rounded-xl transition-opacity hover:opacity-90 inline-block relative"
-          style="color: var(--color-background)"
+          class="bg-primary text-background font-bold text-lg px-8 py-4 rounded-xl transition-opacity hover:opacity-90 inline-block relative"
         >
           Créer mon compte gratuitement
         </a>
@@ -259,7 +252,7 @@
       <lucide-angular
         [img]="chevronUp"
         [size]="20"
-        style="color: var(--color-background)"
+        class="text-background"
         aria-hidden="true"
       />
     </button>
@@ -273,13 +266,13 @@
       Invent<span class="text-primary">r</span>
     </span>
     <div class="flex gap-6 flex-wrap justify-center">
-      <a href="/mentions-legales" class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+      <a routerLink="/mentions-legales" class="text-text-secondary text-sm hover:text-text-primary transition-colors"
         >Mentions légales</a
       >
-      <a href="/politique-confidentialite" class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+      <a routerLink="/politique-confidentialite" class="text-text-secondary text-sm hover:text-text-primary transition-colors"
         >Politique de confidentialité</a
       >
-      <a href="/contact" class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+      <a routerLink="/contact" class="text-text-secondary text-sm hover:text-text-primary transition-colors"
         >Contact</a
       >
     </div>
