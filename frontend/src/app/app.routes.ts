@@ -22,14 +22,16 @@ export const routes: Routes = [
   {
     path: 'forgot-password',
     canActivate: [GuestGuard],
-    loadComponent: () => 
-      import('./features/auth/forgot-password/forgot-password').then((m) => m.ForgotPasswordComponent)
+    loadComponent: () =>
+      import('./features/auth/forgot-password/forgot-password').then(
+        (m) => m.ForgotPasswordComponent,
+      ),
   },
   {
     path: 'reset-password',
     canActivate: [GuestGuard],
-    loadComponent: () => 
-      import('./features/auth/reset-password/reset-password').then((m) => m.ResetPasswordComponent)
+    loadComponent: () =>
+      import('./features/auth/reset-password/reset-password').then((m) => m.ResetPasswordComponent),
   },
   {
     path: 'app',
@@ -39,8 +41,7 @@ export const routes: Routes = [
   {
     path: 'alerts',
     canActivate: [AuthGuard],
-    loadComponent: () =>
-      import('./features/alerts/alerts').then((m) => m.AlertsComponent),
+    loadComponent: () => import('./features/alerts/alerts').then((m) => m.AlertsComponent),
   },
   {
     path: 'assets/new',
@@ -64,6 +65,22 @@ export const routes: Routes = [
     path: 'profile',
     canActivate: [AuthGuard],
     loadComponent: () => import('./features/profile/profile').then((m) => m.ProfileComponent),
+  },
+  {
+    path: 'mentions-legales',
+    loadComponent: () =>
+      import('./features/legal/legal-notice/legal-notice').then((m) => m.LegalNoticeComponent),
+  },
+  {
+    path: 'politique-confidentialite',
+    loadComponent: () =>
+      import('./features/legal/privacy-policy/privacy-policy').then(
+        (m) => m.PrivacyPolicyComponent,
+      ),
+  },
+  {
+    path: 'contact',
+    loadComponent: () => import('./features/legal/contact/contact').then((m) => m.ContactComponent),
   },
   {
     path: '**',

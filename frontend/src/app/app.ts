@@ -21,12 +21,24 @@ export class App {
       '/verify-email',
       '/forgot-password',
       '/reset-password',
+      '/mentions-legales',
+      '/politique-confidentialite',
+      '/contact',
     ];
     return !hiddenRoutes.includes(this.router.url) && !this.router.url.endsWith('/edit');
   }
 
   get showSidebar(): boolean {
-    const hiddenRoutes = ['/', '/login', '/verify-email', '/forgot-password', '/reset-password'];
+    const hiddenRoutes = [
+      '/',
+      '/login',
+      '/verify-email',
+      '/forgot-password',
+      '/reset-password',
+      '/mentions-legales',
+      '/politique-confidentialite',
+      '/contact',
+    ];
     return !hiddenRoutes.includes(this.router.url);
   }
 }
