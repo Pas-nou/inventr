@@ -211,6 +211,11 @@ html {
   background: #ef4444;
 }
 
+.blob-teal {
+  background: radial-gradient(circle, var(--color-primary), transparent 70%);
+  transform: translate(-30%, -30%);
+}
+
 input[type="date"]::-webkit-datetime-edit {
   color: var(--color-text-secondary);
 }
