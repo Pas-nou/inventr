@@ -1,1 +1,146 @@
-<p>legal-notice works!</p>
+<!-- * Teal blur background -->
+<span
+  class="fixed top-10 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
+  style="
+    background: radial-gradient(circle, var(--color-primary), transparent 70%);
+    transform: translate(-30%, -30%);
+  "
+></span>
+
+<!-- Navbar -->
+<nav
+  class="fixed top-0 left-0 right-0 z-50 px-4 lg:px-8 bg-background/80 backdrop-blur-md border-b border-border"
+>
+  <div class="max-w-6xl mx-auto h-16 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <a
+        routerLink="/"
+        class="flex items-center gap-2 text-text-secondary text-sm hover:text-text-primary transition-colors"
+      >
+        <lucide-angular [img]="arrowLeft" [size]="16" aria-hidden="true" />
+        Retour
+      </a>
+    </div>
+    <a routerLink="/" class="text-2xl font-bold font-display text-text-primary">
+      Invent<span class="text-primary">r</span>
+    </a>
+  </div>
+</nav>
+
+<main class=" pt-24 max-w-4xl mx-auto px-4 lg:px-8 py-12">
+  <h1 class="text-3xl font-bold font-display mb-8">Mentions légales</h1>
+
+  <div class="flex flex-col gap-8 text-text-secondary leading-relaxed">
+    <section>
+      <h2 class="text-lg font-semibold text-text-primary mb-3">Éditeur du site</h2>
+      <p>Le site Inventr (inventr.fr) est édité par :</p>
+      <ul class="mt-2 flex flex-col gap-1">
+        <li><span class="text-text-primary font-medium">Dénomination :</span> Inventr</li>
+        <li><span class="text-text-primary font-medium">Statut :</span> Projet indépendant</li>
+        <li>
+          <span class="text-text-primary font-medium">Email :</span>
+          <a href="mailto:contact@inventr.fr" class="text-primary hover:underline ml-1"
+            >contact@inventr.fr</a
+          >
+        </li>
+        <li>
+          <span class="text-text-primary font-medium">Adresse :</span> Disponible sur demande à
+          contact&#64;inventr.fr
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="text-lg font-semibold text-text-primary mb-3">Hébergement</h2>
+      <p>Le site est hébergé par :</p>
+      <ul class="mt-2 flex flex-col gap-1">
+        <li>
+          <span class="text-text-primary font-medium">Frontend :</span> Vercel Inc., 340 Pine
+          Street, Suite 701, San Francisco, CA 94104, USA —
+          <a href="https://vercel.com" target="_blank" class="text-primary hover:underline"
+            >vercel.com</a
+          >
+        </li>
+        <li>
+          <span class="text-text-primary font-medium">Base de données :</span> Supabase Inc. —
+          <a href="https://supabase.com" target="_blank" class="text-primary hover:underline"
+            >supabase.com</a
+          >
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="text-lg font-semibold text-text-primary mb-3">Propriété intellectuelle</h2>
+      <p>
+        L'ensemble du contenu de ce site (textes, images, logos, icônes) est la propriété exclusive
+        d'Inventr et est protégé par les lois françaises et internationales relatives à la propriété
+        intellectuelle. Toute reproduction, même partielle, est interdite sans autorisation
+        préalable.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="text-lg font-semibold text-text-primary mb-3">Données personnelles</h2>
+      <p>
+        Pour en savoir plus sur la collecte et le traitement de vos données personnelles, consultez
+        notre
+        <a routerLink="/politique-confidentialite" class="text-primary hover:underline"
+          >Politique de confidentialité</a
+        >.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="text-lg font-semibold text-text-primary mb-3">Contact</h2>
+      <p>
+        Pour toute question relative au site, vous pouvez nous contacter à l'adresse suivante :
+        <a href="mailto:contact@inventr.fr" class="text-primary hover:underline"
+          >contact@inventr.fr</a
+        >
+      </p>
+    </section>
+
+    <p class="text-xs text-text-secondary border-t border-border pt-6">
+      Dernière mise à jour : mars 2026
+    </p>
+  </div>
+
+  @if (showScrollTop) {
+    <button
+      (click)="scrollToTop()"
+      class="fixed bottom-8 right-8 z-50 w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-lg transition-opacity hover:opacity-90"
+      aria-label="Retour en haut"
+    >
+      <lucide-angular
+        [img]="chevronUp"
+        [size]="20"
+        style="color: var(--color-background)"
+        aria-hidden="true"
+      />
+    </button>
+  }
+</main>
+
+<!-- Footer -->
+<footer class="border-t border-border px-4 lg:px-8 py-8 mt-12">
+  <div class="max-w-4xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
+    <span class="text-xl font-bold font-display text-text-primary">
+      Invent<span class="text-primary">r</span>
+    </span>
+    <div class="flex gap-6 flex-wrap justify-center">
+      <a routerLink="/mentions-legales" class="text-primary text-sm">Mentions légales</a>
+      <a
+        routerLink="/politique-confidentialite"
+        class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+        >Politique de confidentialité</a
+      >
+      <a
+        routerLink="/contact"
+        class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+        >Contact</a
+      >
+    </div>
+    <span class="text-text-secondary text-xs">© 2026 Inventr. Tous droits réservés.</span>
+  </div>
+</footer>
