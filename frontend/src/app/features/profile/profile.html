@@ -1,13 +1,9 @@
 <!-- * Edit profile modal -->
 @if (showEditModal) {
-  <div
-    class="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm px-4 pb-8"
-    (click)="closeEditModal()"
-    aria-hidden="true"
-  >
+  <div class="modal-overlay" (click)="closeEditModal()" aria-hidden="true">
     <dialog
       open
-      class="w-full bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+      class="modal-dialog"
       (click)="$event.stopPropagation()"
       aria-labelledby="edit-profile-modal-title"
     >
@@ -19,35 +15,33 @@
 
       <!-- Firstname -->
       <div>
-        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block"
+        <label class="form-label"
           >PRÉNOM</label
         >
         <input
           type="text"
           [(ngModel)]="editFirstName"
-          class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+          class="form-input"
         />
       </div>
 
       <!-- Lastname -->
       <div>
-        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">NOM</label>
+        <label class="form-label">NOM</label>
         <input
           type="text"
           [(ngModel)]="editLastName"
-          class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+          class="form-input"
         />
       </div>
 
       <!-- Email -->
       <div>
-        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block"
-          >EMAIL</label
-        >
+        <label class="form-label">EMAIL</label>
         <input
           type="email"
           [(ngModel)]="editEmail"
-          class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+          class="form-input"
           [class.border-error-dim]="editEmail && !isEmailValid"
         />
         @if (editEmail && !isEmailValid) {
@@ -57,41 +51,41 @@
 
       <!-- Currend password -->
       <div>
-        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
+        <label class="form-label">
           MOT DE PASSE ACTUEL
         </label>
         <input
           type="password"
           [(ngModel)]="editCurrentPassword"
           placeholder="Votre mot de passe actuel"
-          class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+          class="form-input"
         />
       </div>
 
       <!-- New password -->
       <div>
-        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
+        <label class="form-label">
           NOUVEAU MOT DE PASSE
         </label>
         <input
           type="password"
           [(ngModel)]="editNewPassword"
           placeholder="Nouveau mot de passe"
-          class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+          class="form-input"
         />
       </div>
 
       <!-- Confirm password -->
       @if (editNewPassword) {
         <div>
-          <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
+          <label class="form-label">
             CONFIRMER LE MOT DE PASSE
           </label>
           <input
             type="password"
             [(ngModel)]="editConfirmPassword"
             placeholder="Confirmer le nouveau mot de passe"
-            class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
+            class="form-input"
             [class.border-error-dim]="
               editConfirmPassword && editNewPassword !== editConfirmPassword
             "
@@ -136,14 +130,10 @@
 
 <!-- * Delete profile modale -->
 @if (showDeleteModal) {
-  <div
-    class="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm px-4 pb-8 lg:items-center lg:pb-0"
-    (click)="closeDeleteModal()"
-    aria-hidden="true"
-  >
+  <div class="modal-overlay" (click)="closeDeleteModal()" aria-hidden="true">
     <dialog
       open
-      class="w-full lg:max-w-lg mx-auto bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+      class="modal-dialog"
       (click)="$event.stopPropagation()"
       aria-labelledby="delete-modal-title"
     >
@@ -155,28 +145,27 @@
       </hgroup>
 
       <div>
-        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
+        <label class="form-label">
           MOT DE PASSE
         </label>
         <input
           type="password"
           [(ngModel)]="deletePassword"
           placeholder="Confirmer avec votre mot de passe"
-          class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-error-dim transition-colors"
+          class="form-input"
         />
       </div>
 
       <button
         (click)="confirmDeleteAccount()"
         [disabled]="!deletePassword || isDeleting"
-        class="w-full font-semibold rounded-2xl py-4 transition-opacity disabled:opacity-50"
-        style="background: rgba(239, 68, 68, 0.12); color: #ef4444"
+        class="w-full btn-delete font-semibold rounded-2xl py-4 transition-opacity disabled:opacity-50"
       >
         @if (isDeleting) {
           <span class="flex items-center justify-center gap-1">
-            <span class="h-2 w-2 rounded-full dot-1" style="background: #ef4444"></span>
-            <span class="h-2 w-2 rounded-full dot-2" style="background: #ef4444"></span>
-            <span class="h-2 w-2 rounded-full dot-3" style="background: #ef4444"></span>
+            <span class="h-2 w-2 rounded-full dot-1 dot-error"></span>
+            <span class="h-2 w-2 rounded-full dot-2 dot-error"></span>
+            <span class="h-2 w-2 rounded-full dot-3 dot-error"></span>
           </span>
         } @else {
           Supprimer définitivement
@@ -284,8 +273,7 @@
           class="w-full bg-surface border border-border rounded-2xl p-4 flex items-center gap-4 transition-colors hover:border-error"
         >
           <span
-            class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
-            style="background: rgba(239, 68, 68, 0.12)"
+            class="error-icon-bg w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
             aria-hidden="true"
           >
             <lucide-angular [img]="logOut" [size]="16" class="text-error-dim" />
@@ -332,8 +320,7 @@
               class="w-full bg-surface border border-border rounded-2xl p-4 flex items-center gap-4 transition-colors hover:border-error"
             >
               <span
-                class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
-                style="background: rgba(239, 68, 68, 0.12)"
+                class="error-icon-bg w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
                 aria-hidden="true"
               >
                 <lucide-angular [img]="trash" [size]="16" class="text-error-dim" />

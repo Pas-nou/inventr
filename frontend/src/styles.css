@@ -198,6 +198,19 @@ html {
   border-color: var(--color-primary);
 }
 
+.error-icon-bg {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.btn-delete {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+}
+
+.dot-error {
+  background: #ef4444;
+}
+
 input[type="date"]::-webkit-datetime-edit {
   color: var(--color-text-secondary);
 }
