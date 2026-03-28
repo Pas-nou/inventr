@@ -1,10 +1,6 @@
 <main class="h-dvh bg-background flex items-center justify-center px-4 overflow-y-auto">
   <span
-    class="absolute top-0 left-0 w-64 h-64 rounded-full opacity-20 blur-3xl pointer-events-none"
-    style="
-      background: radial-gradient(circle, var(--color-primary), transparent 70%);
-      transform: translate(-30%, -30%);
-    "
+    class="blob-teal absolute top-0 left-0 w-64 h-64 rounded-full opacity-20 blur-3xl pointer-events-none"
   ></span>
   <section class="w-full max-w-lg px-6 flex flex-col h-full py-12">
     <!-- * Fixed area at the top of the page -->
@@ -122,11 +118,7 @@
           <!-- Email not verified -->
           @if (showEmailNotVerified) {
             <div
-              class="mb-2 rounded-xl p-3 text-xs"
-              style="
-                background-color: rgba(239, 68, 68, 0.08);
-                border: 1px solid rgba(239, 68, 68, 0.2);
-              "
+              class="error-banner mb-2 rounded-xl p-3 text-xs"
             >
               <p class="text-error mb-1">Votre email n'a pas encore été vérifié.</p>
               <button type="button" (click)="resendVerification()" class="text-primary underline">

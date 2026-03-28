@@ -216,6 +216,11 @@ html {
   transform: translate(-30%, -30%);
 }
 
+.error-banner {
+  background-color: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
 input[type="date"]::-webkit-datetime-edit {
   color: var(--color-text-secondary);
 }
