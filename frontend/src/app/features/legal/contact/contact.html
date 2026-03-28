@@ -1,1 +1,165 @@
-<p>contact works!</p>
+<!-- Teal blur -->
+<span
+  class="fixed top-10 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
+  style="
+    background: radial-gradient(circle, var(--color-primary), transparent 70%);
+    transform: translate(-30%, -30%);
+  "
+></span>
+
+<!-- Navbar -->
+<nav
+  class="fixed top-0 left-0 right-0 z-50 px-4 lg:px-8 bg-background/80 backdrop-blur-md border-b border-border"
+>
+  <div class="max-w-6xl mx-auto h-16 flex items-center justify-between">
+    <a
+      routerLink="/"
+      class="flex items-center gap-2 text-text-secondary text-sm hover:text-text-primary transition-colors"
+    >
+      <lucide-angular [img]="arrowLeft" [size]="16" aria-hidden="true" />
+      Retour
+    </a>
+    <a routerLink="/" class="text-2xl font-bold font-display text-text-primary">
+      Invent<span class="text-primary">r</span>
+    </a>
+  </div>
+</nav>
+
+<main class="pt-24 max-w-2xl mx-auto px-4 lg:px-8 py-12">
+  <h1 class="text-3xl font-bold font-display mb-2">Contact</h1>
+  <p class="text-text-secondary mb-8">Une question, une suggestion ? On vous répond rapidement.</p>
+
+  @if (success) {
+    <div
+      class="bg-primary-dim border border-primary/25 rounded-2xl p-8 text-center flex flex-col items-center gap-4"
+    >
+      <span class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center">
+        <lucide-angular [img]="send" [size]="28" class="text-primary" aria-hidden="true" />
+      </span>
+      <h2 class="text-xl font-semibold text-text-primary">Message envoyé !</h2>
+      <p class="text-text-secondary">
+        Nous avons bien reçu votre message et vous répondrons dans les plus brefs délais à
+        <span class="text-primary">contact&#64;inventr.fr</span>.
+      </p>
+      <p class="text-text-secondary text-sm">
+        Vous serez redirigé automatiquement dans quelques secondes.
+      </p>
+    </div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <fieldset>
+          <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block"
+            >Nom</label
+          >
+          <input
+            formControlName="name"
+            type="text"
+            placeholder="John Doe"
+            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors"
+            [class.border-error-dim]="form.get('name')?.touched && form.get('name')?.invalid"
+          />
+          @if (form.get('name')?.touched && form.get('name')?.errors?.['required']) {
+            <p class="text-error-dim text-xs mt-1">Le nom est requis</p>
+          }
+        </fieldset>
+
+        <fieldset>
+          <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block"
+            >Email</label
+          >
+          <input
+            formControlName="email"
+            type="email"
+            placeholder="john@email.com"
+            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors"
+            [class.border-error-dim]="form.get('email')?.touched && form.get('email')?.invalid"
+          />
+          @if (form.get('email')?.touched && form.get('email')?.errors?.['required']) {
+            <p class="text-error-dim text-xs mt-1">L'email est requis</p>
+          }
+          @if (form.get('email')?.touched && form.get('email')?.errors?.['email']) {
+            <p class="text-error-dim text-xs mt-1">Format d'email invalide</p>
+          }
+        </fieldset>
+      </div>
+
+      <fieldset>
+        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block"
+          >Sujet</label
+        >
+        <input
+          formControlName="subject"
+          type="text"
+          placeholder="Votre sujet..."
+          class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors"
+          [class.border-error-dim]="form.get('subject')?.touched && form.get('subject')?.invalid"
+        />
+        @if (form.get('subject')?.touched && form.get('subject')?.errors?.['required']) {
+          <p class="text-error-dim text-xs mt-1">Le sujet est requis</p>
+        }
+      </fieldset>
+
+      <fieldset>
+        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block"
+          >Message</label
+        >
+        <textarea
+          formControlName="message"
+          rows="6"
+          placeholder="Votre message..."
+          class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors resize-none"
+          [class.border-error-dim]="form.get('message')?.touched && form.get('message')?.invalid"
+        ></textarea>
+        @if (form.get('message')?.touched && form.get('message')?.errors?.['required']) {
+          <p class="text-error-dim text-xs mt-1">Le message est requis</p>
+        }
+      </fieldset>
+
+      @if (errorMessage) {
+        <p class="text-error-dim text-sm text-center">{{ errorMessage }}</p>
+      }
+
+      <button
+        type="submit"
+        [disabled]="form.invalid || isSubmitting"
+        class="w-full bg-primary font-semibold rounded-2xl py-4 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2 min-h-14"
+        style="color: var(--color-background)"
+      >
+        @if (isSubmitting) {
+          <span class="flex gap-1">
+            <span class="dot-1 w-1.5 h-1.5 rounded-full bg-background"></span>
+            <span class="dot-2 w-1.5 h-1.5 rounded-full bg-background"></span>
+            <span class="dot-3 w-1.5 h-1.5 rounded-full bg-background"></span>
+          </span>
+        } @else {
+          <lucide-angular [img]="send" [size]="16" aria-hidden="true" />
+          Envoyer le message
+        }
+      </button>
+    </form>
+  }
+</main>
+
+<!-- Footer -->
+<footer class="border-t border-border px-4 lg:px-8 py-8 mt-12">
+  <div class="max-w-4xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
+    <span class="text-xl font-bold font-display text-text-primary">
+      Invent<span class="text-primary">r</span>
+    </span>
+    <div class="flex gap-6 flex-wrap justify-center">
+      <a
+        routerLink="/mentions-legales"
+        class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+        >Mentions légales</a
+      >
+      <a
+        routerLink="/politique-confidentialite"
+        class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+        >Politique de confidentialité</a
+      >
+      <a routerLink="/contact" class="text-primary text-sm">Contact</a>
+    </div>
+    <span class="text-text-secondary text-xs">© 2026 Inventr. Tous droits réservés.</span>
+  </div>
+</footer>
