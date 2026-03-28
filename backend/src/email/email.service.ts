@@ -158,4 +158,63 @@ export class EmailService {
     </html>
     `;
   }
+
+  async sendContactEmail(
+    fromName: string,
+    fromEmail: string,
+    subject: string,
+    message: string,
+  ): Promise<void> {
+    const contactEmail = this.configService.getOrThrow<string>('CONTACT_EMAIL');
+
+    await this.resend.emails.send({
+      from: this.fromAddress,
+      to: contactEmail,
+      replyTo: fromEmail,
+      subject: `[Contact Inventr] ${subject}`,
+      html: `
+      <!DOCTYPE html>
+      <html lang="fr">
+        <body style="margin:0;padding:0;background-color:#0A0F1A;font-family:Inter,sans-serif;color:#F1F5F9;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 20px;">
+            <tr>
+              <td align="center">
+                <table width="560" cellpadding="0" cellspacing="0" style="background-color:#111827;border-radius:12px;padding:40px;border:1px solid rgba(255,255,255,0.08);">
+                  <tr>
+                    <td style="padding-bottom:32px;">
+                      <span style="font-family:Inter,sans-serif;font-size:24px;font-weight:700;color:#F1F5F9;">
+                        Invent<span style="color:#00BFA6;">r</span>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-bottom:16px;font-size:18px;font-weight:600;color:#F1F5F9;">
+                      Nouveau message de contact
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-bottom:24px;font-size:14px;line-height:1.6;color:#94A3B8;">
+                      <strong style="color:#F1F5F9;">De :</strong> ${fromName} (${fromEmail})<br/>
+                      <strong style="color:#F1F5F9;">Sujet :</strong> ${subject}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:20px;background-color:#1E293B;border-radius:8px;font-size:15px;line-height:1.7;color:#CBD5E1;">
+                      ${message.replace(/\n/g, '<br/>')}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-top:32px;font-size:12px;color:#475569;border-top:1px solid rgba(255,255,255,0.08);">
+                      Répondre directement à cet email pour contacter ${fromName}.
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+      </html>
+    `,
+    });
+  }
 }
