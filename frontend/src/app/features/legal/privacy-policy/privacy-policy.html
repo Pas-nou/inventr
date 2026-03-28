@@ -1,7 +1,6 @@
 <!-- Teal blur background -->
 <span
-  class="fixed top-10 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
-  style="background: radial-gradient(circle, var(--color-primary), transparent 70%); transform: translate(-30%, -30%);"
+  class="blob-teal fixed top-10 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
 ></span>
 
 <!-- Navbar -->
@@ -115,7 +114,7 @@
       class="fixed bottom-8 right-8 z-50 w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-lg transition-opacity hover:opacity-90"
       aria-label="Retour en haut"
     >
-      <lucide-angular [img]="chevronUp" [size]="20" style="color: var(--color-background)" aria-hidden="true" />
+      <lucide-angular [img]="chevronUp" [size]="20" class="text-background" aria-hidden="true" />
     </button>
   }
 </main>
