@@ -14,7 +14,7 @@ import { randomUUID } from 'crypto';
 import { User } from '../users/entities/user.entity';
 import { EmailService } from '../email/email.service';
 import type { StringValue } from 'ms';
-import { StorageService } from 'src/storage/storage.service';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable()
 export class AuthService {
