@@ -127,4 +127,16 @@ export class AuthService {
       }),
     );
   }
+
+  exportData(): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/export`, {
+      responseType: 'blob',
+    });
+  }
+
+  deleteAccount(password: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/account`, {
+      body: { password },
+    });
+  }
 }

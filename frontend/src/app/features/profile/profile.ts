@@ -1,5 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { LucideAngularModule, Pencil, Bell, LogOut, ChevronRight } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  Pencil,
+  Bell,
+  LogOut,
+  ChevronRight,
+  Download,
+  Trash2,
+} from 'lucide-angular';
 import { AuthService } from '../../core/services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../core/services/toast.service';
@@ -16,6 +24,8 @@ export class ProfileComponent implements OnInit {
   readonly bell = Bell;
   readonly logOut = LogOut;
   readonly chevronRight = ChevronRight;
+  readonly download = Download;
+  readonly trash = Trash2;
 
   firstName = '';
   lastName = '';
@@ -34,6 +44,12 @@ export class ProfileComponent implements OnInit {
   editNewPassword = '';
   editConfirmPassword = '';
   isSubmitting = false;
+
+  // Delete Profile modal
+  showDeleteModal = false;
+  deletePassword = '';
+  isDeleting = false;
+  isExporting = false;
 
   constructor(
     private authService: AuthService,
@@ -121,5 +137,48 @@ export class ProfileComponent implements OnInit {
 
   get isEmailValid(): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.editEmail);
+  }
+
+  exportData(): void {
+    this.isExporting = true;
+    this.authService.exportData().subscribe({
+      next: (blob: Blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `inventr-export-${Date.now()}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        this.isExporting = false;
+      },
+      error: () => {
+        this.toastService.show("Erreur lors de l'export", 'error');
+        this.isExporting = false;
+      },
+    });
+  }
+
+  openDeleteModal(): void {
+    this.deletePassword = '';
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal(): void {
+    this.showDeleteModal = false;
+  }
+
+  confirmDeleteAccount(): void {
+    if (!this.deletePassword) return;
+    this.isDeleting = true;
+    this.authService.deleteAccount(this.deletePassword).subscribe({
+      next: () => {
+        this.authService.logout();
+      },
+      error: () => {
+        this.isDeleting = false;
+        this.toastService.show('Mot de passe incorrect', 'error');
+        this.cdr.detectChanges();
+      },
+    });
   }
 }

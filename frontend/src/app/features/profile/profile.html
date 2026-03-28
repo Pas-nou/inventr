@@ -134,6 +134,64 @@
   </div>
 }
 
+<!-- * Delete profile modale -->
+@if (showDeleteModal) {
+  <div
+    class="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm px-4 pb-8 lg:items-center lg:pb-0"
+    (click)="closeDeleteModal()"
+    aria-hidden="true"
+  >
+    <dialog
+      open
+      class="w-full lg:max-w-lg mx-auto bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+      (click)="$event.stopPropagation()"
+      aria-labelledby="delete-modal-title"
+    >
+      <hgroup>
+        <p id="delete-modal-title" class="text-lg font-bold text-error-dim">Supprimer mon compte</p>
+        <p class="text-sm text-text-secondary mt-1">
+          Cette action est irréversible. Toutes vos données seront définitivement supprimées.
+        </p>
+      </hgroup>
+
+      <div>
+        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block">
+          MOT DE PASSE
+        </label>
+        <input
+          type="password"
+          [(ngModel)]="deletePassword"
+          placeholder="Confirmer avec votre mot de passe"
+          class="w-full bg-surface-light border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-error-dim transition-colors"
+        />
+      </div>
+
+      <button
+        (click)="confirmDeleteAccount()"
+        [disabled]="!deletePassword || isDeleting"
+        class="w-full font-semibold rounded-2xl py-4 transition-opacity disabled:opacity-50"
+        style="background: rgba(239, 68, 68, 0.12); color: #ef4444"
+      >
+        @if (isDeleting) {
+          <span class="flex items-center justify-center gap-1">
+            <span class="h-2 w-2 rounded-full dot-1" style="background: #ef4444"></span>
+            <span class="h-2 w-2 rounded-full dot-2" style="background: #ef4444"></span>
+            <span class="h-2 w-2 rounded-full dot-3" style="background: #ef4444"></span>
+          </span>
+        } @else {
+          Supprimer définitivement
+        }
+      </button>
+      <button
+        (click)="closeDeleteModal()"
+        class="w-full text-text-secondary font-semibold rounded-2xl py-4 border border-border transition-colors"
+      >
+        Annuler
+      </button>
+    </dialog>
+  </div>
+}
+
 <main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6 lg:px-8 lg:py-8 lg:pb-8">
   <header class="mb-6">
     <h1 class="text-3xl font-bold font-display">Mon profil</h1>
@@ -237,6 +295,58 @@
             <p class="text-xs text-text-secondary">Fermer la session actuelle</p>
           </hgroup>
         </button>
+      </section>
+
+      <!-- RGPD -->
+      <section aria-label="Données personnelles">
+        <p class="text-xs uppercase tracking-widest text-text-secondary mb-3">
+          Données personnelles
+        </p>
+        <ul class="flex flex-col gap-2">
+          <li>
+            <button
+              (click)="exportData()"
+              [disabled]="isExporting"
+              class="w-full bg-surface border border-border rounded-2xl p-4 flex items-center gap-4 transition-colors hover:border-primary disabled:opacity-50"
+            >
+              <span
+                class="w-8 h-8 rounded-xl bg-surface-light flex items-center justify-center shrink-0"
+                aria-hidden="true"
+              >
+                <lucide-angular [img]="download" [size]="16" class="text-text-secondary" />
+              </span>
+              <hgroup class="flex-1 text-left">
+                <p class="text-sm font-semibold text-text-primary">Exporter mes données</p>
+                <p class="text-xs text-text-secondary">Télécharger toutes mes données en JSON</p>
+              </hgroup>
+              <lucide-angular
+                [img]="chevronRight"
+                [size]="16"
+                class="text-text-secondary shrink-0"
+              />
+            </button>
+          </li>
+          <li>
+            <button
+              (click)="openDeleteModal()"
+              class="w-full bg-surface border border-border rounded-2xl p-4 flex items-center gap-4 transition-colors hover:border-error"
+            >
+              <span
+                class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
+                style="background: rgba(239, 68, 68, 0.12)"
+                aria-hidden="true"
+              >
+                <lucide-angular [img]="trash" [size]="16" class="text-error-dim" />
+              </span>
+              <hgroup class="flex-1 text-left">
+                <p class="text-sm font-semibold text-error-dim">Supprimer mon compte</p>
+                <p class="text-xs text-text-secondary">
+                  Suppression définitive de toutes mes données
+                </p>
+              </hgroup>
+            </button>
+          </li>
+        </ul>
       </section>
     </div>
   </div>
