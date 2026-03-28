@@ -9,6 +9,8 @@ import {
   Patch,
   Get,
   Query,
+  Delete,
+  Header,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -96,5 +98,25 @@ export class AuthController {
     },
   ) {
     return this.authService.updateProfile(req.user.userId, body);
+  }
+
+  @Get('export')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @Header('Content-Type', 'application/json')
+  async exportData(@Request() req: RequestWithUser) {
+    const data = await this.authService.exportData(req.user.userId);
+    return JSON.stringify(data, null, 2);
+  }
+
+  @Delete('account')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  async deleteAccount(
+    @Request() req: RequestWithUser,
+    @Body() body: { password: string },
+  ) {
+    await this.authService.deleteAccount(req.user.userId, body.password);
+    return { message: 'Compte supprimé avec succès' };
   }
 }

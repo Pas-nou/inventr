@@ -9,6 +9,7 @@ import { StringValue } from 'ms';
 import { JwtStrategy } from './jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EmailModule } from '../email/email.module';
+import { StorageModule } from 'src/storage/storage.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { EmailModule } from '../email/email.module';
     }),
     TypeOrmModule.forFeature([User]),
     EmailModule,
+    StorageModule,
   ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],

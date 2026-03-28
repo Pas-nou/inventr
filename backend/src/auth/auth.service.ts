@@ -3,6 +3,7 @@ import {
   UnauthorizedException,
   ConflictException,
   BadRequestException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -13,6 +14,7 @@ import { randomUUID } from 'crypto';
 import { User } from '../users/entities/user.entity';
 import { EmailService } from '../email/email.service';
 import type { StringValue } from 'ms';
+import { StorageService } from 'src/storage/storage.service';
 
 @Injectable()
 export class AuthService {
@@ -22,6 +24,7 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
     private emailService: EmailService,
+    private storageService: StorageService,
   ) {}
 
   async register(
@@ -260,5 +263,76 @@ export class AuthService {
       first_name: user.first_name,
       last_name: user.last_name,
     };
+  }
+
+  async exportUserData(userId: string) {
+    const user = await this.usersRepository.findOne({
+      where: { id: userId },
+      relations: ['assets', 'assets.documents', 'assets.maintenanceEvents'],
+    });
+
+    if (!user) throw new NotFoundException('Utilisateur introuvable');
+
+    return {
+      exportDate: new Date().toISOString(),
+      profil: {
+        email: user?.email,
+        prenom: user?.first_name,
+        nom: user?.last_name,
+        inscritLe: user?.created_at,
+      },
+      biens: user.assets.map((asset) => ({
+        nom: asset.name,
+        categorie: asset.category,
+        dateAchat: asset.purchase_date,
+        prixAchat: asset.purchase_price_cents
+          ? asset.purchase_price_cents / 100
+          : null,
+        valeurActuelle: asset.purchase_price_cents
+          ? asset.purchase_price_cents / 100
+          : null,
+        etat: asset.condition,
+        finGarantie: asset.warranty_end_date,
+        notes: asset.notes,
+        documents: asset.documents.map((doc) => ({
+          nom: doc.name,
+          type: doc.type,
+          fichierOriginal: doc.original_filename,
+          taille: doc.size_bytes,
+          ajouteLe: doc.created_at,
+        })),
+        evenementsMaintenance: asset.maintenanceEvents.map((ev) => ({
+          nom: ev.name,
+          type: ev.type,
+          date: ev.date,
+          cout: ev.cost_cents ? ev.cost_cents / 100 : null,
+          notes: ev.notes,
+          prochaineEcheance: ev.next_due_date,
+        })),
+      })),
+    };
+  }
+
+  async deleteAccount(userId: string, password: string) {
+    const user = await this.usersRepository.findOne({
+      where: { id: userId },
+      relations: ['assets', 'assets.documents'],
+    });
+
+    if (!user) throw new NotFoundException('Utilisateur introuvable');
+
+    // Password verification
+    const isValid = await bcrypt.compare(password, user.password_hash);
+    if (!isValid) throw new UnauthorizedException('Mot de passe incorrect');
+
+    // Deleting Supabase Storage files
+    for (const asset of user.assets) {
+      for (const doc of asset.documents) {
+        await this.storageService.deleteFile('documents', doc.storage_key);
+      }
+    }
+
+    // User deletion (database cascade)
+    await this.usersRepository.remove(user);
   }
 }
