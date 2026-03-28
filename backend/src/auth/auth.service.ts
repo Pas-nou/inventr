@@ -27,6 +27,10 @@ export class AuthService {
     private storageService: StorageService,
   ) {}
 
+  /**
+   * Registers a new user, hashes the password and sends a verification email.
+   * The password_hash is stripped from the returned object.
+   */
   async register(
     email: string,
     password: string,
@@ -66,6 +70,10 @@ export class AuthService {
     return result;
   }
 
+  /**
+   * Validates credentials and returns JWT access + refresh tokens.
+   * Returns EMAIL_NOT_VERIFIED error code if the email has not been confirmed yet.
+   */
   async login(email: string, password: string) {
     const user = await this.usersRepository.findOne({ where: { email } });
     if (!user) {
@@ -199,6 +207,10 @@ export class AuthService {
     await this.usersRepository.update(userId, { refresh_token: null });
   }
 
+  /**
+   * Generates and stores a hashed refresh token alongside the access token.
+   * The refresh token is hashed with bcrypt before being stored in the database.
+   */
   private async generateTokens(user: User) {
     const payload = { email: user.email, sub: user.id };
     const JwtExpiration =
@@ -238,7 +250,7 @@ export class AuthService {
     last_name: string;
   }> {
     const user = await this.usersRepository.findOneBy({ id: userId });
-    if (!user) throw new Error('User not found');
+    if (!user) throw new NotFoundException('User not found');
 
     if (data.first_name) user.first_name = data.first_name;
     if (data.last_name) user.last_name = data.last_name;
@@ -265,6 +277,10 @@ export class AuthService {
     };
   }
 
+  /**
+   * Exports all user data in a structured JSON format for GDPR compliance.
+   * Includes profile, assets, documents metadata and maintenance events.
+   */
   async exportUserData(userId: string) {
     const user = await this.usersRepository.findOne({
       where: { id: userId },
@@ -276,10 +292,10 @@ export class AuthService {
     return {
       exportDate: new Date().toISOString(),
       profil: {
-        email: user?.email,
-        prenom: user?.first_name,
-        nom: user?.last_name,
-        inscritLe: user?.created_at,
+        email: user.email,
+        prenom: user.first_name,
+        nom: user.last_name,
+        inscritLe: user.created_at,
       },
       biens: user.assets.map((asset) => ({
         nom: asset.name,
@@ -288,9 +304,7 @@ export class AuthService {
         prixAchat: asset.purchase_price_cents
           ? asset.purchase_price_cents / 100
           : null,
-        valeurActuelle: asset.purchase_price_cents
-          ? asset.purchase_price_cents / 100
-          : null,
+        valeurActuelle: null, // Field not yet implemented
         etat: asset.condition,
         finGarantie: asset.warranty_end_date,
         notes: asset.notes,
@@ -313,7 +327,12 @@ export class AuthService {
     };
   }
 
+  /**
+   * Permanently deletes the account, all associated Supabase Storage files,
+   * and cascades deletion to assets, documents and maintenance events.
+   */
   async deleteAccount(userId: string, password: string) {
+    const BUCKET = 'documents';
     const user = await this.usersRepository.findOne({
       where: { id: userId },
       relations: ['assets', 'assets.documents'],
@@ -328,7 +347,7 @@ export class AuthService {
     // Deleting Supabase Storage files
     for (const asset of user.assets) {
       for (const doc of asset.documents) {
-        await this.storageService.deleteFile('documents', doc.storage_key);
+        await this.storageService.deleteFile(BUCKET, doc.storage_key);
       }
     }
 

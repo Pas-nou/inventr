@@ -6,6 +6,7 @@ import { Asset } from '../assets/entities/asset.entity';
 import { StorageService } from '../storage/storage.service';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { DocumentType } from './enums/document-type.enum';
+import type { MulterFile } from '../common/interfaces/multer-file.interface';
 
 const mockDocument = {
   id: 'doc-1',
@@ -23,8 +24,10 @@ const mockAsset = {
   user: { id: 'user-1' },
 };
 
-const mockFile = {
+const mockFile: MulterFile = {
+  fieldname: 'file',
   originalname: 'facture.pdf',
+  encoding: '7bit',
   mimetype: 'application/pdf',
   size: 12345,
   buffer: Buffer.from('mock'),
@@ -87,9 +90,8 @@ describe('DocumentsService', () => {
         {
           documentName: 'Facture MacBook',
           type: DocumentType.INVOICE,
-          assetId: 'asset-1',
         },
-        mockFile as any,
+        mockFile,
         'asset-1',
         'user-1',
       );
@@ -107,9 +109,8 @@ describe('DocumentsService', () => {
           {
             documentName: 'Facture',
             type: DocumentType.INVOICE,
-            assetId: 'asset-1',
           },
-          mockFile as any,
+          mockFile,
           'asset-1',
           'user-2',
         ),
@@ -226,8 +227,9 @@ describe('DocumentsService', () => {
       mockStorageService.deleteFile.mockResolvedValue(undefined);
       mockDocumentRepository.delete.mockResolvedValue({ affected: 1 });
 
-      await service.remove('doc-1', 'asset-1', 'user-1');
+      const result = await service.remove('doc-1', 'asset-1', 'user-1');
 
+      expect(result).toEqual(mockDocument);
       expect(mockStorageService.deleteFile).toHaveBeenCalledWith(
         'documents',
         mockDocument.storage_key,

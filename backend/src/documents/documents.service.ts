@@ -15,6 +15,8 @@ import { MulterFile } from '../common/interfaces/multer-file.interface';
 
 @Injectable()
 export class DocumentsService {
+  private readonly BUCKET = 'documents';
+
   constructor(
     @InjectRepository(Document)
     private readonly documentRepository: Repository<Document>,
@@ -23,6 +25,10 @@ export class DocumentsService {
     private readonly storageService: StorageService,
   ) {}
 
+  /**
+   * Verifies that the asset belongs to the user before any operation.
+   * Throws ForbiddenException if the asset is not found or does not belong to the user.
+   */
   private async verifyAssetOwnership(
     assetId: string,
     userId: string,
@@ -34,6 +40,10 @@ export class DocumentsService {
       throw new ForbiddenException('Bien introuvable ou accès non autorisé');
   }
 
+  /**
+   * Upload a file to Supabase Storage and save the document metadata to the database.
+   * The filename is sanitized to remove accents and special characters.
+   */
   async create(
     createDocumentDto: CreateDocumentDto,
     file: MulterFile,
@@ -48,7 +58,7 @@ export class DocumentsService {
     const filePath = `${uuidv4()}-${sanitizeName}`;
     const storageKey = await this.storageService.uploadFile(
       file,
-      'documents',
+      this.BUCKET,
       filePath,
     );
     return await this.documentRepository.save({
@@ -62,6 +72,9 @@ export class DocumentsService {
     });
   }
 
+  /**
+   * Returns a paginated list of documents for a given asset.
+   */
   async findAll(
     assetId: string,
     userId: string,
@@ -119,22 +132,27 @@ export class DocumentsService {
   async remove(id: string, assetId: string, userId: string) {
     await this.verifyAssetOwnership(assetId, userId);
 
-    // We retrieve the document to obtain the storage_key before deletion
+    // Retrieve the document to get the storage_key before deletion
     const document = await this.documentRepository.findOne({
       where: { id, asset: { id: assetId } },
     });
     if (!document) throw new NotFoundException(`Document ${id} introuvable`);
 
-    // Deleting the file from Supabase Storage
-    await this.storageService.deleteFile('documents', document.storage_key);
+    // Delete the file from Supabase Storage
+    await this.storageService.deleteFile(this.BUCKET, document.storage_key);
 
-    // Deletion in base
+    // Delete from database
     await this.documentRepository.delete({
       id,
       asset: { id: assetId },
     });
+    return document;
   }
 
+  /**
+   * Returns a temporary signed URL to access a document from Supabase Storage.
+   * The URL expires after 60 seconds by default.
+   */
   async getSignedUrl(
     id: string,
     assetId: string,
@@ -142,7 +160,7 @@ export class DocumentsService {
   ): Promise<{ url: string }> {
     const document = await this.findOne(id, assetId, userId);
     const url = await this.storageService.getSignedUrl(
-      'documents',
+      this.BUCKET,
       document.storage_key,
     );
     return { url };

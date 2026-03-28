@@ -15,6 +15,10 @@ export class AssetsService {
     private documentsRepository: Repository<Document>,
   ) {}
 
+  /**
+   * Returns the total count of assets and documents for a given user.
+   * Uses a QueryBuilder for documents to traverse the asset→user relation.
+   */
   async getStats(
     userId: string,
   ): Promise<{ assetsCount: number; documentsCount: number }> {
@@ -39,6 +43,9 @@ export class AssetsService {
     });
   }
 
+  /**
+   * Returns a paginated list of assets for a given user, ordered by creation date.
+   */
   async findAll(userId: string, page: number = 1, limit: number = 10) {
     limit = Math.min(limit, 100);
     const [data, total] = await this.assetsRepository.findAndCount({
@@ -67,6 +74,10 @@ export class AssetsService {
     return asset;
   }
 
+  /**
+   * Uses TypeORM preload to merge the DTO with the existing entity before saving.
+   * Ownership is enforced by including userId in the preload query.
+   */
   async update(id: string, updateAssetDto: UpdateAssetDto, userId: string) {
     const asset = await this.assetsRepository.preload({
       id,
