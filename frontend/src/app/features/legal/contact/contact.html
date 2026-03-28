@@ -1,10 +1,6 @@
 <!-- Teal blur -->
 <span
-  class="fixed top-10 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
-  style="
-    background: radial-gradient(circle, var(--color-primary), transparent 70%);
-    transform: translate(-30%, -30%);
-  "
+  class="blob-teal fixed top-10 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
 ></span>
 
 <!-- Navbar -->
@@ -49,14 +45,14 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-5">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <fieldset>
-          <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block"
+          <label class="form-label"
             >Nom</label
           >
           <input
             formControlName="name"
             type="text"
             placeholder="John Doe"
-            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors"
+            class="form-input"
             [class.border-error-dim]="form.get('name')?.touched && form.get('name')?.invalid"
           />
           @if (form.get('name')?.touched && form.get('name')?.errors?.['required']) {
@@ -65,14 +61,14 @@
         </fieldset>
 
         <fieldset>
-          <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block"
+          <label class="form-label"
             >Email</label
           >
           <input
             formControlName="email"
             type="email"
             placeholder="john@email.com"
-            class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors"
+            class="form-input"
             [class.border-error-dim]="form.get('email')?.touched && form.get('email')?.invalid"
           />
           @if (form.get('email')?.touched && form.get('email')?.errors?.['required']) {
@@ -85,14 +81,14 @@
       </div>
 
       <fieldset>
-        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block"
+        <label class="form-label"
           >Sujet</label
         >
         <input
           formControlName="subject"
           type="text"
           placeholder="Votre sujet..."
-          class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors"
+          class="form-input"
           [class.border-error-dim]="form.get('subject')?.touched && form.get('subject')?.invalid"
         />
         @if (form.get('subject')?.touched && form.get('subject')?.errors?.['required']) {
@@ -101,14 +97,14 @@
       </fieldset>
 
       <fieldset>
-        <label class="text-xs uppercase tracking-widest text-text-secondary mb-2 block"
+        <label class="form-label"
           >Message</label
         >
         <textarea
           formControlName="message"
           rows="6"
           placeholder="Votre message..."
-          class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors resize-none"
+          class="form-input resize-none"
           [class.border-error-dim]="form.get('message')?.touched && form.get('message')?.invalid"
         ></textarea>
         @if (form.get('message')?.touched && form.get('message')?.errors?.['required']) {
@@ -123,8 +119,7 @@
       <button
         type="submit"
         [disabled]="form.invalid || isSubmitting"
-        class="w-full bg-primary font-semibold rounded-2xl py-4 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2 min-h-14"
-        style="color: var(--color-background)"
+        class="w-full bg-primary text-background font-semibold rounded-2xl py-4 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2 min-h-14"
       >
         @if (isSubmitting) {
           <span class="flex gap-1">
