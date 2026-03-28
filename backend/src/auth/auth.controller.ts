@@ -105,7 +105,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Header('Content-Type', 'application/json')
   async exportData(@Request() req: RequestWithUser) {
-    const data = await this.authService.exportData(req.user.userId);
+    const data = await this.authService.exportUserData(req.user.userId);
     return JSON.stringify(data, null, 2);
   }
 
