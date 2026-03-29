@@ -25,7 +25,7 @@ export class App {
       '/politique-confidentialite',
       '/contact',
     ];
-    return !hiddenRoutes.includes(this.router.url) && !this.router.url.endsWith('/edit');
+    return !hiddenRoutes.some(route => this.router.url.startsWith(route)) && !this.router.url.endsWith('/edit');
   }
 
   get showSidebar(): boolean {
@@ -39,6 +39,6 @@ export class App {
       '/politique-confidentialite',
       '/contact',
     ];
-    return !hiddenRoutes.includes(this.router.url);
+    return !hiddenRoutes.some(route => this.router.url.startsWith(route));
   }
 }
