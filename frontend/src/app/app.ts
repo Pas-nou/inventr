@@ -15,7 +15,6 @@ export class App {
 
   get showNavbar(): boolean {
     const hiddenRoutes = [
-      '/',
       '/login',
       '/assets/new',
       '/verify-email',
@@ -25,12 +24,15 @@ export class App {
       '/politique-confidentialite',
       '/contact',
     ];
-    return !hiddenRoutes.some(route => this.router.url.startsWith(route)) && !this.router.url.endsWith('/edit');
+    return (
+      this.router.url !== '/' &&
+      !hiddenRoutes.some((route) => this.router.url.startsWith(route)) &&
+      !this.router.url.endsWith('/edit')
+    );
   }
 
   get showSidebar(): boolean {
     const hiddenRoutes = [
-      '/',
       '/login',
       '/verify-email',
       '/forgot-password',
@@ -39,6 +41,8 @@ export class App {
       '/politique-confidentialite',
       '/contact',
     ];
-    return !hiddenRoutes.some(route => this.router.url.startsWith(route));
+    return (
+      this.router.url !== '/' && !hiddenRoutes.some((route) => this.router.url.startsWith(route))
+    );
   }
 }
