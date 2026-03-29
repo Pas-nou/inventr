@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
 import { NavbarComponent } from './shared/components/navbar/navbar';
 import { ToastComponent } from './shared/components/toast/toast';
 import { SidebarComponent } from './shared/components/sidebar/sidebar';
+import { SwUpdate } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,15 @@ import { SidebarComponent } from './shared/components/sidebar/sidebar';
   templateUrl: './app.html',
 })
 export class App {
-  constructor(public router: Router) {}
+  constructor(public router: Router, private swUpdate: SwUpdate) {
+    if (swUpdate.isEnabled) {
+      swUpdate.versionUpdates.subscribe(event => {
+        if (event.type === 'VERSION_READY') {
+          window.location.reload();
+        }
+      })
+    }
+  }
 
   get showNavbar(): boolean {
     const hiddenRoutes = [
