@@ -15,6 +15,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       process.env.FRONTEND_URL ?? 'http://localhost:4200',
+      'http://localhost:4200',
       'https://inventr.vercel.app',
       'https://www.inventr.fr',
       'https://inventr.fr',

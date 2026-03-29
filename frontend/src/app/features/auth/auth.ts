@@ -69,7 +69,7 @@ export class AuthComponent {
     this.errorMessage = '';
     this.showEmailNotVerified = false;
   }
-  
+
   setRegister() {
     this.isLogin = false;
     this.errorMessage = '';
@@ -101,7 +101,10 @@ export class AuthComponent {
         },
       });
     } else {
-      if (this.registerForm.invalid) return;
+      if (this.registerForm.invalid) {
+        this.registerForm.markAllAsTouched();
+        return;
+      }
       this.isLoading = true;
       const { confirmPassword: _, ...registerData } = this.registerForm.value;
       this.registrationEmail = registerData.email as string;
@@ -110,7 +113,7 @@ export class AuthComponent {
           this.registerSuccess = true;
           this.isLoading = false;
         },
-        error: () => {
+        error: (err) => {
           this.errorMessage = 'Une erreur est survenue, veuillez réessayer';
           this.isLoading = false;
         },

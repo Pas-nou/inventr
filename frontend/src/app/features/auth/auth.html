@@ -117,9 +117,7 @@
         <div class="mt-auto">
           <!-- Email not verified -->
           @if (showEmailNotVerified) {
-            <div
-              class="error-banner mb-2 rounded-xl p-3 text-xs"
-            >
+            <div class="error-banner mb-2 rounded-xl p-3 text-xs">
               <p class="text-error mb-1">Votre email n'a pas encore été vérifié.</p>
               <button type="button" (click)="resendVerification()" class="text-primary underline">
                 Renvoyer l'email de confirmation
@@ -248,6 +246,11 @@
               @if (registerForm.get('password')?.errors?.['minlength']) {
                 <p class="text-error text-xs mt-1">
                   Le mot de passe doit comporter 8 caractères minimum
+                </p>
+              }
+              @if (registerForm.get('password')?.errors?.['pattern']) {
+                <p class="text-error text-xs mt-1">
+                  Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre
                 </p>
               }
             }
