@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -33,6 +33,7 @@ export class AuthComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
+    private cdr: ChangeDetectorRef,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -112,10 +113,12 @@ export class AuthComponent {
         next: () => {
           this.registerSuccess = true;
           this.isLoading = false;
+          this.cdr.detectChanges();
         },
         error: (err) => {
           this.errorMessage = 'Une erreur est survenue, veuillez réessayer';
           this.isLoading = false;
+          this.cdr.detectChanges();
         },
       });
     }
