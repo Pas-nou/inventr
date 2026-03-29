@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 
-
-type VerifyState = 'loading' | 'success' | 'expired' | 'error'
+type VerifyState = 'loading' | 'success' | 'expired' | 'error';
 
 @Component({
   selector: 'app-verify-email',
@@ -32,11 +31,14 @@ export class VerifyEmailComponent implements OnInit {
       return;
     }
     this.authService.verifyEmail(token).subscribe({
-      next: () => (this.state = 'success'),
+      next: () => {
+        this.state = 'success'; 
+        this.cdr.detectChanges();
+      },
       error: (err) => {
         const message = err?.error.message?.message as string;
         this.state = message === 'TOKEN_EXPIRED' ? 'expired' : 'error';
-        this.cdr.detectChanges()
+        this.cdr.detectChanges();
       },
     });
   }
