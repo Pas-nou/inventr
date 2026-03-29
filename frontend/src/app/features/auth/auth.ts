@@ -99,6 +99,7 @@ export class AuthComponent {
             this.errorMessage = 'Email ou mot de passe incorrect';
           }
           this.isLoading = false;
+          this.cdr.detectChanges();
         },
       });
     } else {
