@@ -13,7 +13,12 @@ async function bootstrap() {
 
   // CORS - only the frontend is allowed
   app.enableCors({
-    origin: process.env.FRONTEND_URL ?? 'http://localhost:4200',
+    origin: [
+      process.env.FRONTEND_URL ?? 'http://localhost:4200',
+      'https://inventr.vercel.app',
+      'https://www.inventr.fr',
+      'https://inventr.fr',
+    ],
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     credentials: true,
   });
