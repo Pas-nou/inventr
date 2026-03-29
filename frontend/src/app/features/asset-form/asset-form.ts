@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -91,6 +91,7 @@ export class AssetFormComponent implements OnInit {
     private location: Location,
     private assetsService: AssetsService,
     private toastService: ToastService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -118,8 +119,10 @@ export class AssetFormComponent implements OnInit {
           warranty_end_date: asset.warranty_end_date?.slice(0, 10) ?? null,
           notes: asset.notes,
         });
+        this.cdr.detectChanges();
       });
     }
+    this.cdr.detectChanges();
   }
 
   selectCategory(category: AssetCategory): void {
