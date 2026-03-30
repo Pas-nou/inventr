@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -92,37 +92,42 @@ export class AssetFormComponent implements OnInit {
     private assetsService: AssetsService,
     private toastService: ToastService,
     private cdr: ChangeDetectorRef,
+    private ngZone: NgZone,
   ) {}
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      name: ['', Validators.required],
-      category: ['', Validators.required],
-      purchase_price_cents: [null, [Validators.required, Validators.min(0)]],
-      purchase_date: ['', Validators.required],
-      condition: [null],
-      warranty_end_date: [null],
-      notes: [null],
-    });
-
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.isEditMode = true;
-      this.assetId = id;
-      this.assetsService.getAssetById(id).subscribe((asset) => {
-        this.form.patchValue({
-          name: asset.name,
-          category: asset.category,
-          purchase_price_cents: asset.purchase_price_cents / 100,
-          purchase_date: asset.purchase_date?.slice(0, 10),
-          condition: asset.condition,
-          warranty_end_date: asset.warranty_end_date?.slice(0, 10) ?? null,
-          notes: asset.notes,
-        });
-        this.cdr.detectChanges();
+    this.ngZone.run(() => {
+      this.form = this.fb.group({
+        name: ['', Validators.required],
+        category: ['', Validators.required],
+        purchase_price_cents: [null, [Validators.required, Validators.min(0)]],
+        purchase_date: ['', Validators.required],
+        condition: [null],
+        warranty_end_date: [null],
+        notes: [null],
       });
-    }
-    this.cdr.detectChanges();
+
+      const id = this.route.snapshot.paramMap.get('id');
+      if (id) {
+        this.isEditMode = true;
+        this.assetId = id;
+        this.assetsService.getAssetById(id).subscribe((asset) => {
+          this.ngZone.run(() => {
+            this.form.patchValue({
+              name: asset.name,
+              category: asset.category,
+              purchase_price_cents: asset.purchase_price_cents / 100,
+              purchase_date: asset.purchase_date?.slice(0, 10),
+              condition: asset.condition,
+              warranty_end_date: asset.warranty_end_date?.slice(0, 10) ?? null,
+              notes: asset.notes,
+            });
+            this.cdr.detectChanges();
+          });
+        });
+      }
+      this.cdr.detectChanges();
+    });
   }
 
   selectCategory(category: AssetCategory): void {
@@ -149,18 +154,22 @@ export class AssetFormComponent implements OnInit {
     if (this.isEditMode) {
       this.assetsService.updateAsset(this.assetId, payload).subscribe({
         next: () => {
-          this.toastService.show('Bien modifié avec succès');
-          void this.router.navigate(['/assets', this.assetId]);
+          this.ngZone.run(() => {
+            this.toastService.show('Bien modifié avec succès');
+            void this.router.navigate(['/assets', this.assetId]);
+          });
         },
-        error: () => this.toastService.show('Une erreur est survenue', 'error')
+        error: () => this.toastService.show('Une erreur est survenue', 'error'),
       });
     } else {
       this.assetsService.createAsset(payload).subscribe({
         next: () => {
-          this.toastService.show('Bien ajouté avec succès');
-          void this.router.navigate(['/app']);
+          this.ngZone.run(() => {
+            this.toastService.show('Bien ajouté avec succès');
+            void this.router.navigate(['/app']);
+          });
         },
-        error: () => this.toastService.show('Une erreur est survenue', 'error')
+        error: () => this.toastService.show('Une erreur est survenue', 'error'),
       });
     }
   }
@@ -169,10 +178,12 @@ export class AssetFormComponent implements OnInit {
     if (!this.assetId) return;
     this.assetsService.deleteAsset(this.assetId).subscribe({
       next: () => {
-        this.toastService.show('Bien supprimé')
-        void this.router.navigate(['/app']);
+        this.ngZone.run(() => {
+          this.toastService.show('Bien supprimé');
+          void this.router.navigate(['/app']);
+        });
       },
-      error: () =>  this.toastService.show('Une erreur est survenue', 'error')
+      error: () => this.toastService.show('Une erreur est survenue', 'error'),
     });
   }
 
