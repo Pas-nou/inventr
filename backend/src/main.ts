@@ -13,13 +13,23 @@ async function bootstrap() {
 
   // CORS - only the frontend is allowed
   app.enableCors({
-    origin: [
-      process.env.FRONTEND_URL ?? 'http://localhost:4200',
-      'http://localhost:4200',
-      'https://inventr.vercel.app',
-      'https://www.inventr.fr',
-      'https://inventr.fr',
-    ],
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        'http://localhost:4200',
+        'https://inventr.vercel.app',
+        'https://www.inventr.fr',
+        'https://inventr.fr',
+      ];
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        origin.endsWith('pas-nous-projects.vercel.app')
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     credentials: true,
   });
