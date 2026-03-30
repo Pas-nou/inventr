@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -36,6 +36,7 @@ export class ResetPasswordComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private cdr: ChangeDetectorRef,
   ) {
     this.form = this.fb.group(
       {
@@ -69,11 +70,13 @@ export class ResetPasswordComponent implements OnInit {
       next: () => {
         this.state = 'success';
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         const message = err?.error?.message as string;
         this.state = message === 'TOKEN_EXPIRED' ? 'expired' : 'error';
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
     });
   }
