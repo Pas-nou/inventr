@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { NotFoundComponent } from './features/not-found/not-found';
 import { GuestGuard } from './core/guards/guest.guard';
+import { AssetFormComponent } from './features/asset-form/asset-form';
 
 export const routes: Routes = [
   {
@@ -47,8 +48,7 @@ export const routes: Routes = [
   {
     path: 'assets/new',
     canActivate: [AuthGuard],
-    loadComponent: () =>
-      import('./features/asset-form/asset-form').then((m) => m.AssetFormComponent),
+    component: AssetFormComponent,
   },
   {
     path: 'assets/:id',
@@ -59,8 +59,7 @@ export const routes: Routes = [
   {
     path: 'assets/:id/edit',
     canActivate: [AuthGuard],
-    loadComponent: () =>
-      import('./features/asset-form/asset-form').then((m) => m.AssetFormComponent),
+    component: AssetFormComponent,
   },
   {
     path: 'profile',
