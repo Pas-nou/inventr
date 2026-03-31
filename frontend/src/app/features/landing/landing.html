@@ -14,12 +14,13 @@
     <div class="flex items-center gap-3">
       <a
         routerLink="/login"
-        class="hidden lg:block text-text-secondary text-sm font-medium px-4 py-2 rounded-xl border border-border hover:border-primary transition-colors"
+        class="lg:block text-text-secondary text-sm font-medium px-4 py-2 rounded-xl border border-border hover:border-primary transition-colors"
       >
         Se connecter
       </a>
       <a
         routerLink="/login"
+        [queryParams]="{register: true}"
         class="bg-primary text-background text-sm font-bold px-4 py-2 rounded-xl transition-opacity hover:opacity-90"
       >
         Commencer
@@ -55,6 +56,7 @@
         <div class="flex flex-col sm:flex-row gap-3">
           <a
             routerLink="/login"
+            [queryParams]="{register: true}"
             class="bg-primary text-background font-bold text-base px-6 py-3.5 rounded-xl transition-opacity hover:opacity-90 text-center"
           >
             Créer mon inventaire gratuitement
@@ -235,6 +237,7 @@
         </p>
         <a
           routerLink="/login"
+          [queryParams]="{register: true}"
           class="bg-primary text-background font-bold text-lg px-8 py-4 rounded-xl transition-opacity hover:opacity-90 inline-block relative"
         >
           Créer mon compte gratuitement
