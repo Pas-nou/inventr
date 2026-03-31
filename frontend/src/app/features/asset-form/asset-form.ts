@@ -150,7 +150,7 @@ export class AssetFormComponent implements OnInit {
     if (this.isEditMode) {
       this.assetsService.updateAsset(this.assetId, payload).subscribe({
         next: () => {
-            this.toastService.show('Bien modifié avec succès');
+            this.toastService.show('Les modifications ont bien été enregistrées.');
             void this.router.navigate(['/assets', this.assetId]);
         },
         error: () => this.toastService.show('Une erreur est survenue', 'error'),
