@@ -1,10 +1,6 @@
 <!-- * Upload Document Modal -->
 @if (showUploadModal) {
-  <div
-    class="modal-overlay"
-    (click)="closeUploadModal()"
-    aria-hidden="true"
-  >
+  <div class="modal-overlay" (click)="closeUploadModal()" aria-hidden="true">
     <dialog
       open
       class="modal-dialog"
@@ -19,16 +15,15 @@
       </hgroup>
       <div>
         <label class="form-label">NOM</label>
-        <input
-          type="text"
-          [(ngModel)]="uploadName"
-          class="form-input"
-        />
+        <input type="text" [(ngModel)]="uploadName" class="form-input" />
       </div>
       <div>
         <label class="form-label">
           TYPE
-          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
+          <span
+            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
+            >OPTIONNEL</span
+          >
         </label>
         <div class="grid grid-cols-3 gap-2">
           @for (type of documentTypes; track type) {
@@ -49,10 +44,18 @@
       </div>
       <button
         (click)="confirmUpload()"
-        [disabled]="!uploadName"
+        [disabled]="!uploadName || isUploading"
         class="w-full bg-primary text-background font-semibold rounded-2xl py-4 transition-opacity disabled:opacity-50"
       >
-        Ajouter
+        @if (!isUploading) {
+          Ajouter
+        } @else {
+          <span class="flex items-center gap-1">
+            <span class="h-1.5 w-1.5 rounded-full bg-background dot-1"></span>
+            <span class="h-1.5 w-1.5 rounded-full bg-background dot-2"></span>
+            <span class="h-1.5 w-1.5 rounded-full bg-background dot-3"></span>
+          </span>
+        }
       </button>
       <button
         (click)="closeUploadModal()"
@@ -66,11 +69,7 @@
 
 <!-- * Edit Document Modal -->
 @if (showEditDocumentModal) {
-  <div
-    class="modal-overlay"
-    (click)="closeEditDocumentModal()"
-    aria-hidden="true"
-  >
+  <div class="modal-overlay" (click)="closeEditDocumentModal()" aria-hidden="true">
     <dialog
       open
       class="modal-dialog"
@@ -84,16 +83,15 @@
       </hgroup>
       <div>
         <label class="form-label">NOM</label>
-        <input
-          type="text"
-          [(ngModel)]="editDocumentName"
-          class="form-input"
-        />
+        <input type="text" [(ngModel)]="editDocumentName" class="form-input" />
       </div>
       <div>
         <label class="form-label">
           TYPE
-          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
+          <span
+            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
+            >OPTIONNEL</span
+          >
         </label>
         <div class="grid grid-cols-3 gap-2">
           @for (type of documentTypes; track type) {
@@ -131,11 +129,7 @@
 
 <!-- * Delete document modal -->
 @if (showDeleteDocumentModal) {
-  <div
-    class="modal-overlay"
-    (click)="closeDeleteDocumentModal()"
-    aria-hidden="true"
-  >
+  <div class="modal-overlay" (click)="closeDeleteDocumentModal()" aria-hidden="true">
     <dialog
       open
       class="modal-dialog"
@@ -166,11 +160,7 @@
 
 <!-- * Add event modal -->
 @if (showAddEventModal) {
-  <div
-    class="modal-overlay"
-    (click)="closeAddEventModal()"
-    aria-hidden="true"
-  >
+  <div class="modal-overlay" (click)="closeAddEventModal()" aria-hidden="true">
     <dialog
       open
       class="modal-dialog"
@@ -194,7 +184,10 @@
       <div>
         <label class="form-label">
           TYPE
-          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
+          <span
+            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
+            >OPTIONNEL</span
+          >
         </label>
         <div class="grid grid-cols-3 gap-2">
           @for (type of eventTypes; track type) {
@@ -215,16 +208,15 @@
       </div>
       <div>
         <label class="form-label">DATE</label>
-        <input
-          type="date"
-          [(ngModel)]="eventDate"
-          class="form-input"
-        />
+        <input type="date" [(ngModel)]="eventDate" class="form-input" />
       </div>
       <div class="relative">
         <label class="form-label">
           COÛT (€)
-          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
+          <span
+            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
+            >OPTIONNEL</span
+          >
         </label>
         <span class="absolute right-3 bottom-3.5 text-text-secondary text-sm">€</span>
         <input
@@ -239,18 +231,20 @@
       <div>
         <label class="form-label">
           PROCHAIN ENTRETIEN
-          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
+          <span
+            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
+            >OPTIONNEL</span
+          >
         </label>
-        <input
-          type="date"
-          [(ngModel)]="eventNextDueDate"
-          class="form-input"
-        />
+        <input type="date" [(ngModel)]="eventNextDueDate" class="form-input" />
       </div>
       <div>
         <label class="form-label">
           NOTES
-          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
+          <span
+            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
+            >OPTIONNEL</span
+          >
         </label>
         <textarea
           [(ngModel)]="eventNotes"
@@ -278,11 +272,7 @@
 
 <!-- * Edit event modal -->
 @if (showEditEventModal) {
-  <div
-    class="modal-overlay"
-    (click)="closeEditEventModal()"
-    aria-hidden="true"
-  >
+  <div class="modal-overlay" (click)="closeEditEventModal()" aria-hidden="true">
     <dialog
       open
       class="modal-dialog"
@@ -296,16 +286,15 @@
       </hgroup>
       <div>
         <label class="form-label">NOM</label>
-        <input
-          type="text"
-          [(ngModel)]="editEventName"
-          class="form-input"
-        />
+        <input type="text" [(ngModel)]="editEventName" class="form-input" />
       </div>
       <div>
         <label class="form-label">
           TYPE
-          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
+          <span
+            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
+            >OPTIONNEL</span
+          >
         </label>
         <div class="grid grid-cols-3 gap-2">
           @for (type of eventTypes; track type) {
@@ -326,16 +315,15 @@
       </div>
       <div>
         <label class="form-label">DATE</label>
-        <input
-          type="date"
-          [(ngModel)]="editEventDate"
-          class="form-input"
-        />
+        <input type="date" [(ngModel)]="editEventDate" class="form-input" />
       </div>
       <div class="relative">
         <label class="form-label">
           COÛT (€)
-          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
+          <span
+            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
+            >OPTIONNEL</span
+          >
         </label>
         <span class="absolute right-3 bottom-3.5 text-text-secondary text-sm">€</span>
         <input
@@ -349,24 +337,22 @@
       <div>
         <label class="form-label">
           PROCHAIN ENTRETIEN
-          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
+          <span
+            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
+            >OPTIONNEL</span
+          >
         </label>
-        <input
-          type="date"
-          [(ngModel)]="editEventNextDueDate"
-          class="form-input"
-        />
+        <input type="date" [(ngModel)]="editEventNextDueDate" class="form-input" />
       </div>
       <div>
         <label class="form-label">
           NOTES
-          <span class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1">OPTIONNEL</span>
+          <span
+            class="text-xs normal-case tracking-normal border border-border rounded-full px-2 py-0.5 ml-1"
+            >OPTIONNEL</span
+          >
         </label>
-        <textarea
-          [(ngModel)]="editEventNotes"
-          rows="2"
-          class="form-input resize-none"
-        ></textarea>
+        <textarea [(ngModel)]="editEventNotes" rows="2" class="form-input resize-none"></textarea>
       </div>
       <button
         (click)="confirmEditEvent()"
@@ -387,11 +373,7 @@
 
 <!-- * Delete event modal -->
 @if (showDeleteEventModal) {
-  <div
-    class="modal-overlay"
-    (click)="closeDeleteEventModal()"
-    aria-hidden="true"
-  >
+  <div class="modal-overlay" (click)="closeDeleteEventModal()" aria-hidden="true">
     <dialog
       open
       class="modal-dialog"
@@ -422,7 +404,6 @@
 
 <!-- * Main -->
 <main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6 lg:px-8 lg:py-8 lg:pb-8">
-
   <!-- Header — mobile: bouton retour seul / desktop: retour + nom + boutons -->
   <div class="flex items-center justify-between mb-4 lg:mb-6">
     <button
@@ -459,10 +440,8 @@
       </span>
     </div>
   } @else if (asset) {
-
     <!-- Layout : mobile = colonne unique / desktop = 2 colonnes -->
     <div class="lg:grid lg:grid-cols-[300px_1fr] lg:gap-6 lg:items-start">
-
       <!-- ======== COLONNE GAUCHE (desktop) / haut de page (mobile) ======== -->
       <div>
         <!-- Hero card — identique mobile et desktop -->
@@ -470,8 +449,12 @@
           aria-label="Informations du bien"
           class="stat-card rounded-2xl p-4 mb-4 relative overflow-hidden"
         >
-          <span class="stat-card-ellipse absolute -right-10 -top-10 w-40 h-40 rounded-full pointer-events-none"></span>
-          <span class="stat-card-ellipse absolute -bottom-10 -left-10 w-40 h-40 rounded-full pointer-events-none"></span>
+          <span
+            class="stat-card-ellipse absolute -right-10 -top-10 w-40 h-40 rounded-full pointer-events-none"
+          ></span>
+          <span
+            class="stat-card-ellipse absolute -bottom-10 -left-10 w-40 h-40 rounded-full pointer-events-none"
+          ></span>
 
           <header class="flex items-center gap-3 mb-4">
             <span
@@ -482,7 +465,9 @@
             </span>
             <hgroup class="flex-1">
               <p class="font-bold text-lg text-text-primary">{{ asset.name }}</p>
-              <p class="text-sm text-text-secondary">{{ asset.category }} · {{ asset.condition }}</p>
+              <p class="text-sm text-text-secondary">
+                {{ asset.category }} · {{ asset.condition }}
+              </p>
             </hgroup>
             <!-- Bouton Modifier — mobile uniquement -->
             <button
@@ -529,7 +514,10 @@
         </section>
 
         <!-- Infos détaillées — desktop uniquement dans colonne gauche -->
-        <section aria-label="Informations détaillées" class="hidden lg:block bg-surface border border-border rounded-2xl overflow-hidden">
+        <section
+          aria-label="Informations détaillées"
+          class="hidden lg:block bg-surface border border-border rounded-2xl overflow-hidden"
+        >
           <ul class="flex flex-col">
             <li class="flex items-center justify-between px-4 py-3 border-b border-border">
               <span class="text-sm text-text-secondary">Nom</span>
@@ -567,14 +555,18 @@
             </li>
             <li class="flex items-center justify-between px-4 py-3 border-b border-border">
               <span class="text-sm text-text-secondary">État</span>
-              <span class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary">
+              <span
+                class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary"
+              >
                 {{ asset.condition }}
               </span>
             </li>
             @if (asset.notes) {
               <li class="flex items-center justify-between px-4 py-3">
                 <span class="text-sm text-text-secondary">Notes</span>
-                <span class="text-sm text-text-secondary text-right max-w-48">{{ asset.notes }}</span>
+                <span class="text-sm text-text-secondary text-right max-w-48">{{
+                  asset.notes
+                }}</span>
               </li>
             }
           </ul>
@@ -643,14 +635,18 @@
               </li>
               <li class="flex items-center justify-between py-3 border-b border-border">
                 <span class="text-sm text-text-secondary">État</span>
-                <span class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary">
+                <span
+                  class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary"
+                >
                   {{ asset.condition }}
                 </span>
               </li>
               @if (asset.notes) {
                 <li class="flex items-center justify-between py-3 border-b border-border">
                   <span class="text-sm text-text-secondary">Notes</span>
-                  <span class="text-sm text-text-secondary text-right max-w-48">{{ asset.notes }}</span>
+                  <span class="text-sm text-text-secondary text-right max-w-48">{{
+                    asset.notes
+                  }}</span>
                 </li>
               }
             </ul>
@@ -676,20 +672,53 @@
                       {{ doc.created_at | date: 'dd MMM yyyy' : '' : 'fr' }}
                     </p>
                   </hgroup>
-                  <span class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary shrink-0">
+                  <span
+                    class="text-xs font-semibold px-2 py-1 rounded-full bg-primary-dim text-primary shrink-0"
+                  >
                     {{ doc.type }}
                   </span>
                   <button (click)="openEditDocumentModal(doc)" aria-label="Modifier le document">
-                    <lucide-angular [img]="pencil" [size]="16" class="text-text-secondary" aria-hidden="true" />
+                    <lucide-angular
+                      [img]="pencil"
+                      [size]="16"
+                      class="text-text-secondary"
+                      aria-hidden="true"
+                    />
                   </button>
-                  <button (click)="openDocument(doc.id)" aria-label="Visualiser le document" class="p-1">
-                    <lucide-angular [img]="eye" [size]="16" class="text-text-secondary" aria-hidden="true" />
+                  <button
+                    (click)="openDocument(doc.id)"
+                    aria-label="Visualiser le document"
+                    class="p-1"
+                  >
+                    <lucide-angular
+                      [img]="eye"
+                      [size]="16"
+                      class="text-text-secondary"
+                      aria-hidden="true"
+                    />
                   </button>
-                  <button (click)="openDocument(doc.id, true)" aria-label="Télécharger le document" class="p-1">
-                    <lucide-angular [img]="download" [size]="16" class="text-text-secondary" aria-hidden="true" />
+                  <button
+                    (click)="openDocument(doc.id, true)"
+                    aria-label="Télécharger le document"
+                    class="p-1"
+                  >
+                    <lucide-angular
+                      [img]="download"
+                      [size]="16"
+                      class="text-text-secondary"
+                      aria-hidden="true"
+                    />
                   </button>
-                  <button (click)="openDeleteDocumentModal(doc.id)" aria-label="Supprimer le document">
-                    <lucide-angular [img]="trash" [size]="16" class="text-error-dim" aria-hidden="true" />
+                  <button
+                    (click)="openDeleteDocumentModal(doc.id)"
+                    aria-label="Supprimer le document"
+                  >
+                    <lucide-angular
+                      [img]="trash"
+                      [size]="16"
+                      class="text-error-dim"
+                      aria-hidden="true"
+                    />
                   </button>
                 </li>
               }
@@ -713,7 +742,12 @@
                   <div class="flex-1">
                     <header class="flex items-center justify-between mb-2">
                       <hgroup class="flex items-center gap-2">
-                        <lucide-angular [img]="wrench" [size]="14" class="text-primary" aria-hidden="true" />
+                        <lucide-angular
+                          [img]="wrench"
+                          [size]="14"
+                          class="text-primary"
+                          aria-hidden="true"
+                        />
                         <p class="text-sm font-semibold text-text-primary">{{ event.name }}</p>
                       </hgroup>
                       @if (event.cost_cents > 0) {
@@ -731,18 +765,38 @@
                       <p class="text-xs text-text-secondary mb-2">{{ event.notes }}</p>
                     }
                     @if (event.next_due_date) {
-                      <span class="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-primary-dim text-primary">
+                      <span
+                        class="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-primary-dim text-primary"
+                      >
                         <lucide-angular [img]="calendarClock" [size]="10" aria-hidden="true" />
                         Prochain : {{ event.next_due_date | date: 'MMM yyyy' : '' : 'fr' }}
                       </span>
                     }
                   </div>
                   <div class="flex gap-2 shrink-0 items-center">
-                    <button (click)="openEditEventModal(event)" aria-label="Modifier l'événement" class="p-1">
-                      <lucide-angular [img]="pencil" [size]="16" class="text-text-secondary" aria-hidden="true" />
+                    <button
+                      (click)="openEditEventModal(event)"
+                      aria-label="Modifier l'événement"
+                      class="p-1"
+                    >
+                      <lucide-angular
+                        [img]="pencil"
+                        [size]="16"
+                        class="text-text-secondary"
+                        aria-hidden="true"
+                      />
                     </button>
-                    <button (click)="openDeleteEventModal(event.id)" aria-label="Supprimer l'événement" class="p-1">
-                      <lucide-angular [img]="trash" [size]="16" class="text-error-dim" aria-hidden="true" />
+                    <button
+                      (click)="openDeleteEventModal(event.id)"
+                      aria-label="Supprimer l'événement"
+                      class="p-1"
+                    >
+                      <lucide-angular
+                        [img]="trash"
+                        [size]="16"
+                        class="text-error-dim"
+                        aria-hidden="true"
+                      />
                     </button>
                   </div>
                 </li>
@@ -759,7 +813,6 @@
         }
       </div>
     </div>
-
   } @else {
     <div class="flex items-center justify-center pt-20">
       <p class="text-text-secondary text-sm">Chargement...</p>

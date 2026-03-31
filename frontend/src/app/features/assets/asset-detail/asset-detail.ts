@@ -70,6 +70,7 @@ export class AssetDetailComponent implements OnInit {
   documents: Document[] = [];
   maintenanceEvents: MaintenanceEvent[] = [];
   isLoading = true;
+  isUploading = false;
 
   // Modal delete document
   showDeleteDocumentModal = false;
@@ -216,7 +217,8 @@ export class AssetDetailComponent implements OnInit {
   }
 
   confirmUpload(): void {
-    if (!this.pendingFile) return;
+    if (!this.pendingFile || this.isUploading) return;
+    this.isUploading = true;
     this.documentsService
       .uploadDocument(this.assetId, this.pendingFile, this.uploadName, this.uploadType || undefined)
       .subscribe({
@@ -224,10 +226,17 @@ export class AssetDetailComponent implements OnInit {
           this.documents = [...this.documents, doc];
           this.showUploadModal = false;
           this.pendingFile = null;
+          this.isUploading = false;
           this.toastService.show('Document ajouté avec succès');
           this.cdr.detectChanges();
         },
-        error: () => this.toastService.show("Erreur lors de l'upload", 'error'),
+        error: () => {
+          this.isUploading = false;
+          this.showUploadModal = false;
+          this.pendingFile = null;
+          this.toastService.show("Erreur lors de l'upload", 'error');
+          this.cdr.detectChanges();
+        },
       });
   }
 
