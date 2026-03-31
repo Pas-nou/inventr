@@ -85,21 +85,33 @@ export class AssetsComponent implements OnInit {
     const user = this.authService.getUser();
     if (user) this.firstName = user.first_name;
 
-    this.assetsService.getAssets().subscribe((response) => {
-      this.assets = [...response.data];
-      this.assetsCount = this.assets.length;
-      this.totalValue = this.assets.reduce((sum, a) => sum + a.purchase_price_cents, 0) / 100;
-      this.warrantyAlerts = response.data
-        .filter((a) => this.isWarrantyExpiringSoon(a.warranty_end_date))
-        .map((a) => a.name);
-      this.isLoading = false;
-      this.alertsStateService.setCount(this.warrantyAlerts.length);
-      this.cdr.detectChanges();
+    this.assetsService.getAssets().subscribe({
+      next: (response) => {
+        this.assets = [...response.data];
+        this.assetsCount = this.assets.length;
+        this.totalValue = this.assets.reduce((sum, a) => sum + a.purchase_price_cents, 0) / 100;
+        this.warrantyAlerts = response.data
+          .filter((a) => this.isWarrantyExpiringSoon(a.warranty_end_date))
+          .map((a) => a.name);
+        this.isLoading = false;
+        this.alertsStateService.setCount(this.warrantyAlerts.length);
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
     });
 
-    this.assetsService.getStats().subscribe((stats) => {
-      this.documentsCount = stats.documentsCount;
-      this.cdr.detectChanges();
+    this.assetsService.getStats().subscribe({
+      next: (stats) => {
+        this.documentsCount = stats.documentsCount;
+        this.cdr.detectChanges();   
+      },
+      error: () => {
+        this.documentsCount = 0;
+        this.cdr.detectChanges();
+      }
     });
   }
 
