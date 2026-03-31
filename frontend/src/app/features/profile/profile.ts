@@ -8,6 +8,7 @@ import {
   Download,
   Trash2,
 } from 'lucide-angular';
+import { UpperCasePipe } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../core/services/toast.service';
@@ -15,7 +16,7 @@ import { AssetsService } from '../../core/services/assets.service';
 
 @Component({
   selector: 'app-profile',
-  imports: [LucideAngularModule, FormsModule],
+  imports: [LucideAngularModule, FormsModule, UpperCasePipe],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
