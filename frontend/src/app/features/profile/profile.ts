@@ -131,6 +131,7 @@ export class ProfileComponent implements OnInit {
       error: () => {
         this.isSubmitting = false;
         this.toastService.show('Erreur lors de la mise à jour', 'error');
+        this.cdr.detectChanges();
       },
     });
   }
@@ -173,6 +174,7 @@ export class ProfileComponent implements OnInit {
     this.authService.deleteAccount(this.deletePassword).subscribe({
       next: () => {
         this.authService.logout();
+        this.cdr.detectChanges();
       },
       error: () => {
         this.isDeleting = false;
