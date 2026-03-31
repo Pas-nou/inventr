@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -92,11 +92,9 @@ export class AssetFormComponent implements OnInit {
     private assetsService: AssetsService,
     private toastService: ToastService,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone,
   ) {}
 
   ngOnInit(): void {
-    this.ngZone.run(() => {
       this.form = this.fb.group({
         name: ['', Validators.required],
         category: ['', Validators.required],
@@ -112,7 +110,6 @@ export class AssetFormComponent implements OnInit {
         this.isEditMode = true;
         this.assetId = id;
         this.assetsService.getAssetById(id).subscribe((asset) => {
-          this.ngZone.run(() => {
             this.form.patchValue({
               name: asset.name,
               category: asset.category,
@@ -123,11 +120,10 @@ export class AssetFormComponent implements OnInit {
               notes: asset.notes,
             });
             this.cdr.detectChanges();
-          });
         });
       }
       this.cdr.detectChanges();
-    });
+
   }
 
   selectCategory(category: AssetCategory): void {
@@ -154,20 +150,16 @@ export class AssetFormComponent implements OnInit {
     if (this.isEditMode) {
       this.assetsService.updateAsset(this.assetId, payload).subscribe({
         next: () => {
-          this.ngZone.run(() => {
             this.toastService.show('Bien modifié avec succès');
             void this.router.navigate(['/assets', this.assetId]);
-          });
         },
         error: () => this.toastService.show('Une erreur est survenue', 'error'),
       });
     } else {
       this.assetsService.createAsset(payload).subscribe({
         next: () => {
-          this.ngZone.run(() => {
             this.toastService.show('Bien ajouté avec succès');
             void this.router.navigate(['/app']);
-          });
         },
         error: () => this.toastService.show('Une erreur est survenue', 'error'),
       });
@@ -178,10 +170,8 @@ export class AssetFormComponent implements OnInit {
     if (!this.assetId) return;
     this.assetsService.deleteAsset(this.assetId).subscribe({
       next: () => {
-        this.ngZone.run(() => {
           this.toastService.show('Bien supprimé');
           void this.router.navigate(['/app']);
-        });
       },
       error: () => this.toastService.show('Une erreur est survenue', 'error'),
     });
