@@ -70,6 +70,7 @@ export class AssetDetailComponent implements OnInit {
   documents: Document[] = [];
   maintenanceEvents: MaintenanceEvent[] = [];
   isLoading = true;
+  isUploading = false;
 
   // Modal delete document
   showDeleteDocumentModal = false;
@@ -216,7 +217,8 @@ export class AssetDetailComponent implements OnInit {
   }
 
   confirmUpload(): void {
-    if (!this.pendingFile) return;
+    if (!this.pendingFile || this.isUploading) return;
+    this.isUploading = true;
     this.documentsService
       .uploadDocument(this.assetId, this.pendingFile, this.uploadName, this.uploadType || undefined)
       .subscribe({
@@ -224,10 +226,17 @@ export class AssetDetailComponent implements OnInit {
           this.documents = [...this.documents, doc];
           this.showUploadModal = false;
           this.pendingFile = null;
+          this.isUploading = false;
           this.toastService.show('Document ajouté avec succès');
           this.cdr.detectChanges();
         },
-        error: () => this.toastService.show("Erreur lors de l'upload", 'error'),
+        error: () => {
+          this.isUploading = false;
+          this.showUploadModal = false;
+          this.pendingFile = null;
+          this.toastService.show("Erreur lors de l'upload", 'error');
+          this.cdr.detectChanges();
+        },
       });
   }
 
@@ -401,12 +410,22 @@ export class AssetDetailComponent implements OnInit {
   openDocument(documentId: string, download = false): void {
     this.documentsService.getSignedUrl(this.assetId, documentId).subscribe({
       next: ({ url }) => {
-        const a = document.createElement('a');
-        a.href = url;
-        if (download) a.download = '';
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.click();
+        if(download) {
+          // Fetch file as blob to force download on mobile (cross-origin URLs ignore download attribute)
+          fetch(url)
+          .then((res) => res.blob())
+          .then((blob) => {
+            const blobUrl = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = documentId;
+            a.click();
+            URL.revokeObjectURL(blobUrl);
+          })
+          .catch(() => this.toastService.show('Erreur lors du téléchargement', 'error'));
+        } else {
+          window.open(url, '_blank', 'noopener,noreferrer');
+        }
       },
       error: () => this.toastService.show("Erreur lors de l'ouverture du document", 'error'),
     });

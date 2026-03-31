@@ -15,24 +15,14 @@
 
       <!-- Firstname -->
       <div>
-        <label class="form-label"
-          >PRÉNOM</label
-        >
-        <input
-          type="text"
-          [(ngModel)]="editFirstName"
-          class="form-input"
-        />
+        <label class="form-label">PRÉNOM</label>
+        <input type="text" [(ngModel)]="editFirstName" class="form-input" />
       </div>
 
       <!-- Lastname -->
       <div>
         <label class="form-label">NOM</label>
-        <input
-          type="text"
-          [(ngModel)]="editLastName"
-          class="form-input"
-        />
+        <input type="text" [(ngModel)]="editLastName" class="form-input" />
       </div>
 
       <!-- Email -->
@@ -51,9 +41,7 @@
 
       <!-- Current password -->
       <div>
-        <label class="form-label">
-          MOT DE PASSE ACTUEL
-        </label>
+        <label class="form-label"> MOT DE PASSE ACTUEL </label>
         <input
           type="password"
           [(ngModel)]="editCurrentPassword"
@@ -64,9 +52,7 @@
 
       <!-- New password -->
       <div>
-        <label class="form-label">
-          NOUVEAU MOT DE PASSE
-        </label>
+        <label class="form-label"> NOUVEAU MOT DE PASSE </label>
         <input
           type="password"
           [(ngModel)]="editNewPassword"
@@ -78,9 +64,7 @@
       <!-- Confirm password -->
       @if (editNewPassword) {
         <div>
-          <label class="form-label">
-            CONFIRMER LE MOT DE PASSE
-          </label>
+          <label class="form-label"> CONFIRMER LE MOT DE PASSE </label>
           <input
             type="password"
             [(ngModel)]="editConfirmPassword"
@@ -145,9 +129,7 @@
       </hgroup>
 
       <div>
-        <label class="form-label">
-          MOT DE PASSE
-        </label>
+        <label class="form-label"> MOT DE PASSE </label>
         <input
           type="password"
           [(ngModel)]="deletePassword"
@@ -199,7 +181,7 @@
         {{ initials }}
       </span>
       <hgroup>
-        <p class="font-semibold text-text-primary">{{ firstName }} {{ lastName }}</p>
+        <p class="font-semibold text-text-primary">{{ firstName }} {{ lastName | uppercase }}</p>
         <p class="text-sm text-text-secondary">{{ email }}</p>
       </hgroup>
 
@@ -244,6 +226,7 @@
           </li>
           <li>
             <button
+              disabled
               class="w-full bg-surface border border-border rounded-2xl p-4 flex items-center gap-4 transition-colors hover:border-primary"
             >
               <span

@@ -13,7 +13,10 @@ async function bootstrap() {
 
   // CORS - only the frontend is allowed
   app.enableCors({
-    origin: (origin, callback) => {
+    origin: (
+      origin: string | undefined,
+      callback: (err: Error | null, allow?: boolean) => void,
+    ) => {
       const allowedOrigins = [
         'http://localhost:4200',
         'https://inventr.vercel.app',
