@@ -8,6 +8,7 @@ import {
   Download,
   Trash2,
 } from 'lucide-angular';
+import { UpperCasePipe } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../core/services/toast.service';
@@ -15,7 +16,7 @@ import { AssetsService } from '../../core/services/assets.service';
 
 @Component({
   selector: 'app-profile',
-  imports: [LucideAngularModule, FormsModule],
+  imports: [LucideAngularModule, FormsModule, UpperCasePipe],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
@@ -131,6 +132,7 @@ export class ProfileComponent implements OnInit {
       error: () => {
         this.isSubmitting = false;
         this.toastService.show('Erreur lors de la mise à jour', 'error');
+        this.cdr.detectChanges();
       },
     });
   }
@@ -173,6 +175,7 @@ export class ProfileComponent implements OnInit {
     this.authService.deleteAccount(this.deletePassword).subscribe({
       next: () => {
         this.authService.logout();
+        this.cdr.detectChanges();
       },
       error: () => {
         this.isDeleting = false;

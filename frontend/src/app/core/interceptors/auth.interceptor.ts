@@ -2,18 +2,27 @@ import { HttpRequest, HttpHandlerFn, HttpEvent, HttpErrorResponse } from '@angul
 import { Observable, catchError, switchMap, throwError } from 'rxjs';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { ToastService } from '../services/toast.service';
 
 export const authInterceptor = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> => {
   const authService = inject(AuthService);
+  const toastService = inject(ToastService);
   const token = localStorage.getItem('token');
 
   const authReq = token ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } }) : req;
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
+      // lost connection
+      if (error.status === 0) {
+        toastService.show('Pas de connexion internet', 'error');
+        return throwError(() => error);
+      }
+
+      // Expired token
       if (error.status === 401 && !req.url.includes('/auth')) {
         return authService.refreshToken().pipe(
           switchMap((tokens) => {
