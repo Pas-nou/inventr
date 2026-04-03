@@ -16,13 +16,11 @@ export const routes: Routes = [
   },
   {
     path: 'verify-email',
-    canActivate: [GuestGuard],
     loadComponent: () =>
       import('./features/auth/verify-email/verify-email').then((m) => m.VerifyEmailComponent),
   },
   {
     path: 'forgot-password',
-    canActivate: [GuestGuard],
     loadComponent: () =>
       import('./features/auth/forgot-password/forgot-password').then(
         (m) => m.ForgotPasswordComponent,
@@ -30,7 +28,6 @@ export const routes: Routes = [
   },
   {
     path: 'reset-password',
-    canActivate: [GuestGuard],
     loadComponent: () =>
       import('./features/auth/reset-password/reset-password').then((m) => m.ResetPasswordComponent),
   },
