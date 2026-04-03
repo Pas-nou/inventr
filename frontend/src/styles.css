@@ -162,7 +162,9 @@ html {
 
 .modal-dialog {
   width: 100%;
-  max-width: 32rem;
+  max-width: 90dvw;
+  max-height: 90dvh;
+  overflow-y: auto;
   margin-left: auto;
   margin-right: auto;
   background-color: var(--color-surface);
