@@ -147,24 +147,30 @@
           [class.text-text-secondary]="!isDropdownOpen"
           [class.border-border]="!isDropdownOpen"
         >
+          @if (activeCategory !== 'Tous') {
+            <lucide-angular [img]="getCategoryIcon(activeCategory)" [size]="14" />
+          }
           {{ activeCategory }}
           <lucide-angular [img]="isDropdownOpen ? chevronUp : chevronDown" [size]="14" />
         </button>
         @if (isDropdownOpen) {
           <ul
             role="listbox"
-            class="absolute right-0 mt-2 w-48 rounded-2xl overflow-hidden z-10 bg-surface-light border border-border"
+            class="absolute right-0 mt-2 w-52 max-w-[calc(100vw-2rem)] rounded-2xl overflow-hidden z-10 bg-surface-light border border-border"
           >
             @for (category of categories; track category) {
               <li
                 role="option"
                 [attr.aria-selected]="activeCategory === category"
                 (click)="selectCategory(category)"
-                class="px-4 py-2.5 text-sm cursor-pointer transition-colors hover:bg-surface"
+                class="flex items-center gap-3 px-4 py-2.5 text-sm cursor-pointer transition-colors hover:bg-surface"
                 [class.text-primary]="activeCategory === category"
                 [class.font-semibold]="activeCategory === category"
                 [class.text-text-secondary]="activeCategory !== category"
               >
+                @if (category !== 'Tous') {
+                  <lucide-angular [img]="getCategoryIcon(category)" [size]="14" />
+                }
                 {{ category }}
               </li>
             }
@@ -216,36 +222,12 @@
         <table class="w-full">
           <thead>
             <tr class="border-b border-border">
-              <th
-                class="table-header"
-              >
-                Bien
-              </th>
-              <th
-                class="table-header"
-              >
-                Catégorie
-              </th>
-              <th
-                class="table-header"
-              >
-                État
-              </th>
-              <th
-                class="table-header"
-              >
-                Date d'achat
-              </th>
-              <th
-                class="table-header"
-              >
-                Garantie
-              </th>
-              <th
-                class="table-header"
-              >
-                Prix
-              </th>
+              <th class="table-header">Bien</th>
+              <th class="table-header">Catégorie</th>
+              <th class="table-header">État</th>
+              <th class="table-header">Date d'achat</th>
+              <th class="table-header">Garantie</th>
+              <th class="table-header">Prix</th>
             </tr>
           </thead>
           <tbody>
@@ -306,7 +288,8 @@
                           class="inline mr-1"
                         />
                       }
-                      {{ warrantyDaysLeft(asset.warranty_end_date) }} <span class="lg:hidden">j</span><span class="hidden lg:inline"> jour(s)</span>
+                      {{ warrantyDaysLeft(asset.warranty_end_date) }}
+                      <span class="lg:hidden">j</span><span class="hidden lg:inline"> jour(s)</span>
                     </span>
                   } @else {
                     <span class="text-text-secondary text-sm">—</span>
