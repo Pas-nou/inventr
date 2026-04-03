@@ -189,13 +189,16 @@
           @for (category of categories; track category) {
             <button
               (click)="selectCategory(category)"
-              class="px-3 py-1.5 rounded-full text-xs font-medium border transition-colors"
+              class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors"
               [class.bg-primary]="activeCategory === category"
               [class.text-background]="activeCategory === category"
               [class.border-primary]="activeCategory === category"
               [class.text-text-secondary]="activeCategory !== category"
               [class.border-border]="activeCategory !== category"
             >
+              @if (category !== 'Tous') {
+                <lucide-angular [img]="getCategoryIcon(category)" [size]="12" />
+              }
               {{ category }}
             </button>
           }
