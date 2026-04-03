@@ -227,7 +227,7 @@
           <li>
             <button
               disabled
-              class="w-full bg-surface border border-border rounded-2xl p-4 flex items-center gap-4 transition-colors hover:border-primary"
+              class="w-full bg-surface border border-border rounded-2xl p-4 flex items-center gap-4 opacity-50 cursor-not-allowed"
             >
               <span
                 class="w-8 h-8 rounded-xl bg-surface-light flex items-center justify-center shrink-0"
@@ -237,13 +237,13 @@
               </span>
               <hgroup class="flex-1 text-left">
                 <p class="text-sm font-semibold text-text-primary">Notifications</p>
-                <p class="text-xs text-text-secondary">Alertes garanties, maintenance</p>
+                <p class="text-xs text-text-secondary">Bientôt disponible</p>
               </hgroup>
-              <lucide-angular
+              <!-- <lucide-angular
                 [img]="chevronRight"
                 [size]="16"
                 class="text-text-secondary shrink-0"
-              />
+              /> -->
             </button>
           </li>
         </ul>
@@ -319,5 +319,9 @@
         </ul>
       </section>
     </div>
+  </div>
+  <!-- Version -->
+  <div class="text-center mt-8">
+    <p class="text-xs text-text-secondary">Inventr v{{ version }}</p>
   </div>
 </main>
