@@ -503,7 +503,7 @@
                     @if (isWarrantyExpiringSoon(asset.warranty_end_date)) {
                       <lucide-angular [img]="triangleAlert" [size]="12" aria-hidden="true" />
                     }
-                    {{ warrantyDaysLeft }}j
+                    {{ warrantyDaysLeft }}<span class="lg:hidden">j</span><span class="hidden lg:inline"> jour(s)</span>
                   </span>
                 } @else {
                   —

@@ -306,7 +306,7 @@
                           class="inline mr-1"
                         />
                       }
-                      {{ warrantyDaysLeft(asset.warranty_end_date) }} j
+                      {{ warrantyDaysLeft(asset.warranty_end_date) }} <span class="lg:hidden">j</span><span class="hidden lg:inline"> jour(s)</span>
                     </span>
                   } @else {
                     <span class="text-text-secondary text-sm">—</span>
