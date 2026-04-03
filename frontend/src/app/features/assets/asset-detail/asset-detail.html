@@ -685,10 +685,12 @@
                       aria-hidden="true"
                     />
                   </button>
+
+                  <!--  Desktop : two separate buttons -->
                   <button
                     (click)="openDocument(doc.id)"
                     aria-label="Visualiser le document"
-                    class="p-1"
+                    class="hidden lg:block p-1"
                   >
                     <lucide-angular
                       [img]="eye"
@@ -700,10 +702,24 @@
                   <button
                     (click)="openDocument(doc.id, true)"
                     aria-label="Télécharger le document"
-                    class="p-1"
+                    class="hidden lg:block p-1"
                   >
                     <lucide-angular
                       [img]="download"
+                      [size]="16"
+                      class="text-text-secondary"
+                      aria-hidden="true"
+                    />
+                  </button>
+
+                  <!-- Mobile : single visualize button -->
+                  <button
+                    (click)="openDocument(doc.id)"
+                    aria-label="Visualiser le document"
+                    class="lg:hidden p-1"
+                  >
+                    <lucide-angular
+                      [img]="eye"
                       [size]="16"
                       class="text-text-secondary"
                       aria-hidden="true"

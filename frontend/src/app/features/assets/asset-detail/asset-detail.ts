@@ -408,26 +408,33 @@ export class AssetDetailComponent implements OnInit {
   }
 
   openDocument(documentId: string, download = false): void {
+    // Open window immediately on user gesture to avoid iOS popup blocker
+    const newWindow = !download ? window.open('', '_blank') : null;
+
     this.documentsService.getSignedUrl(this.assetId, documentId).subscribe({
       next: ({ url }) => {
-        if(download) {
+        if (download) {
           // Fetch file as blob to force download on mobile (cross-origin URLs ignore download attribute)
           fetch(url)
-          .then((res) => res.blob())
-          .then((blob) => {
-            const blobUrl = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = blobUrl;
-            a.download = documentId;
-            a.click();
-            URL.revokeObjectURL(blobUrl);
-          })
-          .catch(() => this.toastService.show('Erreur lors du téléchargement', 'error'));
+            .then((res) => res.blob())
+            .then((blob) => {
+              const blobUrl = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = blobUrl;
+              a.download = documentId;
+              a.click();
+              URL.revokeObjectURL(blobUrl);
+            })
+            .catch(() => this.toastService.show('Erreur lors du téléchargement', 'error'));
         } else {
-          window.open(url, '_blank', 'noopener,noreferrer');
+          // Set URL after async call to bypass iOS popup blocker
+          if (newWindow) newWindow.location.href = url;
         }
       },
-      error: () => this.toastService.show("Erreur lors de l'ouverture du document", 'error'),
+      error: () => {
+        newWindow?.close();
+        this.toastService.show("Erreur lors de l'ouverture du document", 'error');
+      },
     });
   }
 }
