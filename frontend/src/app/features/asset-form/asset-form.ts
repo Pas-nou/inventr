@@ -1,7 +1,14 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import {
   LucideAngularModule,
   LucideIconData,
@@ -98,7 +105,10 @@ export class AssetFormComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', Validators.required],
       category: ['', Validators.required],
-      purchase_price_cents: [null, [Validators.required, Validators.min(0)]],
+      purchase_price_cents: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(21474836)],
+      ],
       purchase_date: ['', [Validators.required, this.noFutureDate]],
       condition: [null],
       warranty_end_date: [null, this.noPastDate],

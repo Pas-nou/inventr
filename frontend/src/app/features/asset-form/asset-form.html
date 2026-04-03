@@ -145,6 +145,9 @@
           @if (form.get('purchase_price_cents')?.errors?.['min']) {
             <p class="text-error-dim text-xs mt-1">Le prix doit être positif</p>
           }
+          @if (form.get('purchase_price_cents')?.errors?.['max']) {
+            <p class="text-error-dim text-xs mt-1">Le prix ne peut pas dépasser 21 474 836 €</p>
+          }
         }
       </fieldset>
       <fieldset>
