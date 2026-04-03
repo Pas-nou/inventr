@@ -13,6 +13,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../core/services/toast.service';
 import { AssetsService } from '../../core/services/assets.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -27,6 +28,7 @@ export class ProfileComponent implements OnInit {
   readonly chevronRight = ChevronRight;
   readonly download = Download;
   readonly trash = Trash2;
+  readonly version = environment.version;
 
   firstName = '';
   lastName = '';
