@@ -130,4 +130,7 @@ export class AuthComponent {
       });
     }
   }
+  goToForgotPassword(): void {
+    void this.router.navigate(['/forgot-password']);
+  }
 }
