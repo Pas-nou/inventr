@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   LucideAngularModule,
@@ -19,8 +19,9 @@ import {
 } from 'lucide-angular';
 import { AuthService } from '../../core/services/auth.service';
 import { AssetsService, Asset } from '../../core/services/assets.service';
-import { Router, RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { AlertsStateService } from '../../core/services/alerts-state.service';
+import { Subscription, filter } from 'rxjs';
 
 const WARRANTY_ALERT_DAYS = 30;
 
@@ -30,7 +31,7 @@ const WARRANTY_ALERT_DAYS = 30;
   templateUrl: './assets.html',
   styleUrl: './assets.css',
 })
-export class AssetsComponent implements OnInit {
+export class AssetsComponent implements OnInit, OnDestroy {
   // Icons
   readonly triangleAlert = TriangleAlert;
   readonly chevronDown = ChevronDown;
@@ -48,6 +49,8 @@ export class AssetsComponent implements OnInit {
   activeCategory = 'Tous';
   isDropdownOpen = false;
   isLoading = true;
+
+  private routerSubscription?: Subscription;
 
   // Category config
   readonly categories = [
@@ -77,11 +80,30 @@ export class AssetsComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private assetsService: AssetsService,
+    private router: Router,
     private cdr: ChangeDetectorRef,
     private alertsStateService: AlertsStateService,
   ) {}
 
   ngOnInit(): void {
+    this.loadData();
+
+    // Reload data when navigating back to this page
+    this.routerSubscription = this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        filter((event) => (event as NavigationEnd).url === '/app'),
+      )
+      .subscribe(() => {
+        this.loadData();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.routerSubscription?.unsubscribe();
+  }
+
+  private loadData(): void {
     const user = this.authService.getUser();
     if (user) this.firstName = user.first_name;
 
@@ -106,12 +128,12 @@ export class AssetsComponent implements OnInit {
     this.assetsService.getStats().subscribe({
       next: (stats) => {
         this.documentsCount = stats.documentsCount;
-        this.cdr.detectChanges();   
+        this.cdr.detectChanges();
       },
       error: () => {
         this.documentsCount = 0;
         this.cdr.detectChanges();
-      }
+      },
     });
   }
 
