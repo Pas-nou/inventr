@@ -14,10 +14,11 @@ import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../core/services/toast.service';
 import { AssetsService } from '../../core/services/assets.service';
 import { environment } from '../../../environments/environment';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
-  imports: [LucideAngularModule, FormsModule, UpperCasePipe],
+  imports: [LucideAngularModule, FormsModule, UpperCasePipe, RouterLink],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
