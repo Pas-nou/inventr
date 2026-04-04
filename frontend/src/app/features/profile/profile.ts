@@ -55,6 +55,9 @@ export class ProfileComponent implements OnInit {
   isDeleting = false;
   isExporting = false;
 
+  // Export data modal
+  showExportModal = false;
+
   constructor(
     private authService: AuthService,
     private assetsService: AssetsService,
@@ -144,25 +147,6 @@ export class ProfileComponent implements OnInit {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.editEmail);
   }
 
-  exportData(): void {
-    this.isExporting = true;
-    this.authService.exportData().subscribe({
-      next: (blob: Blob) => {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `inventr-export-${Date.now()}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
-        this.isExporting = false;
-      },
-      error: () => {
-        this.toastService.show("Erreur lors de l'export", 'error');
-        this.isExporting = false;
-      },
-    });
-  }
-
   openDeleteModal(): void {
     this.deletePassword = '';
     this.showDeleteModal = true;
@@ -184,6 +168,34 @@ export class ProfileComponent implements OnInit {
         this.isDeleting = false;
         this.toastService.show('Mot de passe incorrect', 'error');
         this.cdr.detectChanges();
+      },
+    });
+  }
+
+  openExportModal(): void {
+    this.showExportModal = true;
+  }
+
+  closeExportModal(): void {
+    this.showExportModal = false;
+  }
+
+  confirmExportData(format: 'json' | 'csv' | 'xlsx'): void {
+    this.showExportModal = false;
+    this.isExporting = true;
+    this.authService.exportData(format).subscribe({
+      next: (blob: Blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `inventr-export-${Date.now()}.${format}`;
+        a.click();
+        URL.revokeObjectURL(url);
+        this.isExporting = false;
+      },
+      error: () => {
+        this.toastService.show("Erreur lors de l'export", 'error');
+        this.isExporting = false;
       },
     });
   }
