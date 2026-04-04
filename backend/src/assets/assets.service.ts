@@ -56,7 +56,7 @@ export class AssetsService {
 
     const qb = this.assetsRepository
       .createQueryBuilder('asset')
-      .where('asset.user_id = :userId', { userId })
+      .where('asset.user = :userId', { userId })
       .orderBy('asset.created_at', 'DESC')
       .skip((page - 1) * limit)
       .take(limit);
