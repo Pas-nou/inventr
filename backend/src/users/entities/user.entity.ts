@@ -11,48 +11,48 @@ import { Asset } from '../../assets/entities/asset.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ unique: true })
-  email: string;
+  email!: string;
 
   @Column()
-  password_hash: string;
+  password_hash!: string;
 
   @Column()
-  first_name: string;
+  first_name!: string;
 
   @Column()
-  last_name: string;
+  last_name!: string;
 
   @Column({
     type: 'enum',
     enum: UserRole,
     default: UserRole.USER,
   })
-  role: UserRole;
+  role!: UserRole;
 
   @Column({ nullable: true, type: 'text' })
-  refresh_token: string | null;
+  refresh_token!: string | null;
 
   @Column({ default: false })
-  email_verified: boolean;
+  email_verified!: boolean;
 
   @Column({ nullable: true, type: 'text' })
-  verification_token: string | null;
+  verification_token!: string | null;
 
   @Column({ nullable: true, type: 'timestamptz' })
-  verification_token_expires_at: Date | null;
+  verification_token_expires_at!: Date | null;
 
   @Column({ nullable: true, type: 'text' })
-  reset_password_token: string | null;
+  reset_password_token!: string | null;
 
   @Column({ nullable: true, type: 'timestamptz' })
-  reset_password_token_expires_at: Date | null;
+  reset_password_token_expires_at!: Date | null;
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at!: Date;
 
   @OneToMany(() => Asset, (asset) => asset.user)
-  assets: Asset[];
+  assets!: Asset[];
 }

@@ -38,8 +38,10 @@ export class AssetsService {
 
   constructor(private http: HttpClient) {}
 
-  getAssets(page: number = 1, limit: number = 100): Observable<AssetsResponse> {
-    return this.http.get<AssetsResponse>(`${this.apiUrl}?page=${page}&limit=${limit}`, {
+  getAssets(page: number = 1, limit: number = 100, search?: string): Observable<AssetsResponse> {
+    let url = `${this.apiUrl}?page=${page}&limit=${limit}`;
+    if (search?.trim()) url += `&search=${encodeURIComponent(search.trim())}`;
+    return this.http.get<AssetsResponse>(url, {
       headers: {
         'Cache-Control': 'no-cache',
       },

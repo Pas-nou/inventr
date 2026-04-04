@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import type { MulterFile } from 'src/common/interfaces/multer-file.interface';
+import type { MulterFile } from '../common/interfaces/multer-file.interface';
 
 @Injectable()
 export class StorageService {

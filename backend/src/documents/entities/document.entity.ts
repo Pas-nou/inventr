@@ -12,37 +12,37 @@ import { Asset } from '../../assets/entities/asset.entity';
 @Entity()
 export class Document {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ nullable: true })
-  name: string;
+  name!: string;
 
   @Column({
     nullable: true,
     type: 'enum',
     enum: DocumentType,
   })
-  type: DocumentType;
+  type!: DocumentType;
 
   @Column()
-  original_filename: string;
+  original_filename!: string;
 
   @Column()
-  mime_type: string;
+  mime_type!: string;
 
   @Column()
-  size_bytes: number;
+  size_bytes!: number;
 
   @Column({ unique: true })
-  storage_key: string;
+  storage_key!: string;
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at!: Date;
 
   @Column({ default: 'supabase' })
-  storage_provider: string;
+  storage_provider!: string;
 
   @Index()
   @ManyToOne(() => Asset, (asset) => asset.documents, { onDelete: 'CASCADE' })
-  asset: Asset;
+  asset!: Asset;
 }

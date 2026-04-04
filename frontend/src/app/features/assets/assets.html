@@ -4,12 +4,28 @@
       <p class="text-text-secondary text-sm">Bonjour 👋</p>
       <h1 class="text-3xl font-bold font-display">{{ firstName }}</h1>
     </div>
-    <button
-      routerLink="/assets/new"
-      class="hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-background text-sm font-semibold transition-opacity hover:opacity-90 cursor-pointer"
-    >
-      Ajouter un bien
-    </button>
+    <div class="hidden lg:flex items-center gap-3">
+      <!-- Desktop search -->
+      <search class="relative w-80">
+        <span
+          class="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none"
+        >
+          <lucide-angular [img]="searchIcon" [size]="16" />
+        </span>
+        <input
+          type="search"
+          [formControl]="searchControl"
+          placeholder="Rechercher un bien..."
+          class="w-full bg-surface border border-border rounded-xl pl-9 pr-4 py-2.5 text-sm text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors"
+        />
+      </search>
+      <button
+        routerLink="/assets/new"
+        class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-background text-sm font-semibold transition-opacity hover:opacity-90 cursor-pointer"
+      >
+        Ajouter un bien
+      </button>
+    </div>
   </header>
 
   @if (isLoading) {
@@ -178,6 +194,21 @@
         }
       </div>
     </section>
+
+    <!-- Mobile search -->
+    <search class="relative mb-4 lg:hidden">
+      <span
+        class="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none"
+      >
+        <lucide-angular [img]="searchIcon" [size]="16" />
+      </span>
+      <input
+        type="search"
+        [formControl]="searchControl"
+        placeholder="Rechercher un bien..."
+        class="w-full bg-surface border border-border rounded-xl pl-9 pr-4 py-2.5 text-sm text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-primary transition-colors"
+      />
+    </search>
 
     <!-- * Assets list -->
 

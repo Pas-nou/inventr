@@ -17,53 +17,54 @@ import { MaintenanceEvent } from '../../maintenance-events/entities/maintenance-
 @Entity()
 export class Asset {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
+  @Index()
   @Column()
-  name: string;
+  name!: string;
 
   @Column({
     type: 'enum',
     enum: AssetCategory,
     default: AssetCategory.OTHER,
   })
-  category: AssetCategory;
+  category!: AssetCategory;
 
   @Column()
-  purchase_date: Date;
+  purchase_date!: Date;
 
   @Column()
-  purchase_price_cents: number;
+  purchase_price_cents!: number;
 
   @Column({
     type: 'enum',
     nullable: true,
     enum: AssetCondition,
   })
-  condition: AssetCondition;
+  condition!: AssetCondition;
 
   @Column({ nullable: true })
-  notes: string;
+  notes!: string;
 
   @Column({ nullable: true })
-  warranty_end_date: Date;
+  warranty_end_date!: Date;
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at!: Date;
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updated_at!: Date;
 
   @Index()
   @ManyToOne(() => User, (user) => user.assets, { onDelete: 'CASCADE' })
-  user: User;
+  user!: User;
 
   @OneToMany(() => Document, (document) => document.asset)
-  documents: Document[];
+  documents!: Document[];
 
   @OneToMany(
     () => MaintenanceEvent,
     (maintenanceEvent) => maintenanceEvent.asset,
   )
-  maintenanceEvents: MaintenanceEvent[];
+  maintenanceEvents!: MaintenanceEvent[];
 }
