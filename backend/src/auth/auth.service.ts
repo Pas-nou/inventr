@@ -15,6 +15,7 @@ import { User } from '../users/entities/user.entity';
 import { EmailService } from '../email/email.service';
 import type { StringValue } from 'ms';
 import { StorageService } from '../storage/storage.service';
+import * as ExcelJS from 'exceljs';
 
 @Injectable()
 export class AuthService {
@@ -325,6 +326,125 @@ export class AuthService {
         })),
       })),
     };
+  }
+
+  async exportUserDataAsCSV(userId: string): Promise<string> {
+    const data = await this.exportUserData(userId);
+
+    const lines: string[] = [];
+
+    // Profile
+    lines.push('PROFIL');
+    lines.push('Email,Prénom,Nom,Inscrit le');
+    lines.push(
+      `${data.profil.email},${data.profil.prenom},${data.profil.nom},${data.profil.inscritLe instanceof Date ? data.profil.inscritLe.toISOString() : data.profil.inscritLe}`,
+    );
+    lines.push('');
+
+    // Assets
+    lines.push('BIENS');
+    lines.push(
+      'Nom,Catégorie,Date achat,Prix achat (€),État,Fin garantie,Notes',
+    );
+    for (const bien of data.biens) {
+      lines.push(
+        [
+          bien.nom ?? '',
+          bien.categorie ?? '',
+          bien.dateAchat ?? '',
+          bien.prixAchat ?? '',
+          bien.etat ?? '',
+          bien.finGarantie ?? '',
+          (bien.notes ?? '').replace(/,/g, ';'),
+        ].join(','),
+      );
+    }
+    lines.push('');
+
+    // Events
+    lines.push('ÉVÉNEMENTS DE MAINTENANCE');
+    lines.push('Bien,Nom,Type,Date,Coût (€),Notes,Prochaine échéance');
+    for (const bien of data.biens) {
+      for (const ev of bien.evenementsMaintenance) {
+        lines.push(
+          [
+            bien.nom ?? '',
+            ev.nom ?? '',
+            ev.type ?? '',
+            ev.date ?? '',
+            ev.cout ?? '',
+            (ev.notes ?? '').replace(/,/g, ';'),
+            ev.prochaineEcheance ?? '',
+          ].join(','),
+        );
+      }
+    }
+
+    return lines.join('\n');
+  }
+
+  async exportUserDataAsXLSX(userId: string): Promise<ArrayBuffer> {
+    const data = await this.exportUserData(userId);
+    const workbook = new ExcelJS.Workbook();
+
+    // Profile
+    const profilSheet = workbook.addWorksheet('Profil');
+    profilSheet.addRow(['Email', 'Prénom', 'Nom', 'Inscrit le']);
+    profilSheet.addRow([
+      data.profil.email,
+      data.profil.prenom,
+      data.profil.nom,
+      data.profil.inscritLe,
+    ]);
+
+    // Assets
+    const biensSheet = workbook.addWorksheet('Biens');
+    biensSheet.addRow([
+      'Nom',
+      'Catégorie',
+      'Date achat',
+      'Prix achat (€)',
+      'État',
+      'Fin garantie',
+      'Notes',
+    ]);
+    for (const bien of data.biens) {
+      biensSheet.addRow([
+        bien.nom,
+        bien.categorie,
+        bien.dateAchat,
+        bien.prixAchat,
+        bien.etat,
+        bien.finGarantie,
+        bien.notes,
+      ]);
+    }
+
+    // Events
+    const maintenanceSheet = workbook.addWorksheet('Maintenance');
+    maintenanceSheet.addRow([
+      'Bien',
+      'Nom',
+      'Type',
+      'Date',
+      'Coût (€)',
+      'Notes',
+      'Prochaine échéance',
+    ]);
+    for (const bien of data.biens) {
+      for (const ev of bien.evenementsMaintenance) {
+        maintenanceSheet.addRow([
+          bien.nom,
+          ev.nom,
+          ev.type,
+          ev.date,
+          ev.cout,
+          ev.notes,
+          ev.prochaineEcheance,
+        ]);
+      }
+    }
+    return workbook.xlsx.writeBuffer() as Promise<ArrayBuffer>;
   }
 
   /**
