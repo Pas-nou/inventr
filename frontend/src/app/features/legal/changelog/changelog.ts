@@ -1,22 +1,22 @@
 import { Component, HostListener } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { LucideAngularModule, ArrowLeft, ChevronUp } from 'lucide-angular';
+import { RouterLink } from '@angular/router';
 import { FooterComponent } from '../../../shared/components/footer/footer';
 
 @Component({
-  selector: 'app-privacy-policy',
-  imports: [RouterLink, LucideAngularModule, FooterComponent],
-  templateUrl: './privacy-policy.html',
-  styleUrl: './privacy-policy.css',
+  selector: 'app-changelog',
+  imports: [LucideAngularModule, RouterLink, FooterComponent],
+  templateUrl: './changelog.html',
+  styleUrl: './changelog.css',
 })
-export class PrivacyPolicyComponent {
+export class ChangelogComponent {
   readonly arrowLeft = ArrowLeft;
   readonly chevronUp = ChevronUp;
   showScrollTop = false;
 
   @HostListener('window:scroll')
   onScroll(): void {
-    this.showScrollTop = window.scrollY > 50;
+    this.showScrollTop = window.scrollY > 400;
   }
 
   scrollToTop(): void {
