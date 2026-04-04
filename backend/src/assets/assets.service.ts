@@ -46,14 +46,26 @@ export class AssetsService {
   /**
    * Returns a paginated list of assets for a given user, ordered by creation date.
    */
-  async findAll(userId: string, page: number = 1, limit: number = 10) {
+  async findAll(
+    userId: string,
+    page: number = 1,
+    limit: number = 10,
+    search?: string,
+  ) {
     limit = Math.min(limit, 100);
-    const [data, total] = await this.assetsRepository.findAndCount({
-      where: { user: { id: userId } },
-      skip: (page - 1) * limit,
-      take: limit,
-      order: { created_at: 'DESC' },
-    });
+
+    const qb = this.assetsRepository
+      .createQueryBuilder('asset')
+      .where('asset.user_id = :userId', { userId })
+      .orderBy('asset.created_at', 'DESC')
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    if (search?.trim()) {
+      qb.andWhere('asset.name ILIKE :search', { search: `%${search.trim()}%` });
+    }
+
+    const [data, total] = await qb.getManyAndCount();
 
     return {
       data,
