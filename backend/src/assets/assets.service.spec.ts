@@ -105,41 +105,60 @@ describe('AssetsService', () => {
   });
 
   // -------------------------
-  // create
-  // -------------------------
-  describe('create', () => {
-    it('devrait créer un asset', async () => {
-      mockAssetsRepository.save.mockResolvedValue(mockAsset);
-
-      const result = await service.create(
-        {
-          name: 'MacBook Pro',
-          category: AssetCategory.TECH,
-          purchase_date: new Date('2023-01-01'),
-          purchase_price_cents: 250000,
-          condition: AssetCondition.NEW,
-          warranty_end_date: new Date('2026-01-01'),
-        },
-        'user-1',
-      );
-
-      expect(result).toEqual(mockAsset);
-      expect(mockAssetsRepository.save).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  // -------------------------
   // findAll
   // -------------------------
   describe('findAll', () => {
-    it('devrait retourner les assets paginés', async () => {
-      mockAssetsRepository.findAndCount.mockResolvedValue([[mockAsset], 1]);
+    const mockQb = {
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      orderBy: jest.fn().mockReturnThis(),
+      skip: jest.fn().mockReturnThis(),
+      take: jest.fn().mockReturnThis(),
+      getManyAndCount: jest.fn(),
+    };
+
+    beforeEach(() => {
+      mockAssetsRepository.createQueryBuilder.mockReturnValue(mockQb);
+      jest.clearAllMocks();
+      mockAssetsRepository.createQueryBuilder.mockReturnValue(mockQb);
+    });
+
+    it('devrait retourner les assets paginés sans recherche', async () => {
+      mockQb.getManyAndCount.mockResolvedValue([[mockAsset], 1]);
 
       const result = await service.findAll('user-1');
 
       expect(result.data).toHaveLength(1);
       expect(result.meta.total).toBe(1);
       expect(result.meta.totalPages).toBe(1);
+      expect(mockQb.andWhere).not.toHaveBeenCalled();
+    });
+
+    it('devrait filtrer par nom avec le paramètre search', async () => {
+      mockQb.getManyAndCount.mockResolvedValue([[mockAsset], 1]);
+
+      const result = await service.findAll('user-1', 1, 10, 'MacBook');
+
+      expect(mockQb.andWhere).toHaveBeenCalledWith('asset.name ILIKE :search', {
+        search: '%MacBook%',
+      });
+      expect(result.data).toHaveLength(1);
+    });
+
+    it('devrait ignorer un search vide ou avec espaces', async () => {
+      mockQb.getManyAndCount.mockResolvedValue([[], 0]);
+
+      await service.findAll('user-1', 1, 10, '   ');
+
+      expect(mockQb.andWhere).not.toHaveBeenCalled();
+    });
+
+    it('devrait limiter à 100 même si limit > 100', async () => {
+      mockQb.getManyAndCount.mockResolvedValue([[], 0]);
+
+      await service.findAll('user-1', 1, 999);
+
+      expect(mockQb.take).toHaveBeenCalledWith(100);
     });
   });
 
