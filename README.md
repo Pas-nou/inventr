@@ -9,6 +9,7 @@
 ## Fonctionnalités
 
 - 📦 Inventaire de biens (nom, catégorie, valeur, date d'achat, garantie)
+- 🔍 Recherche de biens par nom (temps réel, optimisée)
 - 📄 Gestion de documents (factures, manuels, certificats)
 - 🔔 Alertes de garanties expirant bientôt
 - 🔐 Authentification sécurisée (JWT, vérification email)
