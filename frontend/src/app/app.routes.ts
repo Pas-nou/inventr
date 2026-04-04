@@ -81,6 +81,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/legal/contact/contact').then((m) => m.ContactComponent),
   },
   {
+    path: 'changelog',
+    loadComponent: () => import('./features/legal/changelog/changelog').then((m) => m.ChangelogComponent),
+  },
+  {
     path: '**',
     component: NotFoundComponent,
   },
