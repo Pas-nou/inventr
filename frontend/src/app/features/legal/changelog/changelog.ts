@@ -3,7 +3,6 @@ import { LucideAngularModule, ArrowLeft, ChevronUp } from 'lucide-angular';
 import { RouterLink } from '@angular/router';
 import { FooterComponent } from '../../../shared/components/footer/footer';
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar';
-import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-changelog',
@@ -15,12 +14,6 @@ export class ChangelogComponent {
   readonly arrowLeft = ArrowLeft;
   readonly chevronUp = ChevronUp;
   showScrollTop = false;
-
-  constructor(private authService: AuthService) {}
-
-  get isLoggedIn(): boolean {
-    return this.authService.isAuthenticated();
-  }
 
   @HostListener('window:scroll')
   onScroll(): void {

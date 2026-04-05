@@ -3,12 +3,18 @@
   class="blob-teal fixed top-10 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
 ></span>
 
-<main
-  class="pt-24 max-w-4xl mx-auto px-4 lg:px-8 py-12"
-  [class.lg:pl-68]="isLoggedIn"
-  [class.pt-24]="!isLoggedIn"
-  [class.pt-8]="isLoggedIn"
->
+<main class="pt-6 lg:pt-12 px-4 lg:px-8 pb-24 lg:pb-12 max-w-4xl mx-auto">
+  <!-- Mobile back button (connected only) -->
+  <div class="lg:hidden mb-6">
+    <a
+      routerLink="/profile"
+      class="inline-flex items-center gap-2 text-text-secondary text-sm hover:text-text-primary transition-colors"
+    >
+      <lucide-angular [img]="arrowLeft" [size]="16" aria-hidden="true" />
+      Retour
+    </a>
+  </div>
+
   <h1 class="text-3xl font-bold font-display mb-2">Nouveautés</h1>
   <p class="text-text-secondary mb-10">Historique des nouveautés et améliorations d'Inventr.</p>
 
