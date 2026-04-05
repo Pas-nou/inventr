@@ -81,6 +81,13 @@
       >Nouveautés</a
     >
     <a
+      routerLink="/roadmap"
+      class="text-xs text-text-secondary hover:text-text-primary transition-colors px-2 py-1"
+      [class.text-primary]="isActive('/roadmap')"
+      [class.text-text-secondary]="!isActive('/roadmap')"
+      >Roadmap</a
+    >
+    <a
       routerLink="/mentions-legales"
       class="text-xs text-text-secondary hover:text-text-primary transition-colors px-2 py-1"
       [class.text-primary]="isActive('/mentions-legales')"

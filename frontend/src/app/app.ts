@@ -70,6 +70,7 @@ export class App {
       '/politique-confidentialite',
       '/contact',
       '/changelog',
+      '/roadmap',
     ];
     return !this.isLoggedIn && footerRoutes.some((route) => this.router.url.startsWith(route));
   }
@@ -80,6 +81,7 @@ export class App {
       '/politique-confidentialite',
       '/contact',
       '/changelog',
+      '/roadmap',
     ];
     return !this.isLoggedIn && publicNavRoutes.some((route) => this.router.url.startsWith(route));
   }
