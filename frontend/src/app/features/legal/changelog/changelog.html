@@ -3,25 +3,18 @@
   class="blob-teal fixed top-10 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
 ></span>
 
-<!-- Navbar -->
-<nav
-  class="fixed top-0 left-0 right-0 z-50 px-4 lg:px-8 bg-background/80 backdrop-blur-md border-b border-border"
->
-  <div class="max-w-6xl mx-auto h-16 flex items-center justify-between">
+<main class="pt-6 lg:pt-12 px-4 lg:px-8 pb-24 lg:pb-12 max-w-4xl mx-auto">
+  <!-- Mobile back button (connected only) -->
+  <div class="lg:hidden mb-6">
     <a
-      routerLink="/"
-      class="flex items-center gap-2 text-text-secondary text-sm hover:text-text-primary transition-colors"
+      routerLink="/profile"
+      class="inline-flex items-center gap-2 text-text-secondary text-sm hover:text-text-primary transition-colors"
     >
       <lucide-angular [img]="arrowLeft" [size]="16" aria-hidden="true" />
       Retour
     </a>
-    <a routerLink="/" class="text-2xl font-bold font-display text-text-primary">
-      Invent<span class="text-primary">r</span>
-    </a>
   </div>
-</nav>
 
-<main class="pt-24 max-w-4xl mx-auto px-4 lg:px-8 py-12">
   <h1 class="text-3xl font-bold font-display mb-2">Nouveautés</h1>
   <p class="text-text-secondary mb-10">Historique des nouveautés et améliorations d'Inventr.</p>
 
@@ -42,8 +35,8 @@
             >Nouveauté</span
           >
           <div>
-            <p class="text-sm font-semibold text-text-primary">Recherche de biens</p>
-            <p class="text-sm text-text-secondary">
+            <p class="text-base font-semibold text-text-primary">Recherche de biens</p>
+            <p class="text-base text-text-secondary">
               Trouvez rapidement un bien par son nom grâce à la barre de recherche intégrée à
               l'inventaire.
             </p>
@@ -59,8 +52,8 @@
             >Nouveauté</span
           >
           <div>
-            <p class="text-sm font-semibold text-text-primary">Export CSV et Excel</p>
-            <p class="text-sm text-text-secondary">
+            <p class="text-base font-semibold text-text-primary">Export CSV et Excel</p>
+            <p class="text-base text-text-secondary">
               Exportez vos données au format JSON, CSV ou Excel (XLSX) depuis votre profil.
             </p>
             <p class="text-xs text-text-secondary mt-1 opacity-60">
@@ -70,16 +63,55 @@
         </li>
         <li class="flex gap-3">
           <span
+            class="shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full bg-primary-dim text-primary h-fit mt-0.5"
+            >Nouveauté</span
+          >
+          <div>
+            <p class="text-base font-semibold text-text-primary">Page "Nouveautés"</p>
+            <p class="text-base text-text-secondary">
+              Retrouvez l'historique de toutes les versions et améliorations d'Inventr.
+            </p>
+          </div>
+        </li>
+        <li class="flex gap-3">
+          <span
+            class="shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full bg-primary-dim text-primary h-fit mt-0.5"
+            >Nouveauté</span
+          >
+          <div>
+            <p class="text-base font-semibold text-text-primary">Page "Roadmap"</p>
+            <p class="text-base text-text-secondary">
+              Découvrez les prochaines fonctionnalités prévues et les idées à l'étude pour Inventr.
+            </p>
+          </div>
+        </li>
+        <li class="flex gap-3">
+          <span
             class="shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full bg-surface-light text-text-secondary h-fit mt-0.5"
             >Amélioration</span
           >
           <div>
-            <p class="text-sm font-semibold text-text-primary">
+            <p class="text-base font-semibold text-text-primary">
               Liens légaux accessibles depuis l'app
             </p>
-            <p class="text-sm text-text-secondary">
+            <p class="text-base text-text-secondary">
               Mentions légales, politique de confidentialité et contact sont désormais accessibles
               depuis la sidebar desktop et la page profil mobile.
+            </p>
+          </div>
+        </li>
+        <li class="flex gap-3">
+          <span
+            class="shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full bg-surface-light text-text-secondary h-fit mt-0.5"
+            >Amélioration</span
+          >
+          <div>
+            <p class="text-base font-semibold text-text-primary">
+              Layout adaptatif selon la connexion
+            </p>
+            <p class="text-base text-text-secondary">
+              Les pages légales affichent automatiquement la sidebar et la bottom navbar quand vous
+              êtes connecté.
             </p>
           </div>
         </li>
@@ -101,8 +133,8 @@
             >Correction</span
           >
           <div>
-            <p class="text-sm font-semibold text-text-primary">Page noire sur iOS</p>
-            <p class="text-sm text-text-secondary">
+            <p class="text-base font-semibold text-text-primary">Page noire sur iOS</p>
+            <p class="text-base text-text-secondary">
               Correction d'un bug empêchant l'affichage de certaines pages sur Safari et en mode PWA
               sur iPhone.
             </p>
@@ -118,8 +150,8 @@
             >Amélioration</span
           >
           <div>
-            <p class="text-sm font-semibold text-text-primary">Performances PWA</p>
-            <p class="text-sm text-text-secondary">
+            <p class="text-base font-semibold text-text-primary">Performances PWA</p>
+            <p class="text-base text-text-secondary">
               Le service worker ne met plus en cache les appels API, garantissant des données
               toujours à jour.
             </p>
@@ -150,8 +182,8 @@
             >Nouveauté</span
           >
           <div>
-            <p class="text-sm font-semibold text-text-primary">Lancement d'Inventr 🎉</p>
-            <p class="text-sm text-text-secondary">
+            <p class="text-base font-semibold text-text-primary">Lancement d'Inventr 🎉</p>
+            <p class="text-base text-text-secondary">
               Première version publique de l'application de gestion de patrimoine personnel.
             </p>
           </div>
@@ -162,8 +194,8 @@
             >Nouveauté</span
           >
           <div>
-            <p class="text-sm font-semibold text-text-primary">Gestion des biens</p>
-            <p class="text-sm text-text-secondary">
+            <p class="text-base font-semibold text-text-primary">Gestion des biens</p>
+            <p class="text-base text-text-secondary">
               Ajout, édition et suppression de biens avec catégorie, valeur, date d'achat et
               garantie.
             </p>
@@ -175,8 +207,8 @@
             >Nouveauté</span
           >
           <div>
-            <p class="text-sm font-semibold text-text-primary">Documents et maintenance</p>
-            <p class="text-sm text-text-secondary">
+            <p class="text-base font-semibold text-text-primary">Documents et maintenance</p>
+            <p class="text-base text-text-secondary">
               Upload de documents (factures, manuels) et suivi des événements de maintenance.
             </p>
           </div>
@@ -187,8 +219,8 @@
             >Nouveauté</span
           >
           <div>
-            <p class="text-sm font-semibold text-text-primary">Authentification sécurisée</p>
-            <p class="text-sm text-text-secondary">
+            <p class="text-base font-semibold text-text-primary">Authentification sécurisée</p>
+            <p class="text-base text-text-secondary">
               Inscription, connexion avec vérification d'email, réinitialisation de mot de passe et
               JWT.
             </p>
@@ -200,8 +232,8 @@
             >Nouveauté</span
           >
           <div>
-            <p class="text-sm font-semibold text-text-primary">PWA installable</p>
-            <p class="text-sm text-text-secondary">
+            <p class="text-base font-semibold text-text-primary">PWA installable</p>
+            <p class="text-base text-text-secondary">
               Application installable sur iOS et Android, utilisable comme une app native.
             </p>
           </div>
@@ -219,6 +251,3 @@
     </button>
   }
 </main>
-
-<!-- *Footer -->
-<app-footer />

@@ -15,6 +15,8 @@
 - 🔐 Authentification sécurisée (JWT, vérification email)
 - 📱 PWA mobile-first, installable sur iOS et Android
 - 🔒 Conformité RGPD (export JSON/CSV/XLSX et suppression de données)
+- 🗺️ Roadmap publique et historique des versions (changelog)
+
 
 ---
 

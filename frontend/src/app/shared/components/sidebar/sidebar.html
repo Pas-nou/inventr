@@ -76,11 +76,22 @@
     <a
       routerLink="/changelog"
       class="text-xs text-text-secondary hover:text-text-primary transition-colors px-2 py-1"
+      [class.text-primary]="isActive('/changelog')"
+      [class.text-text-secondary]="!isActive('/changelog')"
       >Nouveautés</a
+    >
+    <a
+      routerLink="/roadmap"
+      class="text-xs text-text-secondary hover:text-text-primary transition-colors px-2 py-1"
+      [class.text-primary]="isActive('/roadmap')"
+      [class.text-text-secondary]="!isActive('/roadmap')"
+      >Roadmap</a
     >
     <a
       routerLink="/mentions-legales"
       class="text-xs text-text-secondary hover:text-text-primary transition-colors px-2 py-1"
+      [class.text-primary]="isActive('/mentions-legales')"
+      [class.text-text-secondary]="!isActive('/mentions-legales')"
     >
       Mentions légales
     </a>
@@ -88,6 +99,8 @@
     <a
       routerLink="/politique-confidentialite"
       class="text-xs text-text-secondary hover:text-text-primary transition-colors px-2 py-1"
+      [class.text-primary]="isActive('/politique-confidentialite')"
+      [class.text-text-secondary]="!isActive('/politique-confidentialite')"
     >
       Politique de confidentialité
     </a>
@@ -95,6 +108,8 @@
     <a
       routerLink="/contact"
       class="text-xs text-text-secondary hover:text-text-primary transition-colors px-2 py-1"
+      [class.text-primary]="isActive('/contact')"
+      [class.text-text-secondary]="!isActive('/contact')"
     >
       Contact
     </a>
@@ -122,4 +137,6 @@
       </button>
     </div>
   </div>
+  <!-- Copyright -->
+  <p class="text-xs text-text-secondary text-center pb-3">© 2026 Inventr</p>
 </aside>

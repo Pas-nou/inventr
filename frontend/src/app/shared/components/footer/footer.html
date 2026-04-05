@@ -12,6 +12,13 @@
         >Nouveautés</a
       >
       <a
+        routerLink="/roadmap"
+        [class.text-primary]="isActive('/roadmap')"
+        [class.text-text-secondary]="!isActive('/roadmap')"
+        class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+        >Roadmap</a
+      >
+      <a
         routerLink="/mentions-legales"
         [class.text-primary]="isActive('/mentions-legales')"
         [class.text-text-secondary]="!isActive('/mentions-legales')"
