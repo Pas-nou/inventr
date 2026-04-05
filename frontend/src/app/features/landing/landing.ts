@@ -10,10 +10,11 @@ import {
   ChevronUp,
 } from 'lucide-angular';
 import { Meta, Title } from '@angular/platform-browser';
+import { FooterComponent } from '../../shared/components/footer/footer';
 
 @Component({
   selector: 'app-landing',
-  imports: [RouterLink, LucideAngularModule],
+  imports: [RouterLink, LucideAngularModule, FooterComponent],
   templateUrl: './landing.html',
   styleUrl: './landing.css',
 })

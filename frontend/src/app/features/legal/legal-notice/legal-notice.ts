@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LucideAngularModule, ArrowLeft, ChevronUp } from 'lucide-angular';
+import { LucideAngularModule, ChevronUp } from 'lucide-angular';
 import { FooterComponent } from '../../../shared/components/footer/footer';
 
 @Component({
@@ -10,7 +10,6 @@ import { FooterComponent } from '../../../shared/components/footer/footer';
   styleUrl: './legal-notice.css',
 })
 export class LegalNoticeComponent {
-  readonly arrowLeft = ArrowLeft;
   readonly chevronUp = ChevronUp;
   showScrollTop = false;
 
