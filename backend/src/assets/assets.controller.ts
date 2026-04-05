@@ -41,8 +41,9 @@ export class AssetsController {
     @Request() req: RequestWithUser,
     @Query('page', new ParseIntPipe({ optional: true })) page: number = 1,
     @Query('limit', new ParseIntPipe({ optional: true })) limit: number = 10,
+    @Query('search') search?: string,
   ) {
-    return this.assetsService.findAll(req.user.userId, page, limit);
+    return this.assetsService.findAll(req.user.userId, page, limit, search);
   }
 
   @Get('stats')

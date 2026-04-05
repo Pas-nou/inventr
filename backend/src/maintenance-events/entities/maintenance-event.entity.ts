@@ -12,36 +12,36 @@ import { Asset } from '../../assets/entities/asset.entity';
 @Entity()
 export class MaintenanceEvent {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({
     type: 'enum',
     enum: MaintenanceEventType,
     default: MaintenanceEventType.OTHER,
   })
-  type: MaintenanceEventType;
+  type!: MaintenanceEventType;
 
   @Column()
-  name: string;
+  name!: string;
 
   @Column()
-  date: Date;
+  date!: Date;
 
   @Column({ nullable: true })
-  cost_cents: number;
+  cost_cents!: number;
 
   @Column({ nullable: true })
-  notes: string;
+  notes!: string;
 
   @Column({ nullable: true })
-  next_due_date: Date;
+  next_due_date!: Date;
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at!: Date;
 
   @Index()
   @ManyToOne(() => Asset, (asset) => asset.maintenanceEvents, {
     onDelete: 'CASCADE',
   })
-  asset: Asset;
+  asset!: Asset;
 }

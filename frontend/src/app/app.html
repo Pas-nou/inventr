@@ -8,6 +8,14 @@
   <app-navbar />
 }
 
+@if (showPublicNavbar) {
+  <app-navbar-public />
+}
+
 <div [class.lg:ml-60]="showSidebar">
   <router-outlet />
 </div>
+
+@if (showFooter) {
+  <app-footer />
+}

@@ -1,16 +1,17 @@
 import { Component, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LucideAngularModule, ArrowLeft, ChevronUp } from 'lucide-angular';
+import { LucideAngularModule, ChevronUp, ArrowLeft } from 'lucide-angular';
+import { FooterComponent } from '../../../shared/components/footer/footer';
 
 @Component({
   selector: 'app-privacy-policy',
-  imports: [RouterLink, LucideAngularModule],
+  imports: [RouterLink, LucideAngularModule, FooterComponent],
   templateUrl: './privacy-policy.html',
   styleUrl: './privacy-policy.css',
 })
 export class PrivacyPolicyComponent {
-  readonly arrowLeft = ArrowLeft;
   readonly chevronUp = ChevronUp;
+  readonly arrowLeft = ArrowLeft;
   showScrollTop = false;
 
   @HostListener('window:scroll')

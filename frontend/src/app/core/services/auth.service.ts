@@ -128,8 +128,8 @@ export class AuthService {
     );
   }
 
-  exportData(): Observable<Blob> {
-    return this.http.get(`${this.apiUrl}/export`, {
+  exportData(format: 'json' | 'csv' | 'xlsx' = 'json'): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/export?format=${format}`, {
       responseType: 'blob',
     });
   }

@@ -2,19 +2,20 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { LucideAngularModule, ArrowLeft, ChevronUp, Send } from 'lucide-angular';
+import { LucideAngularModule, ChevronUp, Send, ArrowLeft } from 'lucide-angular';
 import { environment } from '../../../../environments/environment';
+import { FooterComponent } from '../../../shared/components/footer/footer';
 
 @Component({
   selector: 'app-contact',
-  imports: [RouterLink, LucideAngularModule, ReactiveFormsModule],
+  imports: [RouterLink, LucideAngularModule, ReactiveFormsModule, FooterComponent],
   templateUrl: './contact.html',
   styleUrl: './contact.css',
 })
 export class ContactComponent {
-  readonly arrowLeft = ArrowLeft;
   readonly chevronUp = ChevronUp;
   readonly send = Send;
+  readonly arrowLeft = ArrowLeft;
 
   isSubmitting = false;
   success = false;

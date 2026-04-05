@@ -1,0 +1,252 @@
+<!-- Teal blur background -->
+<span
+  class="blob-teal fixed top-10 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
+></span>
+
+<main class="pt-6 lg:pt-12 px-4 lg:px-8 pb-24 lg:pb-12 max-w-4xl mx-auto">
+  <!-- Mobile back button -->
+  <div class="lg:hidden mb-6">
+    <a
+      routerLink="/profile"
+      class="inline-flex items-center gap-2 text-text-secondary text-sm hover:text-text-primary transition-colors"
+    >
+      <lucide-angular [img]="arrowLeft" [size]="16" aria-hidden="true" />
+      Retour
+    </a>
+  </div>
+
+  <h1 class="text-3xl font-bold font-display mb-2">Roadmap</h1>
+  <p class="text-text-secondary mb-10">
+    Les prochaines évolutions d'Inventr. Sujet à changements selon les retours utilisateurs.
+  </p>
+
+  <!-- Kanban -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- En cours -->
+    <div class="flex flex-col gap-4">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="w-2 h-2 rounded-full bg-primary"></span>
+        <h2 class="text-sm font-bold uppercase tracking-widest text-text-primary">En cours</h2>
+      </div>
+      <ul class="flex flex-col gap-3">
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Photos de biens</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Ajoutez des photos à vos biens pour un inventaire encore plus complet.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Onboarding</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Guide de démarrage pour les nouveaux utilisateurs.
+          </p>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Prévu -->
+    <div class="flex flex-col gap-4">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+        <h2 class="text-sm font-bold uppercase tracking-widest text-text-primary">Prévu</h2>
+      </div>
+      <ul class="flex flex-col gap-3">
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Rappels push garantie</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Notifications push avant l'expiration d'une garantie.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Tri de l'inventaire</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Triez vos biens par nom, valeur, date d'achat ou catégorie.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Partage fiche PDF</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Exportez la fiche d'un bien en PDF pour la partager.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Import CSV</p>
+          <p class="text-xs text-text-secondary mt-1">Importez vos biens depuis un fichier CSV.</p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Mode hors ligne</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Consultez votre inventaire même sans connexion internet.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">
+            Modification / suppression événements maintenance
+          </p>
+          <p class="text-xs text-text-secondary mt-1">
+            Éditez ou supprimez vos événements de maintenance existants.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Pagination assets</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Chargement optimisé pour les grands inventaires.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Validations avancées formulaires</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Contrôles de saisie plus précis pour éviter les erreurs.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Compression documents</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Réduction automatique de la taille des documents uploadés.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Notification nouvelle version</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Soyez informé des nouvelles fonctionnalités disponibles dès leur déploiement.
+          </p>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Idées -->
+    <div class="flex flex-col gap-4">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="w-2 h-2 rounded-full bg-text-secondary"></span>
+        <h2 class="text-sm font-bold uppercase tracking-widest text-text-primary">Idées</h2>
+      </div>
+      <ul class="flex flex-col gap-3">
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">IA : estimation valeur actuelle</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Comparaison avec le prix du marché pour estimer la valeur actuelle de vos biens.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">IA : amortissement</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Calcul de la dépréciation de vos biens sur le long terme.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">IA : détection catégorie</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Catégorisation automatique à partir d'une photo du bien.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Scan de facture (OCR)</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Remplissage automatique du formulaire à partir d'une photo de facture.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Mode famille</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Partagez votre inventaire avec vos proches, avec gestion des rôles et transfert de
+            biens.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">OAuth Google / Apple</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Connexion rapide avec votre compte Google ou Apple.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Statistiques patrimoine</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Graphiques et analyses de l'évolution de votre patrimoine.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Gestion fournisseurs</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Associez vos biens à leurs fournisseurs et gérez vos contacts SAV.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Champs personnalisables</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Ajoutez vos propres champs à la fiche d'un bien.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">CalDAV sync</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Synchronisez vos rappels de maintenance avec votre calendrier.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Intégration ManualsLib</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Trouvez automatiquement le manuel de vos biens.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Version desktop</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Application native desktop via Electron ou Tauri.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Thème clair</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Mode clair en complément du mode sombre actuel.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Rapport mensuel par email</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Résumé mensuel de votre patrimoine directement dans votre boîte mail.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Tags libres</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Organisez vos biens avec des tags personnalisés.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Google Analytics</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Suivi des usages avec bandeau de consentement RGPD.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">SEO avancé</p>
+          <p class="text-xs text-text-secondary mt-1">
+            og:image, sitemap.xml, JSON-LD structured data.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Cache Redis</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Mise en cache côté serveur pour des performances optimales.
+          </p>
+        </li>
+        <li class="bg-surface border border-border rounded-2xl p-4">
+          <p class="text-sm font-semibold text-text-primary">Discord feedback</p>
+          <p class="text-xs text-text-secondary mt-1">
+            Canal Discord pour recueillir les retours utilisateurs en temps réel.
+          </p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  @if (showScrollTop) {
+    <button
+      (click)="scrollToTop()"
+      class="fixed bottom-8 right-8 z-50 w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-lg transition-opacity hover:opacity-90"
+      aria-label="Retour en haut"
+    >
+      <lucide-angular [img]="chevronUp" [size]="20" class="text-background" aria-hidden="true" />
+    </button>
+  }
+</main>

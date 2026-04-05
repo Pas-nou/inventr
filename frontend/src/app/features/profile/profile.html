@@ -163,6 +163,60 @@
   </div>
 }
 
+<!-- * Export modal -->
+@if (showExportModal) {
+  <div class="modal-overlay" (click)="closeExportModal()" aria-hidden="true">
+    <dialog
+      open
+      class="modal-dialog"
+      (click)="$event.stopPropagation()"
+      aria-labelledby="export-modal-title"
+    >
+      <hgroup>
+        <p id="export-modal-title" class="text-lg font-bold text-text-primary">Exporter mes données</p>
+        <p class="text-sm text-text-secondary mt-1">Choisissez le format d'export</p>
+      </hgroup>
+
+      <div class="flex flex-col gap-3">
+        <button
+          (click)="confirmExportData('json')"
+          class="w-full bg-surface border border-border rounded-2xl p-4 flex items-center gap-4 transition-colors hover:border-primary"
+        >
+          <hgroup class="flex-1 text-left">
+            <p class="text-sm font-semibold text-text-primary">JSON</p>
+            <p class="text-xs text-text-secondary">Format structuré, idéal pour les développeurs</p>
+          </hgroup>
+        </button>
+        <button
+          (click)="confirmExportData('csv')"
+          class="w-full bg-surface border border-border rounded-2xl p-4 flex items-center gap-4 transition-colors hover:border-primary"
+        >
+          <hgroup class="flex-1 text-left">
+            <p class="text-sm font-semibold text-text-primary">CSV</p>
+            <p class="text-xs text-text-secondary">Compatible avec Excel, Google Sheets</p>
+          </hgroup>
+        </button>
+        <button
+          (click)="confirmExportData('xlsx')"
+          class="w-full bg-surface border border-border rounded-2xl p-4 flex items-center gap-4 transition-colors hover:border-primary"
+        >
+          <hgroup class="flex-1 text-left">
+            <p class="text-sm font-semibold text-text-primary">Excel (XLSX)</p>
+            <p class="text-xs text-text-secondary">Fichier Excel avec plusieurs onglets</p>
+          </hgroup>
+        </button>
+      </div>
+
+      <button
+        (click)="closeExportModal()"
+        class="w-full text-text-secondary font-semibold rounded-2xl py-4 border border-border transition-colors"
+      >
+        Annuler
+      </button>
+    </dialog>
+  </div>
+}
+
 <main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6 lg:px-8 lg:py-8 lg:pb-8">
   <header class="mb-6">
     <h1 class="text-3xl font-bold font-display">Mon profil</h1>
@@ -276,7 +330,7 @@
         <ul class="flex flex-col gap-2">
           <li>
             <button
-              (click)="exportData()"
+              (click)="openExportModal()"
               [disabled]="isExporting"
               class="w-full bg-surface border border-border rounded-2xl p-4 flex items-center gap-4 transition-colors hover:border-primary disabled:opacity-50"
             >
@@ -288,7 +342,7 @@
               </span>
               <hgroup class="flex-1 text-left">
                 <p class="text-sm font-semibold text-text-primary">Exporter mes données</p>
-                <p class="text-xs text-text-secondary">Télécharger toutes mes données en JSON</p>
+                <p class="text-xs text-text-secondary">JSON, CSV ou Excel</p>
               </hgroup>
               <lucide-angular
                 [img]="chevronRight"
@@ -320,6 +374,45 @@
       </section>
     </div>
   </div>
+
+  <!-- Legal -->
+  <section aria-label="Informations légales" class="lg:hidden">
+    <div class="flex justify-center gap-6 mt-6 flex-wrap">
+      <a
+        routerLink="/changelog"
+        class="text-xs text-text-secondary hover:text-text-primary transition-colors"
+      >
+        Nouveautés
+      </a>
+      <a
+        routerLink="/roadmap"
+        class="text-xs text-text-secondary hover:text-text-primary transition-colors"
+      >
+        Roadmap
+      </a>
+      <a
+        routerLink="/mentions-legales"
+        class="text-xs text-text-secondary hover:text-text-primary transition-colors"
+      >
+        Mentions légales
+      </a>
+
+      <a
+        routerLink="/politique-confidentialite"
+        class="text-xs text-text-secondary hover:text-text-primary transition-colors"
+      >
+        Politique de confidentialité
+      </a>
+
+      <a
+        routerLink="/contact"
+        class="text-xs text-text-secondary hover:text-text-primary transition-colors"
+      >
+        Contact
+      </a>
+    </div>
+  </section>
+
   <!-- Version -->
   <div class="text-center mt-8">
     <p class="text-xs text-text-secondary">Inventr v{{ version }}</p>

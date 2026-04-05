@@ -9,11 +9,14 @@
 ## Fonctionnalités
 
 - 📦 Inventaire de biens (nom, catégorie, valeur, date d'achat, garantie)
+- 🔍 Recherche de biens par nom (temps réel, optimisée)
 - 📄 Gestion de documents (factures, manuels, certificats)
 - 🔔 Alertes de garanties expirant bientôt
 - 🔐 Authentification sécurisée (JWT, vérification email)
 - 📱 PWA mobile-first, installable sur iOS et Android
-- 🔒 Conformité RGPD (export et suppression de données)
+- 🔒 Conformité RGPD (export JSON/CSV/XLSX et suppression de données)
+- 🗺️ Roadmap publique et historique des versions (changelog)
+
 
 ---
 

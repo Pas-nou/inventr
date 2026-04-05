@@ -45,7 +45,7 @@ export const routes: Routes = [
     path: 'assets/new',
     canActivate: [AuthGuard],
     loadComponent: () =>
-    import('./features/asset-form/asset-form').then((m) => m.AssetFormComponent),
+      import('./features/asset-form/asset-form').then((m) => m.AssetFormComponent),
   },
   {
     path: 'assets/:id',
@@ -57,7 +57,7 @@ export const routes: Routes = [
     path: 'assets/:id/edit',
     canActivate: [AuthGuard],
     loadComponent: () =>
-    import('./features/asset-form/asset-form').then((m) => m.AssetFormComponent),
+      import('./features/asset-form/asset-form').then((m) => m.AssetFormComponent),
   },
   {
     path: 'profile',
@@ -79,6 +79,15 @@ export const routes: Routes = [
   {
     path: 'contact',
     loadComponent: () => import('./features/legal/contact/contact').then((m) => m.ContactComponent),
+  },
+  {
+    path: 'changelog',
+    loadComponent: () =>
+      import('./features/legal/changelog/changelog').then((m) => m.ChangelogComponent),
+  },
+  {
+    path: 'roadmap',
+    loadComponent: () => import('./features/legal/roadmap/roadmap').then((m) => m.RoadmapComponent),
   },
   {
     path: '**',

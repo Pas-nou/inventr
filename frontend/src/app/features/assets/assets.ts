@@ -16,18 +16,20 @@ import {
   Shirt,
   Package,
   Plus,
+  Search,
 } from 'lucide-angular';
 import { AuthService } from '../../core/services/auth.service';
 import { AssetsService, Asset } from '../../core/services/assets.service';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { AlertsStateService } from '../../core/services/alerts-state.service';
-import { Subscription, filter } from 'rxjs';
+import { Subscription, filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 const WARRANTY_ALERT_DAYS = 30;
 
 @Component({
   selector: 'app-assets',
-  imports: [CurrencyPipe, LucideAngularModule, RouterLink, DatePipe],
+  imports: [CurrencyPipe, LucideAngularModule, RouterLink, DatePipe, ReactiveFormsModule],
   templateUrl: './assets.html',
   styleUrl: './assets.css',
 })
@@ -38,6 +40,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
   readonly chevronUp = ChevronUp;
   readonly package = Package;
   readonly plus = Plus;
+  readonly searchIcon = Search;
 
   // State
   firstName = '';
@@ -49,7 +52,9 @@ export class AssetsComponent implements OnInit, OnDestroy {
   activeCategory = 'Tous';
   isDropdownOpen = false;
   isLoading = true;
+  searchControl = new FormControl('');
 
+  private searchSubscription?: Subscription;
   private routerSubscription?: Subscription;
 
   // Category config
@@ -86,7 +91,8 @@ export class AssetsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.loadData();
+    this.loadStats();
+    this.initSearch();
 
     // Reload data when navigating back to this page
     this.routerSubscription = this.router.events
@@ -95,35 +101,52 @@ export class AssetsComponent implements OnInit, OnDestroy {
         filter((event) => (event as NavigationEnd).url === '/app'),
       )
       .subscribe(() => {
-        this.loadData();
+        this.loadStats();
+        this.searchControl.setValue('', { emitEvent: true });
       });
   }
 
   ngOnDestroy(): void {
     this.routerSubscription?.unsubscribe();
+    this.searchSubscription?.unsubscribe();
   }
 
-  private loadData(): void {
+  private initSearch(): void {
+    this.searchSubscription = this.searchControl.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term) => {
+          this.isLoading = true;
+          this.cdr.detectChanges();
+          return this.assetsService.getAssets(1, 100, term ?? '');
+        }),
+      )
+      .subscribe({
+        next: (response) => {
+          this.assets = [...response.data];
+          this.assetsCount = response.meta.total;
+          this.totalValue = this.assets.reduce((sum, a) => sum + a.purchase_price_cents, 0) / 100;
+          this.warrantyAlerts = response.data
+            .filter((a) => this.isWarrantyExpiringSoon(a.warranty_end_date))
+            .map((a) => a.name);
+          this.isLoading = false;
+          this.alertsStateService.setCount(this.warrantyAlerts.length);
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        },
+      });
+
+    // Triggers the first request
+    this.searchControl.setValue('');
+  }
+
+  private loadStats(): void {
     const user = this.authService.getUser();
     if (user) this.firstName = user.first_name;
-
-    this.assetsService.getAssets().subscribe({
-      next: (response) => {
-        this.assets = [...response.data];
-        this.assetsCount = this.assets.length;
-        this.totalValue = this.assets.reduce((sum, a) => sum + a.purchase_price_cents, 0) / 100;
-        this.warrantyAlerts = response.data
-          .filter((a) => this.isWarrantyExpiringSoon(a.warranty_end_date))
-          .map((a) => a.name);
-        this.isLoading = false;
-        this.alertsStateService.setCount(this.warrantyAlerts.length);
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.isLoading = false;
-        this.cdr.detectChanges();
-      },
-    });
 
     this.assetsService.getStats().subscribe({
       next: (stats) => {

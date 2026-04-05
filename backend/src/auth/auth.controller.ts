@@ -10,7 +10,7 @@ import {
   Get,
   Query,
   Delete,
-  Header,
+  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -103,10 +103,46 @@ export class AuthController {
   @Get('export')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
-  @Header('Content-Type', 'application/json')
-  async exportData(@Request() req: RequestWithUser) {
+  async exportData(
+    @Request() req: RequestWithUser,
+    @Query('format') format: string = 'json',
+    @Res() res: import('express').Response,
+  ) {
+    const timestamp = Date.now();
+
+    if (format === 'csv') {
+      const csv = await this.authService.exportUserDataAsCSV(req.user.userId);
+      res.setHeader('Content-Type', 'text/csv; charset=utf8');
+      res.setHeader(
+        'Content-Disposition',
+        `attachment; filename="inventr-export-${timestamp}.csv"`,
+      );
+      return res.send(csv);
+    }
+
+    if (format === 'xlsx') {
+      const buffer = await this.authService.exportUserDataAsXLSX(
+        req.user.userId,
+      );
+      res.setHeader(
+        'Content-Type',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      );
+      res.setHeader(
+        'Content-Disposition',
+        `attachment; filename="inventr-export-${timestamp}.xlsx"`,
+      );
+      return res.send(Buffer.from(buffer));
+    }
+
     const data = await this.authService.exportUserData(req.user.userId);
-    return JSON.stringify(data, null, 2);
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="inventr-export-${timestamp}.json"`,
+    );
+
+    return res.json(data);
   }
 
   @Delete('account')

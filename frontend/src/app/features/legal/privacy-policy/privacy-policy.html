@@ -3,47 +3,65 @@
   class="blob-teal fixed top-10 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
 ></span>
 
-<!-- Navbar -->
-<nav class="fixed top-0 left-0 right-0 z-50 px-4 lg:px-8 bg-background/80 backdrop-blur-md border-b border-border">
-  <div class="max-w-6xl mx-auto h-16 flex items-center justify-between">
-    <a routerLink="/" class="flex items-center gap-2 text-text-secondary text-sm hover:text-text-primary transition-colors">
+<main class="pt-6 lg:pt-12 px-4 lg:px-8 pb-24 lg:pb-12 max-w-4xl mx-auto">
+  <!-- Mobile back button (connected only) -->
+  <div class="lg:hidden mb-6">
+    <a
+      routerLink="/profile"
+      class="inline-flex items-center gap-2 text-text-secondary text-sm hover:text-text-primary transition-colors"
+    >
       <lucide-angular [img]="arrowLeft" [size]="16" aria-hidden="true" />
       Retour
     </a>
-    <a routerLink="/" class="text-2xl font-bold font-display text-text-primary">
-      Invent<span class="text-primary">r</span>
-    </a>
   </div>
-</nav>
 
-<main class="pt-24 max-w-4xl mx-auto px-4 lg:px-8 py-12">
   <h1 class="text-3xl font-bold font-display mb-8">Politique de confidentialité</h1>
 
   <div class="flex flex-col gap-8 text-text-secondary leading-relaxed">
-
     <section>
       <h2 class="text-lg font-semibold text-text-primary mb-3">Introduction</h2>
-      <p>Inventr (inventr.fr) s'engage à protéger la vie privée de ses utilisateurs. Cette politique de confidentialité décrit comment nous collectons, utilisons et protégeons vos données personnelles conformément au Règlement Général sur la Protection des Données (RGPD).</p>
+      <p>
+        Inventr (inventr.fr) s'engage à protéger la vie privée de ses utilisateurs. Cette politique
+        de confidentialité décrit comment nous collectons, utilisons et protégeons vos données
+        personnelles conformément au Règlement Général sur la Protection des Données (RGPD).
+      </p>
     </section>
 
     <section>
       <h2 class="text-lg font-semibold text-text-primary mb-3">Responsable du traitement</h2>
       <ul class="flex flex-col gap-1">
         <li><span class="text-text-primary font-medium">Dénomination :</span> Inventr</li>
-        <li><span class="text-text-primary font-medium">Email :</span>
-          <a href="mailto:contact@inventr.fr" class="text-primary hover:underline ml-1">contact@inventr.fr</a>
+        <li>
+          <span class="text-text-primary font-medium">Email :</span>
+          <a href="mailto:contact@inventr.fr" class="text-primary hover:underline ml-1"
+            >contact@inventr.fr</a
+          >
         </li>
       </ul>
     </section>
 
     <section>
       <h2 class="text-lg font-semibold text-text-primary mb-3">Données collectées</h2>
-      <p class="mb-3">Nous collectons uniquement les données nécessaires au fonctionnement du service :</p>
+      <p class="mb-3">
+        Nous collectons uniquement les données nécessaires au fonctionnement du service :
+      </p>
       <ul class="flex flex-col gap-2 list-disc list-inside">
-        <li><span class="text-text-primary font-medium">Données d'identification :</span> prénom, nom, adresse email lors de la création de compte</li>
-        <li><span class="text-text-primary font-medium">Données de patrimoine :</span> informations sur vos biens (nom, catégorie, prix, date d'achat, garantie)</li>
-        <li><span class="text-text-primary font-medium">Documents :</span> fichiers que vous uploadez (factures, manuels, certificats)</li>
-        <li><span class="text-text-primary font-medium">Données de connexion :</span> tokens d'authentification stockés localement sur votre appareil</li>
+        <li>
+          <span class="text-text-primary font-medium">Données d'identification :</span> prénom, nom,
+          adresse email lors de la création de compte
+        </li>
+        <li>
+          <span class="text-text-primary font-medium">Données de patrimoine :</span> informations
+          sur vos biens (nom, catégorie, prix, date d'achat, garantie)
+        </li>
+        <li>
+          <span class="text-text-primary font-medium">Documents :</span> fichiers que vous uploadez
+          (factures, manuels, certificats)
+        </li>
+        <li>
+          <span class="text-text-primary font-medium">Données de connexion :</span> tokens
+          d'authentification stockés localement sur votre appareil
+        </li>
       </ul>
     </section>
 
@@ -52,59 +70,104 @@
       <ul class="flex flex-col gap-2 list-disc list-inside">
         <li>Création et gestion de votre compte utilisateur</li>
         <li>Fourniture du service d'inventaire de patrimoine</li>
-        <li>Envoi d'emails transactionnels (confirmation d'email, réinitialisation de mot de passe)</li>
+        <li>
+          Envoi d'emails transactionnels (confirmation d'email, réinitialisation de mot de passe)
+        </li>
         <li>Alertes de garanties expirant bientôt</li>
       </ul>
     </section>
 
     <section>
       <h2 class="text-lg font-semibold text-text-primary mb-3">Base légale</h2>
-      <p>Le traitement de vos données est fondé sur l'exécution du contrat (CGU) auquel vous avez souscrit en créant votre compte sur Inventr.</p>
+      <p>
+        Le traitement de vos données est fondé sur l'exécution du contrat (CGU) auquel vous avez
+        souscrit en créant votre compte sur Inventr.
+      </p>
     </section>
 
     <section>
       <h2 class="text-lg font-semibold text-text-primary mb-3">Hébergement et sous-traitants</h2>
       <ul class="flex flex-col gap-2 list-disc list-inside">
         <li><span class="text-text-primary font-medium">Vercel :</span> hébergement du frontend</li>
-        <li><span class="text-text-primary font-medium">Supabase :</span> base de données et stockage des documents</li>
-        <li><span class="text-text-primary font-medium">Resend :</span> envoi des emails transactionnels</li>
+        <li><span class="text-text-primary font-medium">Railway :</span> hébergement du backend</li>
+        <li>
+          <span class="text-text-primary font-medium">Supabase :</span> base de données et stockage
+          des documents
+        </li>
+        <li>
+          <span class="text-text-primary font-medium">Resend :</span> envoi des emails
+          transactionnels
+        </li>
       </ul>
     </section>
 
     <section>
       <h2 class="text-lg font-semibold text-text-primary mb-3">Durée de conservation</h2>
-      <p>Vos données sont conservées tant que votre compte est actif. En cas de suppression de compte, l'ensemble de vos données est supprimé dans un délai de 30 jours.</p>
+      <p>
+        Vos données sont conservées tant que votre compte est actif. En cas de suppression de
+        compte, l'ensemble de vos données est supprimé immédiatement et de manière irréversible.
+      </p>
     </section>
 
     <section>
       <h2 class="text-lg font-semibold text-text-primary mb-3">Vos droits</h2>
       <p class="mb-3">Conformément au RGPD, vous disposez des droits suivants :</p>
       <ul class="flex flex-col gap-2 list-disc list-inside">
-        <li><span class="text-text-primary font-medium">Droit d'accès :</span> obtenir une copie de vos données</li>
-        <li><span class="text-text-primary font-medium">Droit de rectification :</span> corriger vos données inexactes</li>
-        <li><span class="text-text-primary font-medium">Droit à l'effacement :</span> demander la suppression de votre compte et de vos données</li>
-        <li><span class="text-text-primary font-medium">Droit à la portabilité :</span> recevoir vos données dans un format lisible</li>
-        <li><span class="text-text-primary font-medium">Droit d'opposition :</span> vous opposer à certains traitements</li>
+        <li>
+          <span class="text-text-primary font-medium">Droit d'accès :</span> obtenir une copie de
+          vos données
+        </li>
+        <li>
+          <span class="text-text-primary font-medium">Droit de rectification :</span> corriger vos
+          données inexactes
+        </li>
+        <li>
+          <span class="text-text-primary font-medium">Droit à l'effacement :</span> demander la
+          suppression de votre compte et de vos données
+        </li>
+        <li>
+          <span class="text-text-primary font-medium">Droit à la portabilité :</span> recevoir vos
+          données dans un format lisible
+        </li>
+        <li>
+          <span class="text-text-primary font-medium">Droit d'opposition :</span> vous opposer à
+          certains traitements
+        </li>
       </ul>
-      <p class="mt-3">Pour exercer ces droits, contactez-nous à :
-        <a href="mailto:contact@inventr.fr" class="text-primary hover:underline">contact@inventr.fr</a>
+      <p class="mt-3">
+        Pour exercer ces droits, contactez-nous à :
+        <a href="mailto:contact@inventr.fr" class="text-primary hover:underline"
+          >contact@inventr.fr</a
+        >
+      </p>
+      <p class="mt-3">
+        Les droits d'accès (export) et d'effacement (suppression de compte) sont également
+        disponibles directement depuis votre espace profil.
       </p>
     </section>
 
     <section>
       <h2 class="text-lg font-semibold text-text-primary mb-3">Cookies</h2>
-      <p>Inventr n'utilise pas de cookies tiers ni de traceurs publicitaires. Seuls des tokens d'authentification sont stockés localement sur votre appareil (localStorage) pour maintenir votre session.</p>
+      <p>
+        Inventr n'utilise pas de cookies tiers ni de traceurs publicitaires. Seuls des tokens
+        d'authentification sont stockés localement sur votre appareil (localStorage) pour maintenir
+        votre session.
+      </p>
     </section>
 
     <section>
       <h2 class="text-lg font-semibold text-text-primary mb-3">Réclamation</h2>
-      <p>Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la CNIL :
-        <a href="https://www.cnil.fr" target="_blank" class="text-primary hover:underline">www.cnil.fr</a>
+      <p>
+        Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation
+        auprès de la CNIL :
+        <a href="https://www.cnil.fr" target="_blank" class="text-primary hover:underline"
+          >www.cnil.fr</a
+        >
       </p>
     </section>
 
     <p class="text-xs text-text-secondary border-t border-border pt-6">
-      Dernière mise à jour : mars 2026
+      Dernière mise à jour : avril 2026
     </p>
   </div>
 
@@ -118,18 +181,3 @@
     </button>
   }
 </main>
-
-<!-- Footer -->
-<footer class="border-t border-border px-4 lg:px-8 py-8 mt-12">
-  <div class="max-w-4xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
-    <span class="text-xl font-bold font-display text-text-primary">
-      Invent<span class="text-primary">r</span>
-    </span>
-    <div class="flex gap-6 flex-wrap justify-center">
-      <a routerLink="/mentions-legales" class="text-text-secondary text-sm hover:text-text-primary transition-colors">Mentions légales</a>
-      <a routerLink="/politique-confidentialite" class="text-primary text-sm">Politique de confidentialité</a>
-      <a routerLink="/contact" class="text-text-secondary text-sm hover:text-text-primary transition-colors">Contact</a>
-    </div>
-    <span class="text-text-secondary text-xs">© 2026 Inventr. Tous droits réservés.</span>
-  </div>
-</footer>

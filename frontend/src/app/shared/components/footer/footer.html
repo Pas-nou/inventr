@@ -1,0 +1,45 @@
+<footer class="border-t border-border px-4 lg:px-8 py-8 mt-12">
+  <div class="max-w-4xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
+    <span class="text-xl font-bold font-display text-text-primary">
+      Invent<span class="text-primary">r</span>
+    </span>
+    <div class="flex gap-6 flex-wrap justify-center">
+      <a
+        routerLink="/changelog"
+        [class.text-primary]="isActive('/changelog')"
+        [class.text-text-secondary]="!isActive('/changelog')"
+        class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+        >Nouveautés</a
+      >
+      <a
+        routerLink="/roadmap"
+        [class.text-primary]="isActive('/roadmap')"
+        [class.text-text-secondary]="!isActive('/roadmap')"
+        class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+        >Roadmap</a
+      >
+      <a
+        routerLink="/mentions-legales"
+        [class.text-primary]="isActive('/mentions-legales')"
+        [class.text-text-secondary]="!isActive('/mentions-legales')"
+        class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+        >Mentions légales</a
+      >
+      <a
+        routerLink="/politique-confidentialite"
+        class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+        [class.text-primary]="isActive('/politique-confidentialite')"
+        [class.text-text-secondary]="!isActive('/politique-confidentialite')"
+        >Politique de confidentialité</a
+      >
+      <a
+        routerLink="/contact"
+        class="text-text-secondary text-sm hover:text-text-primary transition-colors"
+        [class.text-primary]="isActive('/contact')"
+        [class.text-text-secondary]="!isActive('/contact')"
+        >Contact</a
+      >
+    </div>
+    <span class="text-text-secondary text-xs">© 2026 Inventr. Tous droits réservés.</span>
+  </div>
+</footer>
