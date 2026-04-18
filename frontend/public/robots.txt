@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+Allow: /changelog
+Allow: /roadmap
+Allow: /mentions-legales
+Allow: /politique-confidentialite
+Allow: /contact
+
+Disallow: /app
+Disallow: /assets
+Disallow: /alerts
+Disallow: /profile
+Disallow: /login
+Disallow: /verify-email
+Disallow: /forgot-password
+Disallow: /reset-password
+
+Sitemap: https://www.inventr.fr/sitemap.xml
