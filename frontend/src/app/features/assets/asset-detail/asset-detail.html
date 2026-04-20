@@ -404,7 +404,7 @@
 
 <!-- * Main -->
 <main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6 lg:px-8 lg:py-8 lg:pb-8">
-  <!-- Header — mobile: bouton retour seul / desktop: retour + nom + boutons -->
+  <!-- Header - mobile: bouton retour seul / desktop: retour + nom + boutons -->
   <div class="flex items-center justify-between mb-4 lg:mb-6">
     <button
       routerLink="/app"
@@ -444,7 +444,7 @@
     <div class="lg:grid lg:grid-cols-[300px_1fr] lg:gap-6 lg:items-start">
       <!-- ======== COLONNE GAUCHE (desktop) / haut de page (mobile) ======== -->
       <div>
-        <!-- Hero card — identique mobile et desktop -->
+        <!-- Hero card - identique mobile et desktop -->
         <section
           aria-label="Informations du bien"
           class="stat-card rounded-2xl p-4 mb-4 relative overflow-hidden"
@@ -469,7 +469,7 @@
                 {{ asset.category }} · {{ asset.condition }}
               </p>
             </hgroup>
-            <!-- Bouton Modifier — mobile uniquement -->
+            <!-- Bouton Modifier - mobile uniquement -->
             <button
               [routerLink]="['/assets', asset.id, 'edit']"
               class="lg:hidden px-3 py-1.5 rounded-full text-sm font-semibold border border-primary text-primary transition-colors hover:bg-primary hover:text-background"
@@ -503,17 +503,18 @@
                     @if (isWarrantyExpiringSoon(asset.warranty_end_date)) {
                       <lucide-angular [img]="triangleAlert" [size]="12" aria-hidden="true" />
                     }
-                    {{ warrantyDaysLeft }}<span class="lg:hidden">j</span><span class="hidden lg:inline"> jour(s)</span>
+                    {{ warrantyDaysLeft }}<span class="lg:hidden">j</span
+                    ><span class="hidden lg:inline"> jour(s)</span>
                   </span>
                 } @else {
-                  —
+                  -
                 }
               </dd>
             </dl>
           </div>
         </section>
 
-        <!-- Infos détaillées — desktop uniquement dans colonne gauche -->
+        <!-- Infos détaillées - desktop uniquement dans colonne gauche -->
         <section
           aria-label="Informations détaillées"
           class="hidden lg:block bg-surface border border-border rounded-2xl overflow-hidden"
@@ -549,7 +550,7 @@
                 @if (asset.warranty_end_date) {
                   {{ asset.warranty_end_date | date: 'dd MMM yyyy' : '' : 'fr' }}
                 } @else {
-                  —
+                  -
                 }
               </span>
             </li>
@@ -575,7 +576,7 @@
 
       <!-- ======== COLONNE DROITE (desktop) / suite (mobile) ======== -->
       <div>
-        <!-- Tabs — mobile: 3 tabs / desktop: 2 tabs (sans Infos) -->
+        <!-- Tabs - mobile: 3 tabs / desktop: 2 tabs (sans Infos) -->
         <nav aria-label="Sections" class="flex gap-2 mb-4 rounded-xl p-1">
           @for (tab of tabs; track tab.key) {
             <button
@@ -595,7 +596,7 @@
           }
         </nav>
 
-        <!-- Info tab — mobile uniquement -->
+        <!-- Info tab - mobile uniquement -->
         @if (activeTab === 'infos') {
           <section aria-label="Informations détaillées" class="lg:hidden">
             <ul class="flex flex-col">
@@ -629,7 +630,7 @@
                   @if (asset.warranty_end_date) {
                     {{ asset.warranty_end_date | date: 'dd MMM yyyy' : '' : 'fr' }}
                   } @else {
-                    —
+                    -
                   }
                 </span>
               </li>

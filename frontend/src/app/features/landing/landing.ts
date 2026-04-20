@@ -125,7 +125,7 @@ export class LandingComponent implements OnInit {
         name: 'keywords',
         content: 'inventaire patrimoine, gestion biens, garanties, documents, maintenance',
       },
-      { property: 'og:title', content: 'Inventr — Gérez votre patrimoine personnel' },
+      { property: 'og:title', content: 'Inventr - Gérez votre patrimoine personnel' },
       {
         property: 'og:description',
         content: 'Inventr centralise tous vos biens, documents et garanties en un seul endroit.',
@@ -133,7 +133,7 @@ export class LandingComponent implements OnInit {
       { property: 'og:type', content: 'website' },
       { property: 'og:url', content: 'https://inventr.fr' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Inventr — Gérez votre patrimoine personnel' },
+      { name: 'twitter:title', content: 'Inventr - Gérez votre patrimoine personnel' },
       {
         name: 'twitter:description',
         content: 'Inventr centralise tous vos biens, documents et garanties en un seul endroit.',
