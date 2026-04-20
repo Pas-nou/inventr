@@ -4,11 +4,10 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { HttpClient } from '@angular/common/http';
 import { LucideAngularModule, ChevronUp, Send, ArrowLeft } from 'lucide-angular';
 import { environment } from '../../../../environments/environment';
-import { FooterComponent } from '../../../shared/components/footer/footer';
 
 @Component({
   selector: 'app-contact',
-  imports: [RouterLink, LucideAngularModule, ReactiveFormsModule, FooterComponent],
+  imports: [RouterLink, LucideAngularModule, ReactiveFormsModule],
   templateUrl: './contact.html',
   styleUrl: './contact.css',
 })
