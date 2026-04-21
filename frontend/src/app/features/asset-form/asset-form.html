@@ -43,7 +43,6 @@
     <dialog
       open
       class="mx-4 lg:max-w-md lg:mx-auto bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
-      
       aria-labelledby="unsaved-modal-title"
       aria-describedby="unsaved-modal-desc"
     >
@@ -291,7 +290,7 @@
       <button
         type="submit"
         [disabled]="form.invalid || isSubmitting || (isEditMode && !form.dirty)"
-        class="w-full lg:flex-1 bg-primary text-background font-semibold rounded-2xl py-4 mb-3 transition-opacity disabled:opacity-50 flex items-center justify-center min-h-14"
+        class="w-full lg:flex-1 bg-primary text-background font-semibold rounded-2xl py-4 mb-3 transition-opacity disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center min-h-14"
       >
         @if (!isSubmitting) {
           {{ isEditMode ? 'Enregistrer les modifications' : 'Enregistrer le bien' }}
