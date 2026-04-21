@@ -111,7 +111,7 @@ export class AssetFormComponent implements OnInit {
       ],
       purchase_date: ['', [Validators.required, this.noFutureDate]],
       condition: [null],
-      warranty_end_date: [null, this.noPastDate],
+      warranty_end_date: [null],
       notes: [null],
     });
 
@@ -197,10 +197,5 @@ export class AssetFormComponent implements OnInit {
   noFutureDate(control: AbstractControl): ValidationErrors | null {
     if (!control.value) return null;
     return new Date(control.value) > new Date() ? { futureDate: true } : null;
-  }
-
-  noPastDate(control: AbstractControl): ValidationErrors | null {
-    if (!control.value) return null;
-    return new Date(control.value) < new Date() ? { pastDate: true } : null;
   }
 }
