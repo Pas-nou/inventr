@@ -17,6 +17,7 @@ import {
   Package,
   Plus,
   Search,
+  X,
 } from 'lucide-angular';
 import { AuthService } from '../../core/services/auth.service';
 import { AssetsService, Asset } from '../../core/services/assets.service';
@@ -42,6 +43,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
   readonly package = Package;
   readonly plus = Plus;
   readonly searchIcon = Search;
+  readonly xIcon = X;
 
   // State
   firstName = '';
@@ -58,6 +60,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
   onboardingSteps: ReturnType<OnboardingService['getSteps']> = null;
   onboardingCompleted = false;
+  onboardingDismissed = false;
 
   private searchSubscription?: Subscription;
   private routerSubscription?: Subscription;

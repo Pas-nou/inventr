@@ -29,17 +29,25 @@
   </header>
 
   <!-- * Onboarding checklist -->
-  @if (!onboardingCompleted && onboardingSteps) {
+  @if (!onboardingCompleted && onboardingSteps && !onboardingDismissed) {
     <section class="mb-6 bg-surface border border-border rounded-2xl p-4 lg:p-6">
       <div class="flex items-center justify-between mb-4">
         <div>
           <h2 class="text-base font-bold font-display">Bienvenue sur Inventr</h2>
           <p class="text-xs text-text-secondary mt-0.5">Complétez ces étapes pour bien démarrer</p>
         </div>
-        <!-- Progress -->
-        <span class="text-xs font-semibold text-primary">
-          {{ onboardingProgress + 1 }} / 4
-        </span>
+        <div class="flex items-center gap-3 shrink-0">
+          <!-- Progress -->
+          <span class="text-xs font-semibold text-primary"> {{ onboardingProgress + 1 }} / 4 </span>
+          <!-- Dismiss -->
+          <button
+            (click)="onboardingDismissed = true"
+            class="text-text-secondary hover:text-text-primary transition-colors"
+            aria-label="Fermer"
+          >
+            <lucide-angular [img]="xIcon" [size]="16" aria-hidden="true" />
+          </button>
+        </div>
       </div>
 
       <!-- Progress bar -->
