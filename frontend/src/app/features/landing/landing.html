@@ -20,7 +20,7 @@
       </a>
       <a
         routerLink="/login"
-        [queryParams]="{register: true}"
+        [queryParams]="{ register: true }"
         class="bg-primary text-background text-sm font-bold px-4 py-2 rounded-xl transition-opacity hover:opacity-90"
       >
         Commencer
@@ -31,155 +31,133 @@
 
 <main>
   <!-- Hero -->
-  <section class="pt-24 pb-6 px-4 lg:min-h-screen lg:flex lg:items-center lg:px-8">
-    <div
-      class="max-w-6xl mx-auto w-full py-8 lg:py-28 flex flex-col lg:flex-row lg:items-center gap-12"
-    >
-      <!-- Left -->
-      <div class="flex-1 flex flex-col gap-6">
+  <section class="min-h-screen flex flex-col justify-between pt-20 px-4 lg:px-8 lg:py-28">
+    <!-- Layout desktop -->
+    <div class="hidden lg:flex flex-col max-w-6xl mx-auto w-full py-20 gap-16">
+      <!-- Texte centré -->
+      <div class="flex flex-col items-center text-center gap-6">
         <span
           class="inline-flex items-center gap-2 bg-primary-dim border border-primary/25 text-primary text-xs font-semibold px-4 py-1.5 rounded-full w-fit tracking-widest uppercase"
         >
-          ✦ Gestion de patrimoine simplifiée
+          ✦ Gestion de patrimoine
         </span>
-
-        <h1 class="text-5xl lg:text-7xl font-bold font-display leading-tight tracking-tight">
+        <h1 class="text-7xl font-bold font-display leading-tight tracking-tight max-w-4xl">
           Votre patrimoine,<br />
           <span class="text-primary">enfin organisé</span>
         </h1>
-
-        <p class="text-text-secondary text-lg leading-relaxed max-w-lg">
+        <p class="text-text-secondary text-lg leading-relaxed max-w-xl">
           Inventr centralise tous vos biens, documents et garanties en un seul endroit. Ne perdez
           plus jamais une facture, ne laissez plus expirer une garantie.
         </p>
-
-        <div class="flex flex-col sm:flex-row gap-3">
-          <a
-            routerLink="/login"
-            [queryParams]="{register: true}"
-            class="bg-primary text-background font-bold text-base px-6 py-3.5 rounded-xl transition-opacity hover:opacity-90 text-center"
-          >
-            Créer mon inventaire gratuitement
-          </a>
-        </div>
-
-        <!-- Stats -->
-        <div class="flex gap-8 pt-2">
+        <a
+          routerLink="/login"
+          [queryParams]="{ register: true }"
+          class="bg-primary text-background font-bold text-base px-8 py-4 rounded-xl transition-opacity hover:opacity-90"
+        >
+          Créer mon inventaire gratuitement
+        </a>
+        <div class="flex gap-12">
           <div class="flex flex-col gap-1">
-            <span class="text-3xl font-bold text-primary">100%</span>
-            <span class="text-xs text-text-secondary uppercase tracking-widest">Gratuit</span>
+            <span class="text-3xl font-bold text-primary">100%</span
+            ><span class="text-xs text-text-secondary uppercase tracking-widest">Gratuit</span>
           </div>
           <div class="flex flex-col gap-1">
-            <span class="text-3xl font-bold text-primary">∞</span>
-            <span class="text-xs text-text-secondary uppercase tracking-widest">Biens</span>
+            <span class="text-3xl font-bold text-primary">∞</span
+            ><span class="text-xs text-text-secondary uppercase tracking-widest">Biens</span>
           </div>
           <div class="flex flex-col gap-1">
-            <span class="text-3xl font-bold text-primary">Disponible</span>
-            <span class="text-xs text-text-secondary uppercase tracking-widest"
+            <span class="text-3xl font-bold text-primary">Disponible</span
+            ><span class="text-xs text-text-secondary uppercase tracking-widest"
               >Sur tous vos appareils</span
             >
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Right : app mockup -->
-      <div class="flex-1 hidden lg:block relative">
-        <div class="bg-surface border border-border rounded-2xl overflow-hidden shadow-2xl">
-          <!-- Browser bar -->
-          <div class="bg-background px-4 py-2.5 flex items-center gap-2 border-b border-border">
-            <span class="w-3 h-3 rounded-full bg-error-dim"></span>
-            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-            <span class="w-3 h-3 rounded-full bg-green-500"></span>
-            <span class="ml-2 text-xs text-text-secondary font-mono">inventr.fr/app</span>
+    <!-- Layout mobile -->
+    <div class="flex lg:hidden flex-col flex-1 w-full">
+      <!-- top content -->
+      <div class="flex flex-col justify-between flex-1 py-4">
+        <span
+          class="inline-flex items-center gap-2 bg-primary-dim border border-primary/25 text-primary text-xs font-semibold px-4 py-1.5 rounded-full w-fit tracking-widest uppercase mt-2"
+        >
+          ✦ Gestion de patrimoine
+        </span>
+        <h1 class="text-5xl font-bold font-display leading-tight tracking-tight -mt-2">
+          Votre patrimoine,<br />
+          <span class="text-primary">enfin organisé</span>
+        </h1>
+        <p class="text-text-secondary text-lg leading-relaxed">
+          Inventr centralise tous vos biens, documents et garanties en un seul endroit. Ne perdez
+          plus jamais une facture, ne laissez plus expirer une garantie.
+        </p>
+        <a
+          routerLink="/login"
+          [queryParams]="{ register: true }"
+          class="bg-primary text-background font-bold text-base px-6 py-3.5 rounded-xl transition-opacity hover:opacity-90 text-center"
+        >
+          Créer mon inventaire gratuitement
+        </a>
+        <div class="flex gap-8 pt-2">
+          <div class="flex flex-col gap-1">
+            <span class="text-3xl font-bold text-primary">100%</span
+            ><span class="text-xs text-text-secondary uppercase tracking-widest">Gratuit</span>
           </div>
-          <!-- App screen -->
-          <div class="flex h-80">
-            <!-- Sidebar -->
-            <div class="w-36 bg-background border-r border-border p-3 flex flex-col gap-1">
-              <div class="text-base font-bold font-display text-text-primary mb-3 px-2">
-                Invent<span class="text-primary">r</span>
-              </div>
-              @for (item of ['Inventaire', 'Alertes', 'Profil']; track item; let i = $index) {
-                <div
-                  class="text-xs px-2 py-1.5 rounded-lg border-l-2 transition-colors"
-                  [class.text-primary]="i === 0"
-                  [class.border-primary]="i === 0"
-                  [class.bg-primary-dim]="i === 0"
-                  [class.text-text-secondary]="i !== 0"
-                  [class.border-transparent]="i !== 0"
-                >
-                  {{ item }}
-                </div>
-              }
-            </div>
-            <!-- Main -->
-            <div class="flex-1 p-3 flex flex-col gap-3 overflow-hidden">
-              <div>
-                <div class="text-xs text-text-secondary">Bonjour 👋</div>
-                <div class="text-base font-bold text-text-primary">John</div>
-              </div>
-              <!-- Stats cards -->
-              <div class="grid grid-cols-4 gap-1.5">
-                @for (
-                  card of [
-                    { l: 'Biens', v: '9' },
-                    { l: 'Valeur', v: '43 954 €' },
-                    { l: 'Documents', v: '3' },
-                    { l: 'Alertes', v: '2', a: true },
-                  ];
-                  track card.l
-                ) {
-                  <div class="bg-surface-light border border-border rounded-lg p-1.5">
-                    <div class="text-[9px] text-text-secondary uppercase mb-0.5">{{ card.l }}</div>
-                    <div
-                      class="text-xs font-bold"
-                      [class.text-primary]="!card['a']"
-                      [class.text-error-dim]="card['a']"
-                    >
-                      {{ card.v }}
-                    </div>
-                  </div>
-                }
-              </div>
-              <!-- Table rows -->
-              <div class="flex flex-col gap-1">
-                @for (
-                  name of ['MacBook Pro', 'Renault Clio', 'Samsung Galaxy S25', 'Vélo Trek'];
-                  track name
-                ) {
-                  <div
-                    class="flex items-center gap-2 px-2 py-1.5 bg-surface-light border border-border rounded-lg"
-                  >
-                    <div class="w-4 h-4 rounded bg-surface shrink-0"></div>
-                    <div class="text-[10px] text-text-primary flex-1 truncate">{{ name }}</div>
-                    <div class="text-[10px] text-primary">—</div>
-                  </div>
-                }
-              </div>
-            </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-3xl font-bold text-primary">∞</span
+            ><span class="text-xs text-text-secondary uppercase tracking-widest">Biens</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-3xl font-bold text-primary">Disponible</span
+            ><span class="text-xs text-text-secondary uppercase tracking-widest"
+              >Sur tous vos appareils</span
+            >
           </div>
         </div>
-        <!-- Glow -->
-        <div
-          class="absolute -bottom-8 left-1/4 right-1/4 h-16 bg-primary/20 blur-2xl rounded-full"
-        ></div>
       </div>
     </div>
 
     <!-- Scroll indicator -->
-    <button
-      (click)="scrollToFeatures()"
-      class="lg:hidden flex flex-col items-center gap-2 animate-bounce w-fit mx-auto pb-8 lg:pb-0 cursor-pointer"
+    <div
+      class="flex flex-col items-center gap-2 cursor-pointer mt-auto pb-8 w-full"
+      (click)="scrollToScreenshot()"
     >
       <span class="text-xs text-text-secondary uppercase tracking-widest">Découvrir</span>
-      <lucide-angular [img]="chevronDown" [size]="20" class="text-primary" aria-hidden="true" />
-    </button>
+      <lucide-angular
+        [img]="chevronDown"
+        [size]="20"
+        class="text-primary animate-bounce"
+        aria-hidden="true"
+      />
+    </div>
   </section>
 
+  <!-- Screenshot mobile  -->
+  <div id="screenshot-mobile" class="flex justify-center lg:hidden px-4 py-8 bg-background">
+    <img
+      src="screenshots/mob_screen_home.webp"
+      alt="Page d'accueil inventr version mobile"
+      class="w-72 rounded-[36px] shadow-2xl border border-border/50"
+    />
+  </div>
+
+  <!-- Screenshot desktop -->
+  <div id="screenshot-desktop" class="hidden lg:block relative">
+    <img
+      src="screenshots/desk_screen_home_lg.webp"
+      alt="Inventr desktop"
+      class="w-4/5 mx-auto rounded-2xl shadow-2xl border border-border"
+    />
+    <div
+      class="absolute -bottom-8 left-1/4 right-1/4 h-16 bg-primary/20 blur-2xl rounded-full"
+    ></div>
+  </div>
+
   <!-- Features -->
-  <section id="features" class="px-4 lg:px-8 py-20">
+  <section class="px-4 lg:px-8 py-20">
     <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-12 flex flex-col items-center gap-4">
+      <div class="text-left lg:text-center mb-12 flex flex-col items-start lg:items-center gap-6">
         <span
           class="bg-primary-dim border border-primary/25 text-primary text-xs font-semibold px-4 py-1.5 rounded-full tracking-widest uppercase"
         >
@@ -217,7 +195,203 @@
     </div>
   </section>
 
-  <!-- CTA Final -->
+  <!-- * Comment ça marche -->
+  <section class="px-4 lg:px-8 py-20">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-left lg:text-center mb-12 flex flex-col items-start lg:items-center gap-6">
+        <span
+          class="bg-primary-dim border border-primary/25 text-primary text-xs font-semibold px-4 py-1.5 rounded-full tracking-widest uppercase"
+        >
+          Comment ça marche ?
+        </span>
+        <h2 class="text-4xl lg:text-5xl font-bold font-display tracking-tight">En 3 étapes</h2>
+        <p class="text-text-secondary text-lg max-w-lg leading-relaxed">
+          Pas de configuration. Pas de prise en main. On commence tout de suite.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        @for (step of steps; track step.num) {
+          <div
+            class="bg-surface border border-border rounded-2xl p-8 relative overflow-hidden flex flex-col gap-4 hover:border-primary transition-colors"
+          >
+            <div
+              class="w-9 h-9 rounded-full bg-primary-dim border border-primary/30 text-primary flex items-center justify-center font-bold font-display text-base shrink-0"
+            >
+              {{ step.num }}
+            </div>
+            <h3 class="text-lg font-bold text-text-primary">{{ step.title }}</h3>
+            <p class="text-text-secondary leading-relaxed text-sm">{{ step.desc }}</p>
+            <!-- Corner glow -->
+            <div
+              class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-xl"
+            ></div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- * Showcase -->
+  <section class="px-4 lg:px-8 py-20">
+    <div class="max-w-6xl mx-auto flex flex-col gap-20">
+      <!-- Asset -->
+      <div class="flex flex-col lg:flex-row lg:items-center gap-12">
+        <div class="lg:w-2/5 flex flex-col gap-6">
+          <span
+            class="bg-primary-dim border border-primary/25 text-primary text-xs font-semibold px-4 py-1.5 rounded-full w-fit tracking-widest uppercase"
+          >
+            Une fiche complète
+          </span>
+          <h2 class="text-3xl lg:text-4xl font-bold font-display tracking-tight">
+            Tout le détail, au même endroit
+          </h2>
+          <p class="text-text-secondary text-lg leading-relaxed">
+            Chaque bien a sa fiche : infos, documents, maintenance. Plus besoin de fouiller partout.
+          </p>
+          <ul class="flex flex-col gap-3">
+            @for (point of showcasePoints; track point) {
+              <li class="flex items-center gap-3 text-text-secondary text-sm">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
+                {{ point }}
+              </li>
+            }
+          </ul>
+        </div>
+        <div class="lg:w-3/5 flex justify-center">
+          <!-- Desktop : screenshot fichier desktop -->
+          <img
+            src="screenshots/desk_screen_files.webp"
+            alt="Documents d'un bien sur Inventr"
+            class="hidden lg:block w-full rounded-2xl shadow-2xl border border-border"
+          />
+          <!-- Mobile : screenshot fichier mobile -->
+          <img
+            src="screenshots/mob_screen_files.webp"
+            alt="Documents d'un bien sur Inventr mobile"
+            class="lg:hidden w-56 rounded-[36px] shadow-2xl border border-border/50"
+          />
+        </div>
+      </div>
+
+      <!-- Maintenance -->
+      <div class="flex flex-col lg:flex-row-reverse lg:items-center gap-12">
+        <div class="lg:w-2/5 flex flex-col gap-6">
+          <span
+            class="bg-primary-dim border border-primary/25 text-primary text-xs font-semibold px-4 py-1.5 rounded-full w-fit tracking-widest uppercase"
+          >
+            Maintenance
+          </span>
+          <h2 class="text-3xl lg:text-4xl font-bold font-display tracking-tight">
+            L'historique qui manquait
+          </h2>
+          <p class="text-text-secondary text-lg leading-relaxed">
+            Réparations, entretiens, inspections. Tout est tracé, daté, associé au bon bien. Et
+            Inventr rappelle la prochaine échéance.
+          </p>
+          <ul class="flex flex-col gap-3">
+            @for (point of maintenanceShowcasePoints; track point) {
+              <li class="flex items-center gap-3 text-text-secondary text-sm">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
+                {{ point }}
+              </li>
+            }
+          </ul>
+        </div>
+        <div class="lg:w-3/5 flex justify-center">
+          <img
+            src="screenshots/desk_screen_event.webp"
+            alt="Maintenance d'un bien sur Inventr"
+            class="hidden lg:block w-full rounded-2xl shadow-2xl border border-border"
+          />
+          <img
+            src="screenshots/mob_screen_event.webp"
+            alt="Maintenance d'un bien sur Inventr mobile"
+            class="lg:hidden w-56 rounded-[36px] shadow-2xl border border-border/50"
+          />
+        </div>
+      </div>
+
+      <!-- for all screens -->
+      <div class="flex flex-col lg:flex-row lg:items-center gap-12">
+        <div class="lg:w-2/5 flex flex-col gap-6">
+          <span
+            class="bg-primary-dim border border-primary/25 text-primary text-xs font-semibold px-4 py-1.5 rounded-full w-fit tracking-widest uppercase"
+          >
+            Conçu pour tous les écrans
+          </span>
+          <!-- Mobile sees desktop, desktop sees mobile -->
+          <h2 class="text-3xl lg:text-4xl font-bold font-display tracking-tight">
+            <span class="lg:hidden">Inventr sur grand écran</span>
+            <span class="hidden lg:block">Inventr dans la poche</span>
+          </h2>
+          <p class="text-text-secondary text-lg leading-relaxed">
+            <span class="lg:hidden"
+              >Vue tableau complète, filtres par catégorie, barre de recherche. Tout ce qu'il faut
+              pour gérer un grand inventaire efficacement.</span
+            >
+            <span class="hidden lg:block"
+              >L'app s'installe sur iOS et Android comme une app native. Pas besoin de passer par le
+              Store.</span
+            >
+          </p>
+          <ul class="flex flex-col gap-3">
+            @for (point of screensPointsMobile; track point) {
+              <li class="flex items-center gap-3 text-text-secondary text-sm lg:hidden">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
+                {{ point }}
+              </li>
+            }
+            @for (point of screensPointsDesktop; track point) {
+              <li class="hidden lg:flex items-center gap-3 text-text-secondary text-sm">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
+                {{ point }}
+              </li>
+            }
+          </ul>
+        </div>
+        <div class="lg:w-3/5 flex justify-center">
+          <!-- Mobile sees desktop -->
+          <img
+            src="screenshots/desk_screen_home.webp"
+            alt="Inventr sur desktop"
+            class="lg:hidden w-full max-w-sm rounded-2xl shadow-2xl border border-border"
+          />
+          <!-- Desktop sees mobile -->
+          <img
+            src="screenshots/mob_screen_home.webp"
+            alt="Inventr sur mobile"
+            class="hidden lg:block w-72 rounded-[36px] shadow-2xl border border-border/50"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- * FAQ -->
+  <section class="px-4 lg:px-8 py-20">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-left lg:text-center mb-12 flex flex-col items-start lg:items-center gap-6">
+        <span
+          class="bg-primary-dim border border-primary/25 text-primary text-xs font-semibold px-4 py-1.5 rounded-full tracking-widest uppercase"
+        >
+          FAQ
+        </span>
+        <h2 class="text-4xl lg:text-5xl font-bold font-display tracking-tight">
+          Questions fréquentes
+        </h2>
+      </div>
+      <div class="flex flex-col">
+        @for (faq of faqs; track faq.q; let last = $last) {
+          <div [class.border-b]="!last" class="border-border py-6">
+            <div class="text-base font-semibold text-text-primary mb-2">{{ faq.q }}</div>
+            <div class="text-text-secondary leading-relaxed text-sm">{{ faq.a }}</div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- * CTA Final -->
   <section class="px-4 lg:px-8 py-20">
     <div class="max-w-6xl mx-auto">
       <div
@@ -232,15 +406,13 @@
         <h2 class="text-4xl lg:text-5xl font-bold font-display tracking-tight mb-4 relative">
           Prêt à organiser votre patrimoine ?
         </h2>
-        <p class="text-text-secondary text-lg mb-8 relative">
-          Gratuit, sans carte bancaire. Commencez en moins de 2 minutes.
-        </p>
+        <p class="text-text-secondary text-lg mb-8 relative">Commencez en moins de 2 minutes.</p>
         <a
           routerLink="/login"
-          [queryParams]="{register: true}"
+          [queryParams]="{ register: true }"
           class="bg-primary text-background font-bold text-lg px-8 py-4 rounded-xl transition-opacity hover:opacity-90 inline-block relative"
         >
-          Créer mon compte gratuitement
+          Créer mon inventaire
         </a>
       </div>
     </div>
@@ -252,12 +424,7 @@
       class="fixed bottom-8 right-8 z-50 w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-lg transition-opacity hover:opacity-90"
       aria-label="Retour en haut"
     >
-      <lucide-angular
-        [img]="chevronUp"
-        [size]="20"
-        class="text-background"
-        aria-hidden="true"
-      />
+      <lucide-angular [img]="chevronUp" [size]="20" class="text-background" aria-hidden="true" />
     </button>
   }
 </main>

@@ -136,11 +136,11 @@ async function bootstrap() {
 
   await maintenanceRepo.save(maintenanceEvents);
 
-  console.info('✅ Seed terminé — 1 utilisateur, 6 assets créés');
+  console.info('✅ Seed terminé - 1 utilisateur, 6 assets créés');
   console.info('📧 Email : john@inventr.app');
   console.info('🔑 Mot de passe : password123');
   console.info(
-    '✅ Seed terminé — 1 utilisateur, 6 assets, 4 événements maintenance créés',
+    '✅ Seed terminé - 1 utilisateur, 6 assets, 4 événements maintenance créés',
   );
 
   await app.close();

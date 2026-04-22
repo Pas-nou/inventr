@@ -24,6 +24,11 @@ export interface AuthResponse {
     email: string;
     first_name: string;
     last_name: string;
+    onboarding_steps: {
+      first_asset: boolean;
+      first_document: boolean;
+      app_installed: boolean;
+    } | null;
   };
 }
 

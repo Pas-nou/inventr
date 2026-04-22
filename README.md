@@ -16,29 +16,34 @@
 - 📱 PWA mobile-first, installable sur iOS et Android
 - 🔒 Conformité RGPD (export JSON/CSV/XLSX et suppression de données)
 - 🗺️ Roadmap publique et historique des versions (changelog)
-
+- 🛠️ Suivi de maintenance (historique, rappels d'échéance)
+- 🧭 Checklist de démarrage pour les nouveaux utilisateurs
 
 ---
 
 ## Stack technique
 
 ### Frontend
-- [Angular 19](https://angular.dev) — framework principal
-- [Tailwind CSS v4](https://tailwindcss.com) — styles
-- [Lucide Angular](https://lucide.dev) — icônes
+
+- [Angular 19](https://angular.dev) - framework principal
+- [Tailwind CSS v4](https://tailwindcss.com) - styles
+- [Lucide Angular](https://lucide.dev) - icônes
+- [ExcelJS](https://github.com/exceljs/exceljs) - export XLSX
 - Déployé sur [Vercel](https://vercel.com)
 
 ### Backend
-- [NestJS](https://nestjs.com) — framework Node.js
-- [TypeORM](https://typeorm.io) — ORM
+
+- [NestJS](https://nestjs.com) - framework Node.js
+- [TypeORM](https://typeorm.io) - ORM
 - [PostgreSQL](https://www.postgresql.org) via [Supabase](https://supabase.com)
-- [Supabase Storage](https://supabase.com/storage) — stockage de documents
-- [Resend](https://resend.com) — emails transactionnels
+- [Supabase Storage](https://supabase.com/storage) - stockage de documents
+- [Resend](https://resend.com) - emails transactionnels
 - Déployé sur [Railway](https://railway.app)
 
 ---
 
 ## Architecture
+
 ```
 inventr/
 ├── frontend/          # Application Angular 19
@@ -73,6 +78,7 @@ inventr/
 - Un compte Resend
 
 ### Backend
+
 ```bash
 cd backend
 cp .env.example .env   # Remplir les variables
@@ -81,6 +87,7 @@ npm run start:dev
 ```
 
 Variables d'environnement requises :
+
 ```env
 NODE_ENV=development
 DB_HOST=
@@ -102,6 +109,7 @@ PORT=3000
 ```
 
 ### Frontend
+
 ```bash
 cd frontend
 npm install
@@ -113,6 +121,7 @@ L'application est accessible sur `http://localhost:4200`.
 ---
 
 ## Tests
+
 ```bash
 # Backend
 cd backend
@@ -123,13 +132,14 @@ npm run test:cov        # Couverture de code
 ---
 
 ## Workflow Git
+
 ```
 dev → staging → main (production)
 ```
 
-- `dev` — développement quotidien
-- `staging` — intégration et tests avant prod
-- `main` — production, déploiement automatique
+- `dev` - développement quotidien
+- `staging` - intégration et tests avant prod
+- `main` - production, déploiement automatique
 
 Chaque PR vers `staging` ou `main` déclenche automatiquement les tests CI (GitHub Actions).
 
@@ -137,4 +147,4 @@ Chaque PR vers `staging` ou `main` déclenche automatiquement les tests CI (GitH
 
 ## Licence
 
-Projet privé — © 2026 Inventr. Tous droits réservés.
+Projet privé - © 2026 Inventr. Tous droits réservés.

@@ -25,6 +25,7 @@ import {
 } from 'lucide-angular';
 import { AssetsService } from '../../core/services/assets.service';
 import { ToastService } from '../../core/services/toast.service';
+import { OnboardingService } from '../../core/services/onboarding.service';
 
 type AssetCategory =
   | 'High-tech'
@@ -64,6 +65,8 @@ export class AssetFormComponent implements OnInit {
   assetId = '';
   isSubmitting = false;
   showDeleteModal = false;
+  showUnsavedModal = false;
+  private unsavedResolver?: (value: boolean) => void;
 
   readonly categories: AssetCategory[] = [
     'High-tech',
@@ -99,21 +102,25 @@ export class AssetFormComponent implements OnInit {
     private assetsService: AssetsService,
     private toastService: ToastService,
     private cdr: ChangeDetectorRef,
+    private onboardingService: OnboardingService,
   ) {}
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      name: ['', Validators.required],
-      category: ['', Validators.required],
-      purchase_price_cents: [
-        null,
-        [Validators.required, Validators.min(0), Validators.max(21474836)],
-      ],
-      purchase_date: ['', [Validators.required, this.noFutureDate]],
-      condition: [null],
-      warranty_end_date: [null, this.noPastDate],
-      notes: [null],
-    });
+    this.form = this.fb.group(
+      {
+        name: ['', Validators.required],
+        category: ['', Validators.required],
+        purchase_price_cents: [
+          null,
+          [Validators.required, Validators.min(0), Validators.max(21474836), this.maxTwoDecimals],
+        ],
+        purchase_date: ['', [Validators.required, this.noFutureDate, this.notBeforeYear]],
+        condition: [null],
+        warranty_end_date: [null],
+        notes: [null],
+      },
+      { validators: this.warrantyAfterPurchase },
+    );
 
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -167,6 +174,7 @@ export class AssetFormComponent implements OnInit {
     } else {
       this.assetsService.createAsset(payload).subscribe({
         next: () => {
+          this.onboardingService.completeStep('first_asset');
           this.toastService.show('Bien ajouté avec succès');
           void this.router.navigate(['/app']);
         },
@@ -199,8 +207,40 @@ export class AssetFormComponent implements OnInit {
     return new Date(control.value) > new Date() ? { futureDate: true } : null;
   }
 
-  noPastDate(control: AbstractControl): ValidationErrors | null {
+  notBeforeYear(control: AbstractControl): ValidationErrors | null {
     if (!control.value) return null;
-    return new Date(control.value) < new Date() ? { pastDate: true } : null;
+    return new Date(control.value).getFullYear() < 1900 ? { tooOld: true } : null;
+  }
+
+  maxTwoDecimals(control: AbstractControl): ValidationErrors | null {
+    if (!control.value) return null;
+    const value = control.value.toString();
+    const decimals = value.split('.')[1];
+    return decimals && decimals.length > 2 ? { maxTwoDecimals: true } : null;
+  }
+
+  warrantyAfterPurchase(group: AbstractControl): ValidationErrors | null {
+    const purchase = group.get('purchase_date')?.value;
+    const warranty = group.get('warranty_end_date')?.value;
+    if (!purchase || !warranty) return null;
+    return new Date(warranty) < new Date(purchase) ? { warrantyBeforePurchase: true } : null;
+  }
+
+  openUnsavedModal(): Promise<boolean> {
+    this.showUnsavedModal = true;
+    this.cdr.detectChanges();
+    return new Promise((resolve) => {
+      this.unsavedResolver = resolve;
+    });
+  }
+
+  confirmLeave(): void {
+    this.showUnsavedModal = false;
+    this.unsavedResolver?.(true);
+  }
+
+  cancelLeave(): void {
+    this.showUnsavedModal = false;
+    this.unsavedResolver?.(false);
   }
 }

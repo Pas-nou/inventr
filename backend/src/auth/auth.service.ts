@@ -72,8 +72,8 @@ export class AuthService {
   }
 
   /**
-   * Validates credentials and returns JWT access + refresh tokens.
-   * Returns EMAIL_NOT_VERIFIED error code if the email has not been confirmed yet.
+   * Returns JWT tokens and user profile including onboarding steps state.
+   * Used by the frontend to initialize the onboarding checklist on login.
    */
   async login(email: string, password: string) {
     const user = await this.usersRepository.findOne({ where: { email } });
@@ -97,6 +97,7 @@ export class AuthService {
         email: user.email,
         first_name: user.first_name,
         last_name: user.last_name,
+        onboarding_steps: user.onboarding_steps,
       },
     };
   }
@@ -473,5 +474,28 @@ export class AuthService {
 
     // User deletion (database cascade)
     await this.usersRepository.remove(user);
+  }
+
+  /**
+   * Marks a single onboarding step as completed for the given user.
+   * Steps are stored as a JSONB object and merged with existing state.
+   * Called automatically by the frontend when the user completes each step.
+   */
+  async completeOnboardingStep(
+    userId: string,
+    step: 'first_asset' | 'first_document' | 'app_installed',
+  ): Promise<void> {
+    const user = await this.usersRepository.findOneBy({ id: userId });
+    if (!user) throw new NotFoundException('User not found');
+
+    const current = user.onboarding_steps ?? {
+      first_asset: false,
+      first_document: false,
+      app_installed: false,
+    };
+
+    await this.usersRepository.update(userId, {
+      onboarding_steps: { ...current, [step]: true },
+    });
   }
 }

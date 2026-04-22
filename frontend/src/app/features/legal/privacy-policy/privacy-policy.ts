@@ -1,11 +1,10 @@
 import { Component, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule, ChevronUp, ArrowLeft } from 'lucide-angular';
-import { FooterComponent } from '../../../shared/components/footer/footer';
 
 @Component({
   selector: 'app-privacy-policy',
-  imports: [RouterLink, LucideAngularModule, FooterComponent],
+  imports: [RouterLink, LucideAngularModule],
   templateUrl: './privacy-policy.html',
   styleUrl: './privacy-policy.css',
 })
