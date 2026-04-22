@@ -25,6 +25,7 @@ import {
 } from 'lucide-angular';
 import { AssetsService } from '../../core/services/assets.service';
 import { ToastService } from '../../core/services/toast.service';
+import { OnboardingService } from '../../core/services/onboarding.service';
 
 type AssetCategory =
   | 'High-tech'
@@ -101,6 +102,7 @@ export class AssetFormComponent implements OnInit {
     private assetsService: AssetsService,
     private toastService: ToastService,
     private cdr: ChangeDetectorRef,
+    private onboardingService: OnboardingService,
   ) {}
 
   ngOnInit(): void {
@@ -172,6 +174,7 @@ export class AssetFormComponent implements OnInit {
     } else {
       this.assetsService.createAsset(payload).subscribe({
         next: () => {
+          this.onboardingService.completeStep('first_asset');
           this.toastService.show('Bien ajouté avec succès');
           void this.router.navigate(['/app']);
         },

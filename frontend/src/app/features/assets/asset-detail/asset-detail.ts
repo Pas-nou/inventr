@@ -30,6 +30,7 @@ import {
 } from '../../../core/services/maintenance-events.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { FormsModule } from '@angular/forms';
+import { OnboardingService } from '../../../core/services/onboarding.service';
 
 type ActiveTab = 'infos' | 'documents' | 'maintenance';
 
@@ -137,6 +138,7 @@ export class AssetDetailComponent implements OnInit {
     private maintenanceEventsService: MaintenanceEventsService,
     private toastService: ToastService,
     private cdr: ChangeDetectorRef,
+    private onboardingService: OnboardingService,
   ) {}
 
   ngOnInit(): void {
@@ -227,6 +229,7 @@ export class AssetDetailComponent implements OnInit {
           this.showUploadModal = false;
           this.pendingFile = null;
           this.isUploading = false;
+          this.onboardingService.completeStep('first_document');
           this.toastService.show('Document ajouté avec succès');
           this.cdr.detectChanges();
         },
