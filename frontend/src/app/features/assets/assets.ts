@@ -24,6 +24,7 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { AlertsStateService } from '../../core/services/alerts-state.service';
 import { Subscription, filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { OnboardingService } from '../../core/services/onboarding.service';
 
 const WARRANTY_ALERT_DAYS = 30;
 
@@ -53,6 +54,10 @@ export class AssetsComponent implements OnInit, OnDestroy {
   isDropdownOpen = false;
   isLoading = true;
   searchControl = new FormControl('');
+  showPwaInstallModal = false;
+
+  onboardingSteps: ReturnType<OnboardingService['getSteps']> = null;
+  onboardingCompleted = false;
 
   private searchSubscription?: Subscription;
   private routerSubscription?: Subscription;
@@ -88,9 +93,12 @@ export class AssetsComponent implements OnInit, OnDestroy {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private alertsStateService: AlertsStateService,
+    private onboardingService: OnboardingService,
   ) {}
 
   ngOnInit(): void {
+    this.onboardingSteps = this.onboardingService.getSteps();
+    this.onboardingCompleted = this.onboardingService.isCompleted();
     this.loadStats();
     this.initSearch();
 
@@ -186,5 +194,21 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
   warrantyDaysLeft(date: string): number {
     return Math.ceil((new Date(date).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+  }
+
+  get onboardingProgress(): number {
+    if (!this.onboardingSteps) return 0;
+    return [
+      this.onboardingSteps.first_asset,
+      this.onboardingSteps.first_document,
+      this.onboardingSteps.app_installed,
+    ].filter(Boolean).length;
+  }
+
+  completeOnboardingStep(step: 'first_asset' | 'first_document' | 'app_installed'): void {
+    this.onboardingService.completeStep(step);
+    this.onboardingSteps = this.onboardingService.getSteps();
+    this.onboardingCompleted = this.onboardingService.isCompleted();
+    this.cdr.detectChanges();
   }
 }
