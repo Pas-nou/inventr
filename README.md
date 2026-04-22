@@ -16,6 +16,8 @@
 - 📱 PWA mobile-first, installable sur iOS et Android
 - 🔒 Conformité RGPD (export JSON/CSV/XLSX et suppression de données)
 - 🗺️ Roadmap publique et historique des versions (changelog)
+- 🛠️ Suivi de maintenance (historique, rappels d'échéance)
+- 🧭 Checklist de démarrage pour les nouveaux utilisateurs
 
 ---
 
@@ -26,6 +28,7 @@
 - [Angular 19](https://angular.dev) - framework principal
 - [Tailwind CSS v4](https://tailwindcss.com) - styles
 - [Lucide Angular](https://lucide.dev) - icônes
+- [ExcelJS](https://github.com/exceljs/exceljs) - export XLSX
 - Déployé sur [Vercel](https://vercel.com)
 
 ### Backend
