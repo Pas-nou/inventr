@@ -71,6 +71,7 @@
 }
 
 <main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6 lg:px-8 lg:py-8 lg:pb-8">
+  <div class="max-w-4xl mx-auto">
   <!-- Back button -->
   <button
     (click)="goBack()"
@@ -99,7 +100,7 @@
     </p>
   </header>
 
-  <form (ngSubmit)="onSubmit()" [formGroup]="form" novalidate class="lg:max-w-2xl">
+  <form (ngSubmit)="onSubmit()" [formGroup]="form" novalidate>
     <!-- Name -->
     <fieldset class="mb-5">
       <label
@@ -323,4 +324,5 @@
       }
     </div>
   </form>
+</div>
 </main>
