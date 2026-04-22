@@ -90,6 +90,18 @@ export class AssetsComponent implements OnInit, OnDestroy {
     Autre: Package,
   };
 
+  readonly pwaOs: 'ios' | 'android' | 'desktop' = (() => {
+    const ua = navigator.userAgent;
+    if (/iPhone|iPad|iPod/.test(ua)) return 'ios';
+    if (/Android/.test(ua)) return 'android';
+    return 'desktop';
+  })();
+
+  completePwaInstall(): void {
+    this.showPwaInstallModal = false;
+    this.completeOnboardingStep('app_installed');
+  }
+
   constructor(
     private authService: AuthService,
     private assetsService: AssetsService,

@@ -508,4 +508,97 @@
       </ul>
     }
   }
+
+  <!-- * PWA Install Modal -->
+  @if (showPwaInstallModal) {
+    <div
+      class="fixed inset-0 z-50 flex items-end lg:items-center justify-center bg-black/60 backdrop-blur-sm px-4 pb-12 lg:pb-0"
+      (click)="showPwaInstallModal = false"
+      aria-hidden="true"
+    >
+      <dialog
+        open
+        class="mx-4 lg:max-w-md lg:mx-auto bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="flex items-center justify-between">
+          <h2 class="text-base font-bold font-display text-text-primary">Installer l'app</h2>
+          <button
+            (click)="showPwaInstallModal = false"
+            class="text-text-secondary hover:text-text-primary transition-colors"
+          >
+            <lucide-angular [img]="xIcon" [size]="16" aria-hidden="true" />
+          </button>
+        </div>
+
+        @if (pwaOs === 'ios') {
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Sur <span class="text-text-primary font-semibold">Safari</span>, appuyez sur l'icône
+            <span class="text-primary font-semibold">Partager</span> en bas de l'écran, puis
+            sélectionnez
+            <span class="text-text-primary font-semibold">"Sur l'écran d'accueil"</span>.
+          </p>
+          <div
+            class="flex flex-col gap-2 text-xs text-text-secondary bg-surface-light rounded-xl p-3"
+          >
+            <div class="flex items-center gap-2">
+              <span class="text-primary">1.</span> Ouvrez inventr.fr dans
+              <span class="font-semibold text-text-primary">Safari</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-primary">2.</span> Appuyez sur l'icône
+              <span class="font-semibold text-text-primary">Partager</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-primary">3.</span> Faites défiler et appuyez sur
+              <span class="font-semibold text-text-primary">"Sur l'écran d'accueil"</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-primary">4.</span> Appuyez sur
+              <span class="font-semibold text-text-primary">"Ajouter"</span>
+            </div>
+          </div>
+        } @else if (pwaOs === 'android') {
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Sur <span class="text-text-primary font-semibold">Chrome</span>, appuyez sur le menu
+            <span class="text-primary font-semibold">⋮</span> en haut à droite, puis sélectionnez
+            <span class="text-text-primary font-semibold">"Ajouter à l'écran d'accueil"</span>.
+          </p>
+          <div
+            class="flex flex-col gap-2 text-xs text-text-secondary bg-surface-light rounded-xl p-3"
+          >
+            <div class="flex items-center gap-2">
+              <span class="text-primary">1.</span> Ouvrez inventr.fr dans
+              <span class="font-semibold text-text-primary">Chrome</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-primary">2.</span> Appuyez sur
+              <span class="font-semibold text-text-primary">⋮</span> en haut à droite
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-primary">3.</span> Appuyez sur
+              <span class="font-semibold text-text-primary">"Ajouter à l'écran d'accueil"</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-primary">4.</span> Appuyez sur
+              <span class="font-semibold text-text-primary">"Ajouter"</span>
+            </div>
+          </div>
+        } @else {
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Sur <span class="text-text-primary font-semibold">Chrome</span>, cliquez sur l'icône
+            d'installation dans la barre d'adresse, puis cliquez sur
+            <span class="text-text-primary font-semibold">"Installer"</span>.
+          </p>
+        }
+
+        <button
+          (click)="completePwaInstall()"
+          class="w-full bg-primary text-background font-semibold rounded-2xl py-3 transition-opacity hover:opacity-90"
+        >
+          C'est fait !
+        </button>
+      </dialog>
+    </div>
+  }
 </main>
