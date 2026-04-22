@@ -32,12 +32,12 @@ export class OnboardingService {
   }
 
   /**
-   * Returns true if all onboarding steps are completed or if the user
-   * has no onboarding data (existing users before the feature was added).
+   * Returns true if all onboarding steps are completed.
+   * Returns false if steps are null (account created before this feature).
    */
   isCompleted(): boolean {
     const steps = this.getSteps();
-    if (!steps) return true;
+    if (!steps) return false;
     return steps.first_asset && steps.first_document && steps.app_installed;
   }
 
