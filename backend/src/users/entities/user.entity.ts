@@ -50,6 +50,13 @@ export class User {
   @Column({ nullable: true, type: 'timestamptz' })
   reset_password_token_expires_at!: Date | null;
 
+  @Column({ nullable: true, type: 'jsonb' })
+  onboarding_steps!: {
+    first_asset: boolean;
+    first_document: boolean;
+    app_installed: boolean;
+  } | null;
+
   @CreateDateColumn()
   created_at!: Date;
 

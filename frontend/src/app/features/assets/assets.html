@@ -28,6 +28,114 @@
     </div>
   </header>
 
+  <!-- * Onboarding checklist -->
+  @if (!onboardingCompleted && onboardingSteps && !onboardingDismissed) {
+    <section class="mb-6 bg-surface border border-border rounded-2xl p-4 lg:p-6">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-base font-bold font-display">Bienvenue sur Inventr</h2>
+          <p class="text-xs text-text-secondary mt-0.5">Complétez ces étapes pour bien démarrer</p>
+        </div>
+        <div class="flex items-center gap-3 shrink-0">
+          <!-- Progress -->
+          <span class="text-xs font-semibold text-primary"> {{ onboardingProgress + 1 }} / 4 </span>
+          <!-- Dismiss -->
+          <button
+            (click)="onboardingDismissed = true"
+            class="text-text-secondary hover:text-text-primary transition-colors"
+            aria-label="Fermer"
+          >
+            <lucide-angular [img]="xIcon" [size]="16" aria-hidden="true" />
+          </button>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="w-full h-1.5 bg-surface-light rounded-full mb-4 overflow-hidden">
+        <div
+          class="h-full bg-primary rounded-full transition-all duration-500"
+          [style.width.%]="((onboardingProgress + 1) / 4) * 100"
+        ></div>
+      </div>
+
+      <!-- Steps -->
+      <ul class="flex flex-col gap-2 lg:flex-row lg:gap-4">
+        <!-- Step 1 : Account created (always completed) -->
+        <li class="flex items-center gap-3 flex-1">
+          <span class="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
+            <span class="text-background text-xs font-bold">✓</span>
+          </span>
+          <span class="text-sm text-text-secondary line-through">Créer votre compte</span>
+        </li>
+
+        <!-- Step 2 : first asset -->
+        <li class="flex items-center gap-3 flex-1">
+          <span
+            class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 border-2 transition-colors"
+            [class.bg-primary]="onboardingSteps.first_asset"
+            [class.border-primary]="onboardingSteps.first_asset"
+            [class.border-border]="!onboardingSteps.first_asset"
+          >
+            @if (onboardingSteps.first_asset) {
+              <span class="text-background text-xs font-bold">✓</span>
+            }
+          </span>
+          @if (onboardingSteps.first_asset) {
+            <span class="text-sm text-text-secondary line-through">Ajouter votre premier bien</span>
+          } @else {
+            <a routerLink="/assets/new" class="text-sm text-primary hover:underline">
+              Ajouter votre premier bien
+            </a>
+          }
+        </li>
+
+        <!-- Step 3 : first document -->
+        <li class="flex items-center gap-3 flex-1">
+          <span
+            class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 border-2 transition-colors"
+            [class.bg-primary]="onboardingSteps.first_document"
+            [class.border-primary]="onboardingSteps.first_document"
+            [class.border-border]="!onboardingSteps.first_document"
+          >
+            @if (onboardingSteps.first_document) {
+              <span class="text-background text-xs font-bold">✓</span>
+            }
+          </span>
+          @if (onboardingSteps.first_document) {
+            <span class="text-sm text-text-secondary line-through">Uploader un document</span>
+          } @else {
+            <span class="text-sm text-text-secondary">Uploader un document</span>
+          }
+        </li>
+
+        <!-- Step 4 : installer l'app (only mobile) -->
+        @if (!onboardingSteps.app_installed) {
+          <li class="flex items-center gap-3 flex-1 lg:hidden">
+            <span
+              class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 border-2 border-border"
+            >
+            </span>
+            <button
+              (click)="showPwaInstallModal = true"
+              class="text-sm text-primary hover:underline text-left"
+            >
+              Installer l'app sur votre téléphone
+            </button>
+          </li>
+        } @else {
+          <li class="flex items-center gap-3 flex-1 lg:hidden">
+            <span class="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
+              <span class="text-background text-xs font-bold">✓</span>
+            </span>
+            <span class="text-sm text-text-secondary line-through"
+              >Installer l'app sur votre téléphone</span
+            >
+          </li>
+        }
+      </ul>
+    </section>
+  }
+
   @if (isLoading) {
     <div class="flex justify-center pt-20">
       <span class="flex items-center gap-1">
@@ -92,7 +200,7 @@
         ></span>
 
         <dt class="text-text-secondary text-xs uppercase tracking-widest mb-2">Documents</dt>
-        <dd class="text-4xl font-bold font-display m-0">{{ documentsCount ?? '—' }}</dd>
+        <dd class="text-4xl font-bold font-display m-0">{{ documentsCount ?? '-' }}</dd>
       </dl>
 
       <!-- * Alert card - Only on desktop -->
@@ -326,7 +434,7 @@
                       <span class="lg:hidden">j</span><span class="hidden lg:inline"> jour(s)</span>
                     </span>
                   } @else {
-                    <span class="text-text-secondary text-sm">—</span>
+                    <span class="text-text-secondary text-sm">-</span>
                   }
                 </td>
                 <td class="px-5 py-4 text-sm font-semibold text-primary text-right">
@@ -399,5 +507,98 @@
         }
       </ul>
     }
+  }
+
+  <!-- * PWA Install Modal -->
+  @if (showPwaInstallModal) {
+    <div
+      class="fixed inset-0 z-50 flex items-end lg:items-center justify-center bg-black/60 backdrop-blur-sm px-4 pb-12 lg:pb-0"
+      (click)="showPwaInstallModal = false"
+      aria-hidden="true"
+    >
+      <dialog
+        open
+        class="mx-4 lg:max-w-md lg:mx-auto bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="flex items-center justify-between">
+          <h2 class="text-base font-bold font-display text-text-primary">Installer l'app</h2>
+          <button
+            (click)="showPwaInstallModal = false"
+            class="text-text-secondary hover:text-text-primary transition-colors"
+          >
+            <lucide-angular [img]="xIcon" [size]="16" aria-hidden="true" />
+          </button>
+        </div>
+
+        @if (pwaOs === 'ios') {
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Sur <span class="text-text-primary font-semibold">Safari</span>, appuyez sur l'icône
+            <span class="text-primary font-semibold">Partager</span> en bas de l'écran, puis
+            sélectionnez
+            <span class="text-text-primary font-semibold">"Sur l'écran d'accueil"</span>.
+          </p>
+          <div
+            class="flex flex-col gap-2 text-xs text-text-secondary bg-surface-light rounded-xl p-3"
+          >
+            <div class="flex items-center gap-2">
+              <span class="text-primary">1.</span> Ouvrez inventr.fr dans
+              <span class="font-semibold text-text-primary">Safari</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-primary">2.</span> Appuyez sur l'icône
+              <span class="font-semibold text-text-primary">Partager</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-primary">3.</span> Faites défiler et appuyez sur
+              <span class="font-semibold text-text-primary">"Sur l'écran d'accueil"</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-primary">4.</span> Appuyez sur
+              <span class="font-semibold text-text-primary">"Ajouter"</span>
+            </div>
+          </div>
+        } @else if (pwaOs === 'android') {
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Sur <span class="text-text-primary font-semibold">Chrome</span>, appuyez sur le menu
+            <span class="text-primary font-semibold">⋮</span> en haut à droite, puis sélectionnez
+            <span class="text-text-primary font-semibold">"Ajouter à l'écran d'accueil"</span>.
+          </p>
+          <div
+            class="flex flex-col gap-2 text-xs text-text-secondary bg-surface-light rounded-xl p-3"
+          >
+            <div class="flex items-center gap-2">
+              <span class="text-primary">1.</span> Ouvrez inventr.fr dans
+              <span class="font-semibold text-text-primary">Chrome</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-primary">2.</span> Appuyez sur
+              <span class="font-semibold text-text-primary">⋮</span> en haut à droite
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-primary">3.</span> Appuyez sur
+              <span class="font-semibold text-text-primary">"Ajouter à l'écran d'accueil"</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-primary">4.</span> Appuyez sur
+              <span class="font-semibold text-text-primary">"Ajouter"</span>
+            </div>
+          </div>
+        } @else {
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Sur <span class="text-text-primary font-semibold">Chrome</span>, cliquez sur l'icône
+            d'installation dans la barre d'adresse, puis cliquez sur
+            <span class="text-text-primary font-semibold">"Installer"</span>.
+          </p>
+        }
+
+        <button
+          (click)="completePwaInstall()"
+          class="w-full bg-primary text-background font-semibold rounded-2xl py-3 transition-opacity hover:opacity-90"
+        >
+          C'est fait !
+        </button>
+      </dialog>
+    </div>
   }
 </main>

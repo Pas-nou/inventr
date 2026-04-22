@@ -1,12 +1,12 @@
 @if (showDeleteModal) {
   <div
-    class="fixed inset-0 z-50 flex items-end lg:items-center justify-center bg-black/60 backdrop-blur-sm px-4 pb-8 lg:pb-0"
+    class="fixed inset-0 z-50 flex items-end lg:items-center justify-center bg-black/60 backdrop-blur-sm px-6 pb-12 lg:px-4 lg:pb-0"
     (click)="closeDeleteModal()"
     aria-hidden="true"
   >
     <dialog
       open
-      class="w-full lg:max-w-lg mx-auto bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+      class="mx-4 lg:max-w-md lg:mx-auto bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
       (click)="$event.stopPropagation()"
       aria-labelledby="delete-modal-title"
       aria-describedby="delete-modal-desc"
@@ -35,7 +35,43 @@
   </div>
 }
 
+@if (showUnsavedModal) {
+  <div
+    class="fixed inset-0 z-50 flex items-end lg:items-center justify-center bg-black/60 backdrop-blur-sm px-6 pb-12 lg:px-4 lg:pb-0"
+    aria-hidden="true"
+  >
+    <dialog
+      open
+      class="mx-4 lg:max-w-md lg:mx-auto bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4"
+      aria-labelledby="unsaved-modal-title"
+      aria-describedby="unsaved-modal-desc"
+    >
+      <hgroup>
+        <p id="unsaved-modal-title" class="text-lg font-bold text-text-primary">
+          Modifications non sauvegardées
+        </p>
+        <p id="unsaved-modal-desc" class="text-sm text-text-secondary mt-1">
+          Des modifications sont non sauvegardées. Quitter quand même ?
+        </p>
+      </hgroup>
+      <button
+        (click)="confirmLeave()"
+        class="w-full bg-error-dim text-white font-semibold rounded-2xl py-4 transition-opacity hover:opacity-80"
+      >
+        Quitter sans sauvegarder
+      </button>
+      <button
+        (click)="cancelLeave()"
+        class="w-full text-text-secondary font-semibold rounded-2xl py-4 border border-border transition-colors hover:border-primary"
+      >
+        Rester sur la page
+      </button>
+    </dialog>
+  </div>
+}
+
 <main class="min-h-screen bg-background text-text-primary pb-24 px-4 pt-6 lg:px-8 lg:py-8 lg:pb-8">
+  <div class="max-w-4xl mx-auto">
   <!-- Back button -->
   <button
     (click)="goBack()"
@@ -64,7 +100,7 @@
     </p>
   </header>
 
-  <form (ngSubmit)="onSubmit()" [formGroup]="form" novalidate class="lg:max-w-2xl">
+  <form (ngSubmit)="onSubmit()" [formGroup]="form" novalidate>
     <!-- Name -->
     <fieldset class="mb-5">
       <label
@@ -148,6 +184,9 @@
           @if (form.get('purchase_price_cents')?.errors?.['max']) {
             <p class="text-error-dim text-xs mt-1">Le prix ne peut pas dépasser 21 474 836 €</p>
           }
+          @if (form.get('purchase_price_cents')?.errors?.['maxTwoDecimals']) {
+            <p class="text-error-dim text-xs mt-1">Maximum 2 décimales autorisées</p>
+          }
         }
       </fieldset>
       <fieldset>
@@ -173,6 +212,9 @@
         }
         @if (form.get('purchase_date')?.errors?.['futureDate']) {
           <p class="text-error-dim text-xs mt-1">La date d'achat ne peut pas être dans le futur</p>
+        }
+        @if (form.get('purchase_date')?.errors?.['tooOld']) {
+          <p class="text-error-dim text-xs mt-1">La date ne peut pas être avant 1900</p>
         }
       </fieldset>
     </div>
@@ -217,9 +259,9 @@
           type="date"
           class="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary focus:outline-none focus:border-primary transition-colors"
         />
-        @if (form.get('warranty_end_date')?.errors?.['pastDate']) {
+        @if (form.errors?.['warrantyBeforePurchase'] && form.get('warranty_end_date')?.value) {
           <p class="text-error-dim text-xs mt-1">
-            La date de garantie ne peut pas être dans le passé
+            La garantie ne peut pas être antérieure à la date d'achat
           </p>
         }
       </fieldset>
@@ -248,8 +290,8 @@
       <!-- Submit -->
       <button
         type="submit"
-        [disabled]="form.invalid || isSubmitting"
-        class="w-full lg:flex-1 bg-primary text-background font-semibold rounded-2xl py-4 mb-3 transition-opacity disabled:opacity-50 flex items-center justify-center min-h-14"
+        [disabled]="form.invalid || isSubmitting || (isEditMode && !form.dirty)"
+        class="w-full lg:flex-1 bg-primary text-background font-semibold rounded-2xl py-4 mb-3 transition-opacity disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center min-h-14"
       >
         @if (!isSubmitting) {
           {{ isEditMode ? 'Enregistrer les modifications' : 'Enregistrer le bien' }}
@@ -282,4 +324,5 @@
       }
     </div>
   </form>
+</div>
 </main>
