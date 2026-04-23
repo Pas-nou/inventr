@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   apiUrl: 'https://inventr-production.up.railway.app',
-  version: '1.2.0',
+  version: '1.2.1',
 };
