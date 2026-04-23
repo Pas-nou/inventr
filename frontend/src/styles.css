@@ -56,6 +56,12 @@ a {
   cursor: pointer;
 }
 
+input,
+select,
+textarea {
+  font-size: 16px;
+}
+
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -69,7 +75,29 @@ input[type='number'] {
 input[type='date'] {
   -webkit-appearance: none;
   appearance: none;
-  height: 3rem;
+  
+  width: 100%;
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+
+  min-height: 3rem;
+  line-height: 1.2;
+
+  font-family: inherit;
+  font-size: 1rem;
+
+  color-scheme: dark;
+}
+
+input[type='date']::-webkit-date-and-time-value {
+  text-align: left;
+}
+
+input[type='date']::-webkit-datetime-edit {
+  padding: 0;
 }
 
 /* ============================================================
@@ -246,6 +274,10 @@ input[type='date']::-webkit-datetime-edit {
   color: var(--color-text-secondary);
 }
 
-input[type='date']:not([value=''])::-webkit-datetime-edit {
+input[type='date']:valid::-webkit-datetime-edit {
   color: var(--color-text-primary);
+}
+
+input[type='date']:invalid::-webkit-datetime-edit {
+  color: var(--color-text-secondary);
 }
