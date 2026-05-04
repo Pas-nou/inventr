@@ -31,6 +31,7 @@ import {
 import { ToastService } from '../../../core/services/toast.service';
 import { FormsModule } from '@angular/forms';
 import { OnboardingService } from '../../../core/services/onboarding.service';
+import imageCompression from 'browser-image-compression';
 
 type ActiveTab = 'infos' | 'documents' | 'maintenance';
 
@@ -192,7 +193,7 @@ export class AssetDetailComponent implements OnInit {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.pdf, .doc, .docx, .jpg, .jpeg, .png, .webp';
-    input.onchange = (event) => {
+    input.onchange = async (event) => {
       const file = (event.target as HTMLInputElement).files?.[0];
       if (file) {
         // Check file size (limit to 10MB)
@@ -200,7 +201,19 @@ export class AssetDetailComponent implements OnInit {
           this.toastService.show('Le fichier dépasse la limite de 10Mo', 'error');
           return;
         }
-        this.pendingFile = file;
+
+        // Compress images before upload
+        const imageType = ['image/jpeg', 'image/png', 'image/webp'];
+        if (imageType.includes(file.type)) {
+          const compressed = await imageCompression(file, {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+          });
+          this.pendingFile = new File([compressed], file.name, { type: file.type });
+        } else {
+          this.pendingFile = file;
+        }
         this.uploadName = file.name.replace(/\.[^/.]+$/, '');
         this.uploadType = '';
         this.showUploadModal = true;
