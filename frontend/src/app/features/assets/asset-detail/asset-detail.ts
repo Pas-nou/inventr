@@ -84,6 +84,7 @@ export class AssetDetailComponent implements OnInit {
   uploadName = '';
   uploadType = '';
   originalFileSize = 0;
+  isCompressing = false;
 
   readonly documentTypes = ['Facture', 'Garantie', 'Manuel', 'Certificat', 'Photo', 'Autre'];
 
@@ -208,12 +209,15 @@ export class AssetDetailComponent implements OnInit {
         // Compress images before upload
         const imageType = ['image/jpeg', 'image/png', 'image/webp'];
         if (imageType.includes(file.type)) {
+          this.isCompressing = true;
+          this.cdr.detectChanges();
           const compressed = await imageCompression(file, {
             maxSizeMB: 1,
             maxWidthOrHeight: 1920,
             useWebWorker: true,
           });
           this.pendingFile = new File([compressed], file.name, { type: file.type });
+          this.isCompressing = false;
         } else {
           this.pendingFile = file;
         }
