@@ -83,6 +83,7 @@ export class AssetDetailComponent implements OnInit {
   pendingFile: File | null = null;
   uploadName = '';
   uploadType = '';
+  originalFileSize = 0;
 
   readonly documentTypes = ['Facture', 'Garantie', 'Manuel', 'Certificat', 'Photo', 'Autre'];
 
@@ -196,6 +197,8 @@ export class AssetDetailComponent implements OnInit {
     input.onchange = async (event) => {
       const file = (event.target as HTMLInputElement).files?.[0];
       if (file) {
+        this.originalFileSize = file.size;
+
         // Check file size (limit to 10MB)
         if (file.size > 10 * 1024 * 1024) {
           this.toastService.show('Le fichier dépasse la limite de 10Mo', 'error');

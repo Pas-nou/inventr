@@ -14,7 +14,16 @@
         <p class="text-sm text-text-secondary mt-1">
           {{ pendingFile?.name }}
           @if (pendingFile) {
-            <span class="ml-1">({{ pendingFile.size / 1048576 | number: '1.1-2' }} Mo)</span>
+            @if (originalFileSize > 0 && originalFileSize !== pendingFile.size) {
+              <span class="ml-1">
+                <span class="line-through"
+                  >{{ originalFileSize / 1048576 | number: '1.1-2' }} Mo</span
+                >
+                → {{ pendingFile.size / 1048576 | number: '1.1-2' }} Mo
+              </span>
+            } @else {
+              <span class="ml-1">({{ pendingFile.size / 1048576 | number: '1.1-2' }} Mo)</span>
+            }
           }
         </p>
       </hgroup>
