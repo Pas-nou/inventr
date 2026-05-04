@@ -195,6 +195,11 @@ export class AssetDetailComponent implements OnInit {
     input.onchange = (event) => {
       const file = (event.target as HTMLInputElement).files?.[0];
       if (file) {
+        // Check file size (limit to 10MB)
+        if (file.size > 10 * 1024 * 1024) {
+          this.toastService.show('Le fichier dépasse la limite de 10Mo', 'error');
+          return;
+        }
         this.pendingFile = file;
         this.uploadName = file.name.replace(/\.[^/.]+$/, '');
         this.uploadType = '';
@@ -233,11 +238,15 @@ export class AssetDetailComponent implements OnInit {
           this.toastService.show('Document ajouté avec succès');
           this.cdr.detectChanges();
         },
-        error: () => {
+        error: (err) => {
           this.isUploading = false;
           this.showUploadModal = false;
           this.pendingFile = null;
-          this.toastService.show("Erreur lors de l'upload", 'error');
+          const message =
+            err?.status === 413
+              ? 'Ce fichier dépasse la limite de 10Mo'
+              : "Erreur lors de l'upload";
+          this.toastService.show(message, 'error');
           this.cdr.detectChanges();
         },
       });
