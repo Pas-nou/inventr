@@ -10,7 +10,7 @@ import { Repository } from 'typeorm';
 import { Document } from './entities/document.entity';
 import { Asset } from '../assets/entities/asset.entity';
 import { StorageService } from '../storage/storage.service';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import { MulterFile } from '../common/interfaces/multer-file.interface';
 
 @Injectable()
@@ -55,7 +55,7 @@ export class DocumentsService {
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
       .replace(/[^a-zA-Z0-9._-]/g, '_');
-    const filePath = `${uuidv4()}-${sanitizeName}`;
+    const filePath = `${randomUUID()}-${sanitizeName}`;
     const storageKey = await this.storageService.uploadFile(
       file,
       this.BUCKET,
