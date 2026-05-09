@@ -24,6 +24,7 @@ export class MaintenanceEvent {
   @Column()
   name!: string;
 
+  @Index()
   @Column()
   date!: Date;
 

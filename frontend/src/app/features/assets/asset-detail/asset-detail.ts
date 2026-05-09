@@ -31,7 +31,6 @@ import {
 import { ToastService } from '../../../core/services/toast.service';
 import { FormsModule } from '@angular/forms';
 import { OnboardingService } from '../../../core/services/onboarding.service';
-import imageCompression from 'browser-image-compression';
 
 type ActiveTab = 'infos' | 'documents' | 'maintenance';
 
@@ -211,6 +210,7 @@ export class AssetDetailComponent implements OnInit {
         if (imageType.includes(file.type)) {
           this.isCompressing = true;
           this.cdr.detectChanges();
+          const { default: imageCompression } = await import('browser-image-compression');
           const compressed = await imageCompression(file, {
             maxSizeMB: 1,
             maxWidthOrHeight: 1920,

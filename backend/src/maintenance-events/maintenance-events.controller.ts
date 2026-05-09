@@ -16,13 +16,7 @@ import { CreateMaintenanceEventDto } from './dto/create-maintenance-event.dto';
 import { UpdateMaintenanceEventDto } from './dto/update-maintenance-event.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
-
-interface RequestWithUser extends Request {
-  user: {
-    userId: string;
-    email: string;
-  };
-}
+import type { RequestWithUser } from '../common/interfaces/request-with-user.interface';
 
 @UseGuards(JwtAuthGuard)
 @Controller('maintenance-events')
