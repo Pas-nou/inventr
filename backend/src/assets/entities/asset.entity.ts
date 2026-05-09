@@ -15,6 +15,7 @@ import { Document } from '../../documents/entities/document.entity';
 import { MaintenanceEvent } from '../../maintenance-events/entities/maintenance-event.entity';
 
 @Entity()
+@Index(['user', 'created_at'])
 export class Asset {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
@@ -30,9 +31,11 @@ export class Asset {
   })
   category!: AssetCategory;
 
+  @Index()
   @Column()
   purchase_date!: Date;
 
+  @Index()
   @Column()
   purchase_price_cents!: number;
 
@@ -46,6 +49,7 @@ export class Asset {
   @Column({ nullable: true })
   notes!: string;
 
+  @Index()
   @Column({ nullable: true })
   warranty_end_date!: Date;
 

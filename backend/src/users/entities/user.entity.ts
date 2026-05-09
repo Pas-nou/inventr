@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   OneToMany,
+  Index,
 } from 'typeorm';
 import { UserRole } from '../enums/user-role.enum';
 import { Asset } from '../../assets/entities/asset.entity';
@@ -13,6 +14,7 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
+  @Index()
   @Column({ unique: true })
   email!: string;
 
@@ -38,12 +40,14 @@ export class User {
   @Column({ default: false })
   email_verified!: boolean;
 
+  @Index()
   @Column({ nullable: true, type: 'text' })
   verification_token!: string | null;
 
   @Column({ nullable: true, type: 'timestamptz' })
   verification_token_expires_at!: Date | null;
 
+  @Index()
   @Column({ nullable: true, type: 'text' })
   reset_password_token!: string | null;
 
