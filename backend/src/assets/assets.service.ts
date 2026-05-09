@@ -70,10 +70,21 @@ export class AssetsService {
     const qb = this.assetsRepository
       .createQueryBuilder('asset')
       .where('asset.user = :userId', { userId })
-      .orderBy(orderField, sortOrder)
       .skip((page - 1) * limit)
       .take(limit);
 
+    if (sortBy === 'warranty_end_date') {
+      qb.orderBy(
+        `CASE 
+    WHEN ${orderField} IS NULL THEN 2
+    WHEN ${orderField} < NOW() THEN 1
+    ELSE 0
+  END`,
+        'ASC',
+      ).addOrderBy(orderField, sortOrder);
+    } else {
+      qb.orderBy(orderField, sortOrder);
+    }
     if (search?.trim()) {
       qb.andWhere('asset.name ILIKE :search', { search: `%${search.trim()}%` });
     }
