@@ -18,15 +18,15 @@ import {
   Plus,
   Search,
   X,
-  ArrowUpDown, 
-  ArrowUp, 
-  ArrowDown
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
 } from 'lucide-angular';
 import { AuthService } from '../../core/services/auth.service';
 import { AssetsService, Asset } from '../../core/services/assets.service';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { AlertsStateService } from '../../core/services/alerts-state.service';
-import { Subscription, filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { Subscription, filter, debounceTime, distinctUntilChanged, switchMap, Subject, merge } from 'rxjs';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { OnboardingService } from '../../core/services/onboarding.service';
 
@@ -70,6 +70,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
   private searchSubscription?: Subscription;
   private routerSubscription?: Subscription;
+  private refreshSubject = new Subject<void>();
 
   sortBy = 'created_at';
   sortOrder: 'ASC' | 'DESC' = 'DESC';
@@ -153,16 +154,20 @@ export class AssetsComponent implements OnInit, OnDestroy {
   }
 
   private initSearch(): void {
-    this.searchSubscription = this.searchControl.valueChanges
+    const search$ = this.searchControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+    );
+
+    this.searchSubscription = merge(search$, this.refreshSubject)
       .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        switchMap((term) => {
+        switchMap(() => {
           this.isLoading = true;
           this.cdr.detectChanges();
-          return this.assetsService.getAssets(1, 100, term ?? '', this.sortBy, this.sortOrder);
+          return this.assetsService.getAssets(1, 100, this.searchControl.value ?? '', this.sortBy, this.sortOrder);
         }),
       )
+
       .subscribe({
         next: (response) => {
           this.assets = [...response.data];
@@ -182,7 +187,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
       });
 
     // Triggers the first request
-    this.searchControl.setValue('');
+    this.refreshSubject.next();
   }
 
   private loadStats(): void {
@@ -258,10 +263,10 @@ export class AssetsComponent implements OnInit, OnDestroy {
       this.sortBy = sortBy;
       this.sortOrder = 'DESC';
     }
-    this.searchControl.setValue(this.searchControl.value, { emitEvent: true });
+    this.refreshSubject.next();
   }
 
   get activeSortLabel(): string {
-    return this.sortOptions.find(o => o.value === this.sortBy)?.label || 'Trier';
+    return this.sortOptions.find((o) => o.value === this.sortBy)?.label || 'Trier';
   }
 }
