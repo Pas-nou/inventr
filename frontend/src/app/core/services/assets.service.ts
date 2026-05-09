@@ -38,9 +38,11 @@ export class AssetsService {
 
   constructor(private http: HttpClient) {}
 
-  getAssets(page: number = 1, limit: number = 100, search?: string): Observable<AssetsResponse> {
+  getAssets(page: number = 1, limit: number = 100, search?: string, sortBy?: string, sortOrder?: 'ASC' | 'DESC'): Observable<AssetsResponse> {
     let url = `${this.apiUrl}?page=${page}&limit=${limit}`;
     if (search?.trim()) url += `&search=${encodeURIComponent(search.trim())}`;
+    if (sortBy) url += `&sortBy=${sortBy}`;
+    if (sortOrder) url += `&sortOrder=${sortOrder}`;
     return this.http.get<AssetsResponse>(url, {
       headers: {
         'Cache-Control': 'no-cache',

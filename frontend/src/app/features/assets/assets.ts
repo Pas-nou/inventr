@@ -18,6 +18,9 @@ import {
   Plus,
   Search,
   X,
+  ArrowUpDown, 
+  ArrowUp, 
+  ArrowDown
 } from 'lucide-angular';
 import { AuthService } from '../../core/services/auth.service';
 import { AssetsService, Asset } from '../../core/services/assets.service';
@@ -44,6 +47,9 @@ export class AssetsComponent implements OnInit, OnDestroy {
   readonly plus = Plus;
   readonly searchIcon = Search;
   readonly xIcon = X;
+  readonly arrowUpDown = ArrowUpDown;
+  readonly arrowUp = ArrowUp;
+  readonly arrowDown = ArrowDown;
 
   // State
   firstName = '';
@@ -64,6 +70,18 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
   private searchSubscription?: Subscription;
   private routerSubscription?: Subscription;
+
+  sortBy = 'created_at';
+  sortOrder: 'ASC' | 'DESC' = 'DESC';
+  isSortDropdownOpen = false;
+
+  readonly sortOptions = [
+    { label: "Date d'ajout", value: 'created_at' },
+    { label: 'Nom', value: 'name' },
+    { label: 'Prix', value: 'price' },
+    { label: "Date d'achat", value: 'purchase_date' },
+    { label: 'Garantie', value: 'warranty_end_date' },
+  ];
 
   // Category config
   readonly categories = [
@@ -142,7 +160,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
         switchMap((term) => {
           this.isLoading = true;
           this.cdr.detectChanges();
-          return this.assetsService.getAssets(1, 100, term ?? '');
+          return this.assetsService.getAssets(1, 100, term ?? '', this.sortBy, this.sortOrder);
         }),
       )
       .subscribe({
@@ -225,5 +243,25 @@ export class AssetsComponent implements OnInit, OnDestroy {
     this.onboardingSteps = this.onboardingService.getSteps();
     this.onboardingCompleted = this.onboardingService.isCompleted();
     this.cdr.detectChanges();
+  }
+
+  setSort(sortBy: string): void {
+    if (this.sortBy === sortBy) {
+      if (this.sortOrder === 'DESC') {
+        this.sortOrder = 'ASC';
+      } else {
+        // Reset to default
+        this.sortBy = 'created_at';
+        this.sortOrder = 'DESC';
+      }
+    } else {
+      this.sortBy = sortBy;
+      this.sortOrder = 'DESC';
+    }
+    this.searchControl.setValue(this.searchControl.value, { emitEvent: true });
+  }
+
+  get activeSortLabel(): string {
+    return this.sortOptions.find(o => o.value === this.sortBy)?.label || 'Trier';
   }
 }
