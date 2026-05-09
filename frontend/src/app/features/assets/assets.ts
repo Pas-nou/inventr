@@ -18,12 +18,15 @@ import {
   Plus,
   Search,
   X,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
 } from 'lucide-angular';
 import { AuthService } from '../../core/services/auth.service';
 import { AssetsService, Asset } from '../../core/services/assets.service';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { AlertsStateService } from '../../core/services/alerts-state.service';
-import { Subscription, filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { Subscription, filter, debounceTime, distinctUntilChanged, switchMap, Subject, merge } from 'rxjs';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { OnboardingService } from '../../core/services/onboarding.service';
 
@@ -44,6 +47,9 @@ export class AssetsComponent implements OnInit, OnDestroy {
   readonly plus = Plus;
   readonly searchIcon = Search;
   readonly xIcon = X;
+  readonly arrowUpDown = ArrowUpDown;
+  readonly arrowUp = ArrowUp;
+  readonly arrowDown = ArrowDown;
 
   // State
   firstName = '';
@@ -64,6 +70,19 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
   private searchSubscription?: Subscription;
   private routerSubscription?: Subscription;
+  private refreshSubject = new Subject<void>();
+
+  sortBy = 'created_at';
+  sortOrder: 'ASC' | 'DESC' = 'DESC';
+  isSortDropdownOpen = false;
+
+  readonly sortOptions = [
+    { label: "Date d'ajout", value: 'created_at' },
+    { label: 'Nom', value: 'name' },
+    { label: 'Prix', value: 'price' },
+    { label: "Date d'achat", value: 'purchase_date' },
+    { label: 'Garantie', value: 'warranty_end_date' },
+  ];
 
   // Category config
   readonly categories = [
@@ -135,16 +154,20 @@ export class AssetsComponent implements OnInit, OnDestroy {
   }
 
   private initSearch(): void {
-    this.searchSubscription = this.searchControl.valueChanges
+    const search$ = this.searchControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+    );
+
+    this.searchSubscription = merge(search$, this.refreshSubject)
       .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        switchMap((term) => {
+        switchMap(() => {
           this.isLoading = true;
           this.cdr.detectChanges();
-          return this.assetsService.getAssets(1, 100, term ?? '');
+          return this.assetsService.getAssets(1, 100, this.searchControl.value ?? '', this.sortBy, this.sortOrder);
         }),
       )
+
       .subscribe({
         next: (response) => {
           this.assets = [...response.data];
@@ -164,7 +187,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
       });
 
     // Triggers the first request
-    this.searchControl.setValue('');
+    this.refreshSubject.next();
   }
 
   private loadStats(): void {
@@ -225,5 +248,25 @@ export class AssetsComponent implements OnInit, OnDestroy {
     this.onboardingSteps = this.onboardingService.getSteps();
     this.onboardingCompleted = this.onboardingService.isCompleted();
     this.cdr.detectChanges();
+  }
+
+  setSort(sortBy: string): void {
+    if (this.sortBy === sortBy) {
+      if (this.sortOrder === 'DESC') {
+        this.sortOrder = 'ASC';
+      } else {
+        // Reset to default
+        this.sortBy = 'created_at';
+        this.sortOrder = 'DESC';
+      }
+    } else {
+      this.sortBy = sortBy;
+      this.sortOrder = 'DESC';
+    }
+    this.refreshSubject.next();
+  }
+
+  get activeSortLabel(): string {
+    return this.sortOptions.find((o) => o.value === this.sortBy)?.label || 'Trier';
   }
 }

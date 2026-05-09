@@ -44,23 +44,47 @@ export class AssetsService {
   }
 
   /**
-   * Returns a paginated list of assets for a given user, ordered by creation date.
+   * Returns a paginated list of assets for a given user.
+   * Supports search by name, and sorting by name, price, purchase date, or warranty.
    */
   async findAll(
     userId: string,
     page: number = 1,
     limit: number = 10,
     search?: string,
+    sortBy?: string,
+    sortOrder: 'ASC' | 'DESC' = 'DESC',
   ) {
     limit = Math.min(limit, 100);
+
+    const allowedSortFields: Record<string, string> = {
+      name: 'asset.name',
+      price: 'asset.purchase_price_cents',
+      purchase_date: 'asset.purchase_date',
+      warranty_end_date: 'asset.warranty_end_date',
+      created_at: 'asset.created_at',
+    };
+
+    const orderField = allowedSortFields[sortBy ?? ''] ?? 'asset.created_at';
 
     const qb = this.assetsRepository
       .createQueryBuilder('asset')
       .where('asset.user = :userId', { userId })
-      .orderBy('asset.created_at', 'DESC')
       .skip((page - 1) * limit)
       .take(limit);
 
+    if (sortBy === 'warranty_end_date') {
+      qb.orderBy(
+        `CASE 
+    WHEN ${orderField} IS NULL THEN 2
+    WHEN ${orderField} < NOW() THEN 1
+    ELSE 0
+  END`,
+        'ASC',
+      ).addOrderBy(orderField, sortOrder);
+    } else {
+      qb.orderBy(orderField, sortOrder);
+    }
     if (search?.trim()) {
       qb.andWhere('asset.name ILIKE :search', { search: `%${search.trim()}%` });
     }

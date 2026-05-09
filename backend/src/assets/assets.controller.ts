@@ -42,8 +42,17 @@ export class AssetsController {
     @Query('page', new ParseIntPipe({ optional: true })) page: number = 1,
     @Query('limit', new ParseIntPipe({ optional: true })) limit: number = 10,
     @Query('search') search?: string,
+    @Query('sortBy') sortBy?: string,
+    @Query('sortOrder') sortOrder?: 'ASC' | 'DESC',
   ) {
-    return this.assetsService.findAll(req.user.userId, page, limit, search);
+    return this.assetsService.findAll(
+      req.user.userId,
+      page,
+      limit,
+      search,
+      sortBy,
+      sortOrder,
+    );
   }
 
   @Get('stats')
