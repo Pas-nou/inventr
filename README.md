@@ -18,6 +18,7 @@
 - 🗺️ Roadmap publique et historique des versions (changelog)
 - 🛠️ Suivi de maintenance (historique, rappels d'échéance)
 - 🧭 Checklist de démarrage pour les nouveaux utilisateurs
+- 🔃 Tri de l'inventaire par nom, prix, date d'achat ou garantie
 
 ---
 
