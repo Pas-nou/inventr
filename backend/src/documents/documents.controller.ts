@@ -21,13 +21,7 @@ import { UpdateDocumentDto } from './dto/update-document.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { MulterFile } from '../common/interfaces/multer-file.interface';
-
-interface RequestWithUser extends Request {
-  user: {
-    userId: string;
-    email: string;
-  };
-}
+import type { RequestWithUser } from '../common/interfaces/request-with-user.interface';
 
 @UseGuards(JwtAuthGuard)
 @Controller('documents')
