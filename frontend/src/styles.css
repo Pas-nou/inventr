@@ -184,6 +184,23 @@ html {
   font-weight: 500;
 }
 
+.table-header-sortable {
+  text-align: left;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s;
+  user-select: none;
+}
+
+.table-header-sortable:hover {
+  color: var(--color-primary);
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;

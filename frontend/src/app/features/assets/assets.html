@@ -254,52 +254,96 @@
       </section>
     }
 
-    <!-- Mobile : dropdown filtres -->
+    <!-- * Mobile : dropdown filtres -->
     <section
       aria-label="Filtres par catégorie"
       class="flex items-center justify-between mb-4 lg:hidden"
     >
       <h2 class="text-lg font-bold font-display">Inventaire</h2>
-      <div class="relative">
-        <button
-          (click)="toggleDropdown()"
-          [attr.aria-expanded]="isDropdownOpen"
-          class="flex items-center gap-2 px-4 py-1.5 rounded-full text-sm border transition-colors"
-          [class.bg-primary]="isDropdownOpen"
-          [class.text-background]="isDropdownOpen"
-          [class.border-primary]="isDropdownOpen"
-          [class.text-text-secondary]="!isDropdownOpen"
-          [class.border-border]="!isDropdownOpen"
-        >
-          @if (activeCategory !== 'Tous') {
-            <lucide-angular [img]="getCategoryIcon(activeCategory)" [size]="14" />
-          }
-          {{ activeCategory }}
-          <lucide-angular [img]="isDropdownOpen ? chevronUp : chevronDown" [size]="14" />
-        </button>
-        @if (isDropdownOpen) {
-          <ul
-            role="listbox"
-            class="absolute right-0 mt-2 w-52 max-w-[calc(100vw-2rem)] rounded-2xl overflow-hidden z-10 bg-surface-light border border-border"
+      <div class="flex items-center gap-2">
+        <!-- Dropdown tri -->
+        <div class="relative">
+          <button
+            (click)="isSortDropdownOpen = !isSortDropdownOpen"
+            class="flex items-center gap-2 px-3 py-1.5 rounded-full text-sm border transition-colors"
+            [class.bg-primary]="sortBy !== 'created_at' || isSortDropdownOpen"
+            [class.text-background]="sortBy !== 'created_at' || isSortDropdownOpen"
+            [class.border-primary]="sortBy !== 'created_at' || isSortDropdownOpen"
+            [class.text-text-secondary]="sortBy === 'created_at' && !isSortDropdownOpen"
+            [class.border-border]="sortBy === 'created_at' && !isSortDropdownOpen"
           >
-            @for (category of categories; track category) {
-              <li
-                role="option"
-                [attr.aria-selected]="activeCategory === category"
-                (click)="selectCategory(category)"
-                class="flex items-center gap-3 px-4 py-2.5 text-sm cursor-pointer transition-colors hover:bg-surface"
-                [class.text-primary]="activeCategory === category"
-                [class.font-semibold]="activeCategory === category"
-                [class.text-text-secondary]="activeCategory !== category"
-              >
-                @if (category !== 'Tous') {
-                  <lucide-angular [img]="getCategoryIcon(category)" [size]="14" />
-                }
-                {{ category }}
-              </li>
+            {{ sortBy !== 'created_at' ? activeSortLabel : 'Trier' }}
+            @if (sortBy !== 'created_at') {
+              <span>{{ sortOrder === 'DESC' ? '↓' : '↑' }}</span>
             }
-          </ul>
-        }
+            <lucide-angular [img]="isSortDropdownOpen ? chevronUp : chevronDown" [size]="14" />
+          </button>
+          @if (isSortDropdownOpen) {
+            <ul
+              role="listbox"
+              class="absolute right-0 mt-2 w-48 rounded-2xl overflow-hidden z-10 bg-surface-light border border-border"
+            >
+              @for (option of sortOptions; track option.value) {
+                <li
+                  role="option"
+                  (click)="setSort(option.value); isSortDropdownOpen = false"
+                  class="flex items-center justify-between px-4 py-2.5 text-sm cursor-pointer transition-colors hover:bg-surface"
+                  [class.text-primary]="sortBy === option.value"
+                  [class.font-semibold]="sortBy === option.value"
+                  [class.text-text-secondary]="sortBy !== option.value"
+                >
+                  {{ option.label }}
+                  @if (sortBy === option.value) {
+                    <span class="text-xs">{{ sortOrder === 'ASC' ? '↑' : '↓' }}</span>
+                  }
+                </li>
+              }
+            </ul>
+          }
+        </div>
+
+        <!-- Dropdown existing category -->
+        <div class="relative">
+          <button
+            (click)="toggleDropdown()"
+            [attr.aria-expanded]="isDropdownOpen"
+            class="flex items-center gap-2 px-4 py-1.5 rounded-full text-sm border transition-colors"
+            [class.bg-primary]="isDropdownOpen"
+            [class.text-background]="isDropdownOpen"
+            [class.border-primary]="isDropdownOpen"
+            [class.text-text-secondary]="!isDropdownOpen"
+            [class.border-border]="!isDropdownOpen"
+          >
+            @if (activeCategory !== 'Tous') {
+              <lucide-angular [img]="getCategoryIcon(activeCategory)" [size]="14" />
+            }
+            {{ activeCategory }}
+            <lucide-angular [img]="isDropdownOpen ? chevronUp : chevronDown" [size]="14" />
+          </button>
+          @if (isDropdownOpen) {
+            <ul
+              role="listbox"
+              class="absolute right-0 mt-2 w-52 max-w-[calc(100vw-2rem)] rounded-2xl overflow-hidden z-10 bg-surface-light border border-border"
+            >
+              @for (category of categories; track category) {
+                <li
+                  role="option"
+                  [attr.aria-selected]="activeCategory === category"
+                  (click)="selectCategory(category)"
+                  class="flex items-center gap-3 px-4 py-2.5 text-sm cursor-pointer transition-colors hover:bg-surface"
+                  [class.text-primary]="activeCategory === category"
+                  [class.font-semibold]="activeCategory === category"
+                  [class.text-text-secondary]="activeCategory !== category"
+                >
+                  @if (category !== 'Tous') {
+                    <lucide-angular [img]="getCategoryIcon(category)" [size]="14" />
+                  }
+                  {{ category }}
+                </li>
+              }
+            </ul>
+          }
+        </div>
       </div>
     </section>
 
@@ -364,12 +408,68 @@
         <table class="w-full">
           <thead>
             <tr class="border-b border-border">
-              <th class="table-header">Bien</th>
+              <th class="table-header-sortable" (click)="setSort('name')">
+                <div class="flex items-center gap-1">
+                  Bien
+                  <lucide-angular
+                    [img]="
+                      sortBy === 'name' ? (sortOrder === 'DESC' ? arrowDown : arrowUp) : arrowUpDown
+                    "
+                    [size]="12"
+                    aria-hidden="true"
+                  />
+                </div>
+              </th>
               <th class="table-header">Catégorie</th>
               <th class="table-header">État</th>
-              <th class="table-header">Date d'achat</th>
-              <th class="table-header">Garantie</th>
-              <th class="table-header">Prix</th>
+              <th class="table-header-sortable" (click)="setSort('purchase_date')">
+                <div class="flex items-center gap-1">
+                  Date d'achat
+                  <lucide-angular
+                    [img]="
+                      sortBy === 'purchase_date'
+                        ? sortOrder === 'DESC'
+                          ? arrowDown
+                          : arrowUp
+                        : arrowUpDown
+                    "
+                    [size]="12"
+                    aria-hidden="true"
+                  />
+                </div>
+              </th>
+              <th class="table-header-sortable" (click)="setSort('warranty_end_date')">
+                <div class="flex items-center gap-1">
+                  Garantie
+                  <lucide-angular
+                    [img]="
+                      sortBy === 'warranty_end_date'
+                        ? sortOrder === 'DESC'
+                          ? arrowDown
+                          : arrowUp
+                        : arrowUpDown
+                    "
+                    [size]="12"
+                    aria-hidden="true"
+                  />
+                </div>
+              </th>
+              <th class="table-header-sortable" (click)="setSort('price')">
+                <div class="flex items-center gap-1">
+                  Prix
+                  <lucide-angular
+                    [img]="
+                      sortBy === 'price'
+                        ? sortOrder === 'DESC'
+                          ? arrowDown
+                          : arrowUp
+                        : arrowUpDown
+                    "
+                    [size]="12"
+                    aria-hidden="true"
+                  />
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>

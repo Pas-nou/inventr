@@ -18,10 +18,7 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { Throttle } from '@nestjs/throttler';
-
-interface RequestWithUser extends Request {
-  user: { userId: string; email: string };
-}
+import type { RequestWithUser } from '../common/interfaces/request-with-user.interface';
 
 @Controller('auth')
 export class AuthController {

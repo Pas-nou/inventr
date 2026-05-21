@@ -4,12 +4,14 @@ import { ValidationPipe } from '@nestjs/common';
 import { default as helmet } from 'helmet';
 import { GlobalExceptionFilter } from './common/filters/http-exception.filter';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import compression from 'compression';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // HTTP header security
   app.use(helmet());
+  app.use(compression());
 
   // CORS - only the frontend is allowed
   app.enableCors({

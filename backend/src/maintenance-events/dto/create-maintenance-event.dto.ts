@@ -15,11 +15,11 @@ export class CreateMaintenanceEventDto {
   type?: MaintenanceEventType;
 
   @IsString()
-  name: string;
+  name!: string;
 
   @IsDate()
   @Type(() => Date)
-  date: Date;
+  date!: Date;
 
   @IsInt()
   @Min(0)
@@ -37,5 +37,5 @@ export class CreateMaintenanceEventDto {
 
   @IsUUID()
   @IsOptional()
-  assetId: string;
+  assetId!: string;
 }

@@ -1,3 +1,17 @@
+<!-- * Compress's spinner -->
+@if (isCompressing) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div class="bg-surface border border-border rounded-2xl p-6 flex flex-col items-center gap-4 mx-4">
+      <span class="flex items-center gap-1">
+        <span class="h-2 w-2 rounded-full bg-primary dot-1"></span>
+        <span class="h-2 w-2 rounded-full bg-primary dot-2"></span>
+        <span class="h-2 w-2 rounded-full bg-primary dot-3"></span>
+      </span>
+      <p class="text-sm text-text-secondary">Compression de votre image en cours...</p>
+    </div>
+  </div>
+}
+
 <!-- * Upload Document Modal -->
 @if (showUploadModal) {
   <div class="modal-overlay" (click)="closeUploadModal()" aria-hidden="true">
@@ -11,7 +25,21 @@
         <p id="upload-modal-title" class="text-lg font-bold text-text-primary">
           Ajouter un document
         </p>
-        <p class="text-sm text-text-secondary mt-1">{{ pendingFile?.name }}</p>
+        <p class="text-sm text-text-secondary mt-1">
+          {{ pendingFile?.name }}
+          @if (pendingFile) {
+            @if (originalFileSize > 0 && originalFileSize !== pendingFile.size) {
+              <span class="ml-1">
+                <span class="line-through"
+                  >{{ originalFileSize / 1048576 | number: '1.1-2' }} Mo</span
+                >
+                → {{ pendingFile.size / 1048576 | number: '1.1-2' }} Mo
+              </span>
+            } @else {
+              <span class="ml-1">({{ pendingFile.size / 1048576 | number: '1.1-2' }} Mo)</span>
+            }
+          }
+        </p>
       </hgroup>
       <div>
         <label class="form-label">NOM</label>

@@ -14,22 +14,22 @@ import { AssetCondition } from '../enums/asset-condition.enum';
 export class CreateAssetDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @IsEnum(AssetCategory)
-  category: AssetCategory;
+  category!: AssetCategory;
 
   @IsDate()
   @Type(() => Date)
-  purchase_date: Date;
+  purchase_date!: Date;
 
   @IsInt()
   @Min(0)
-  purchase_price_cents: number;
+  purchase_price_cents!: number;
 
   @IsEnum(AssetCondition)
   @IsOptional()
-  condition: AssetCondition;
+  condition?: AssetCondition;
 
   @IsString()
   @IsOptional()

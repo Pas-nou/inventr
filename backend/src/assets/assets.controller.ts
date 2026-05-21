@@ -16,13 +16,8 @@ import { AssetsService } from './assets.service';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import type { RequestWithUser } from '../common/interfaces/request-with-user.interface';
 
-interface RequestWithUser extends Request {
-  user: {
-    userId: string;
-    email: string;
-  };
-}
 @UseGuards(JwtAuthGuard)
 @Controller('assets')
 export class AssetsController {
@@ -42,8 +37,17 @@ export class AssetsController {
     @Query('page', new ParseIntPipe({ optional: true })) page: number = 1,
     @Query('limit', new ParseIntPipe({ optional: true })) limit: number = 10,
     @Query('search') search?: string,
+    @Query('sortBy') sortBy?: string,
+    @Query('sortOrder') sortOrder?: 'ASC' | 'DESC',
   ) {
-    return this.assetsService.findAll(req.user.userId, page, limit, search);
+    return this.assetsService.findAll(
+      req.user.userId,
+      page,
+      limit,
+      search,
+      sortBy,
+      sortOrder,
+    );
   }
 
   @Get('stats')

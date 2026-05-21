@@ -527,4 +527,141 @@ describe('AuthService', () => {
       expect(mockUsersRepository.remove).not.toHaveBeenCalled();
     });
   });
+
+  // -------------------------
+  // resendVerificationEmail
+  // -------------------------
+  describe('resendVerificationEmail', () => {
+    it('devrait renvoyer un email de vérification', async () => {
+      mockUsersRepository.findOne.mockResolvedValue({
+        ...mockUser,
+        email_verified: false,
+      });
+      mockUsersRepository.update.mockResolvedValue(undefined);
+
+      await service.resendVerificationEmail('john@inventr.app');
+
+      expect(mockEmailService.sendVerificationEmail).toHaveBeenCalledTimes(1);
+    });
+
+    it('ne devrait rien faire si utilisateur inexistant', async () => {
+      mockUsersRepository.findOne.mockResolvedValue(null);
+
+      await service.resendVerificationEmail('unknown@inventr.app');
+
+      expect(mockEmailService.sendVerificationEmail).not.toHaveBeenCalled();
+    });
+
+    it('ne devrait rien faire si email déjà vérifié', async () => {
+      mockUsersRepository.findOne.mockResolvedValue({
+        ...mockUser,
+        email_verified: true,
+      });
+
+      await service.resendVerificationEmail('john@inventr.app');
+
+      expect(mockEmailService.sendVerificationEmail).not.toHaveBeenCalled();
+    });
+  });
+
+  // -------------------------
+  // completeOnboardingStep
+  // -------------------------
+  describe('completeOnboardingStep', () => {
+    it('devrait marquer une étape comme complétée', async () => {
+      mockUsersRepository.findOneBy.mockResolvedValue({
+        ...mockUser,
+        onboarding_steps: {
+          first_asset: false,
+          first_document: false,
+          app_installed: false,
+        },
+      });
+      mockUsersRepository.update.mockResolvedValue(undefined);
+
+      await service.completeOnboardingStep('uuid-1', 'first_asset');
+
+      expect(mockUsersRepository.update).toHaveBeenCalledWith(
+        'uuid-1',
+        expect.objectContaining({
+          onboarding_steps: {
+            first_asset: true,
+            first_document: false,
+            app_installed: false,
+          } as {
+            first_asset: boolean;
+            first_document: boolean;
+            app_installed: boolean;
+          },
+        }),
+      );
+    });
+
+    it('devrait initialiser les steps si null', async () => {
+      mockUsersRepository.findOneBy.mockResolvedValue({
+        ...mockUser,
+        onboarding_steps: null,
+      });
+      mockUsersRepository.update.mockResolvedValue(undefined);
+
+      await service.completeOnboardingStep('uuid-1', 'first_document');
+
+      expect(mockUsersRepository.update).toHaveBeenCalledWith(
+        'uuid-1',
+        expect.objectContaining({
+          onboarding_steps: {
+            first_asset: false,
+            first_document: true,
+            app_installed: false,
+          } as {
+            first_asset: boolean;
+            first_document: boolean;
+            app_installed: boolean;
+          },
+        }),
+      );
+    });
+
+    it('devrait lever NotFoundException si utilisateur inexistant', async () => {
+      mockUsersRepository.findOneBy.mockResolvedValue(null);
+
+      await expect(
+        service.completeOnboardingStep('uuid-inexistant', 'first_asset'),
+      ).rejects.toThrow(NotFoundException);
+    });
+  });
+
+  // -------------------------
+  // exportUserDataAsCSV
+  // -------------------------
+  describe('exportUserDataAsCSV', () => {
+    it('devrait retourner une string CSV valide', async () => {
+      mockUsersRepository.findOne.mockResolvedValue({
+        ...mockUser,
+        assets: [],
+      });
+
+      const result = await service.exportUserDataAsCSV('uuid-1');
+
+      expect(typeof result).toBe('string');
+      expect(result).toContain('PROFIL');
+      expect(result).toContain('john@inventr.app');
+    });
+  });
+
+  // -------------------------
+  // exportUserDataAsXLSX
+  // -------------------------
+  describe('exportUserDataAsXLSX', () => {
+    it('devrait retourner un ArrayBuffer', async () => {
+      mockUsersRepository.findOne.mockResolvedValue({
+        ...mockUser,
+        assets: [],
+      });
+
+      const result = await service.exportUserDataAsXLSX('uuid-1');
+
+      expect(result).toBeInstanceOf(Buffer);
+    });
+  });
 });
